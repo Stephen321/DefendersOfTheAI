@@ -11,3 +11,6 @@ x64
 documentation
 *.VC.db
 *.VC.VC*.opendb
+.vs
+*.sdf
+*.v12.suo
