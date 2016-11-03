@@ -22,7 +22,6 @@ private:
 	int m_left, m_middle, m_right;
 	int m_sectionWidth;
 	int m_sectionHeight;
-	int m_verticalOffset;
 	float m_scrollMultiplier;
 
 	void setPositions();
