@@ -7,10 +7,15 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::Clock frameClock;
 	int menu = 0;
 
+	sf::Texture playerTex;
+	playerTex.loadFromFile("assets/sprites/player/square.png");
+	Player player(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f), playerTex);
+
+	Background background(window.getView().getSize());
+	
+
 	while (Running)
 	{
-		float dt = frameClock.restart().asSeconds();
-
 		while (window.pollEvent(Event))
 		{
 			if (Event.type == sf::Event::Closed)
@@ -24,9 +29,15 @@ int GameScreen::run(sf::RenderWindow &window)
 				return (2);
 			}
 		}
+		float dt = frameClock.restart().asSeconds();
+
+		player.update(dt);
+		sf::Vector2f worldVelocity = -player.getVelocity();
+		background.update(worldVelocity);
 
 		window.clear();
-
+		window.draw(background);
+		window.draw(player);
 		window.display();
 	}
 
