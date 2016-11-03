@@ -16,7 +16,6 @@ Layer::Layer(const std::string& path, const sf::Vector2f& screenSize, int sectio
 		Section& s = m_sections[i];
 		s.texture.loadFromFile(path + std::to_string(i) + ".png");
 		s.sprite.setTexture(s.texture);
-		s.sprite.setScale(m_screenSize.x / s.sprite.getLocalBounds().width, m_screenSize.y / s.sprite.getLocalBounds().height);
 		if (m_sectionWidth == 0 && m_sectionHeight == 0)
 		{
 			m_sectionWidth = (int)s.sprite.getGlobalBounds().width;
@@ -24,6 +23,7 @@ Layer::Layer(const std::string& path, const sf::Vector2f& screenSize, int sectio
 		}
 		s.sprite.setOrigin((int)(s.sprite.getLocalBounds().width / 2.f), (int)(s.sprite.getLocalBounds().height / 2.f));
 	}
+	m_verticalOffset = (m_screenSize.y / 2.f) - (m_sectionHeight / 2.f);
 	setPositions();
 }
 
@@ -68,9 +68,9 @@ void Layer::update(const sf::Vector2f & worldVelocity)
 
 void Layer::setPositions()
 {
-	m_sections[m_left].sprite.setPosition(sf::Vector2f((int)((m_screenSize.x / 2.f) - m_sectionWidth), (int)(m_screenSize.y / 2.f)));
-	m_sections[m_middle].sprite.setPosition(sf::Vector2f((int)(m_screenSize.x / 2.f), (int)(m_screenSize.y / 2.f)));
-	m_sections[m_right].sprite.setPosition(sf::Vector2f((int)((m_screenSize.x / 2.f) + m_sectionWidth), (int)(m_screenSize.y / 2.f)));
+	m_sections[m_left].sprite.setPosition(sf::Vector2f((int)((m_screenSize.x / 2.f) - m_sectionWidth), (int)(m_screenSize.y / 2.f) + m_verticalOffset));
+	m_sections[m_middle].sprite.setPosition(sf::Vector2f((int)(m_screenSize.x / 2.f), (int)(m_screenSize.y / 2.f) + m_verticalOffset));
+	m_sections[m_right].sprite.setPosition(sf::Vector2f((int)((m_screenSize.x / 2.f) + m_sectionWidth), (int)(m_screenSize.y / 2.f) + m_verticalOffset));
 }
 
 int Layer::clamp(int value)
