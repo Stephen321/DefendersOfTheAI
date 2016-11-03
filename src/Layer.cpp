@@ -55,16 +55,26 @@ void Layer::update(const sf::Vector2f & worldVelocity)
 		m_left = m_middle;
 		m_middle = m_right;
 		m_right = clamp(m_right + 1);
-		setPositions();
+		//setPositions();
+		positionSection(m_right, 1);
 	}
 	else if (m_sections[m_middle].sprite.getPosition().x - (m_sectionWidth / 2.f) > m_screenSize.x)
 	{
 		m_right = m_middle;
 		m_middle = m_left;
 		m_left = clamp(m_left - 1);
-		setPositions();
+		//setPositions();
+		positionSection(m_left, -1);
 	}
 }
+
+void Layer::positionSection(int section, int direction)
+{	
+	m_sections[section].sprite.setPosition(sf::Vector2f(m_sections[m_middle].sprite.getPosition().x + (m_screenSize.x * direction),
+														m_sections[m_middle].sprite.getPosition().y));
+}
+
+
 
 void Layer::setPositions()
 {

@@ -26,6 +26,7 @@ private:
 	float m_scrollMultiplier;
 
 	void setPositions();
+	void positionSection(int section, int direction);
 	int clamp(int value);
 };
 
