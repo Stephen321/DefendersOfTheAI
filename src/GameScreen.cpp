@@ -7,11 +7,16 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::Clock frameClock;
 	int menu = 0;
 
+	sf::Vector2f windowSize = (sf::Vector2f)window.getSize();
+
+	Background background(windowSize);
+
+	sf::Vector2u worldSize = background.getWorldSize(); //put this somewhere else and use world units?
+
 	sf::Texture playerTex;
 	playerTex.loadFromFile("assets/sprites/player/square.png");
-	Player player(sf::Vector2f(window.getSize().x / 2.f, window.getSize().y / 2.f), playerTex);
+	Player player(worldSize, windowSize * 0.5f, playerTex);
 
-	Background background(window.getView().getSize());
 	
 
 	while (Running)

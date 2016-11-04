@@ -1,13 +1,13 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2f& startPos, const sf::Texture& texture)
-	: GameObject(startPos, texture)
+Player::Player(const sf::Vector2u& worldSize, const sf::Vector2f& startPos, const sf::Texture& texture)
+	: GameObject(worldSize, startPos, texture)
 {
 }
 
 void Player::update(float dt)
 {
-	if (m_position.y - m_sprite.getGlobalBounds().height / 2.f < 0)
+	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0)
 	{
 		m_velocity.y = 0;
 		m_force.y = 0;
@@ -43,6 +43,6 @@ void Player::calcForce()
 	{
 		dir.y = 1.f;
 	}
-	m_dir = normalise(dir);
+	m_dir = Helpers::normalise(dir);
 	m_force = m_dir * FORCE;
 }

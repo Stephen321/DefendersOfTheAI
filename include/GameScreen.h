@@ -1,5 +1,4 @@
-#ifndef GAMESCREEN_H
-#define GAMESCREEN_H
+#pragma once
 
 #include "Screen.h"
 #include "Player.h"
@@ -10,5 +9,3 @@ class GameScreen : public Screen
 public:
 	int run(sf::RenderWindow &window) override;
 };
-
-#endif

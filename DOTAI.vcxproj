@@ -167,6 +167,7 @@
     <ClInclude Include="include\GameObject.h" />
     <ClInclude Include="include\GameOverScreen.h" />
     <ClInclude Include="include\GameScreen.h" />
+    <ClInclude Include="include\Helpers.h" />
     <ClInclude Include="include\Layer.h" />
     <ClInclude Include="include\MenuScreen.h" />
     <ClInclude Include="include\Player.h" />

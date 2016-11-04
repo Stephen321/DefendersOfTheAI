@@ -21,3 +21,8 @@ void Background::update(const sf::Vector2f & worldVelocity)
 		layer.update(worldVelocity);
 	}
 }
+
+sf::Vector2u Background::getWorldSize()
+{ //world width is the number of sections in the surface layer times the width of each
+	return sf::Vector2u(m_layers.back().getSectionWidth() * m_layers.back().getSectionCount(), m_layers.back().getSectionHeight());
+}

@@ -1,7 +1,6 @@
-#ifndef LAYER_H
-#define LAYER_H
+#pragma once
 
-#include "SFML\Graphics.hpp"
+#include "Helpers.h"
 
 class Layer : public sf::Drawable
 {
@@ -9,6 +8,9 @@ public:
 	Layer(const std::string& path, const sf::Vector2f& screenSize, int sections, float scrollMultiplier);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(const sf::Vector2f& worldVelocity);
+	int getSectionWidth();
+	int getSectionHeight();
+	int getSectionCount();
 
 private:
 	struct Section
@@ -25,7 +27,4 @@ private:
 	float m_scrollMultiplier;
 
 	void positionSection(int section, int direction);
-	int clamp(int value);
 };
-
-#endif 

@@ -21,13 +21,13 @@ Layer::Layer(const std::string& path, const sf::Vector2f& screenSize, int sectio
 			m_sectionWidth = (int)s.sprite.getGlobalBounds().width;
 			m_sectionHeight = (int)s.sprite.getGlobalBounds().height;
 		}
-		s.sprite.setOrigin((int)(s.sprite.getLocalBounds().width / 2.f), (int)(s.sprite.getLocalBounds().height / 2.f));
+		s.sprite.setOrigin((int)(s.sprite.getLocalBounds().width * 0.5f), (int)(s.sprite.getLocalBounds().height * 0.5f));
 	}
 	
-	int yPos = (int)(m_screenSize.y - (m_sectionHeight / 2.f));
-	m_sections[m_left].sprite.setPosition(sf::Vector2f((int)((m_screenSize.x / 2.f) - m_sectionWidth), yPos));
-	m_sections[m_middle].sprite.setPosition(sf::Vector2f((int)(m_screenSize.x / 2.f), yPos));
-	m_sections[m_right].sprite.setPosition(sf::Vector2f((int)((m_screenSize.x / 2.f) + m_sectionWidth), yPos));
+	int yPos = (int)(m_screenSize.y - (m_sectionHeight * 0.5f));
+	m_sections[m_left].sprite.setPosition(sf::Vector2f((int)((m_screenSize.x * 0.5f) - m_sectionWidth), yPos));
+	m_sections[m_middle].sprite.setPosition(sf::Vector2f((int)(m_screenSize.x * 0.5f), yPos));
+	m_sections[m_right].sprite.setPosition(sf::Vector2f((int)((m_screenSize.x * 0.5f) + m_sectionWidth), yPos));
 }
 
 void Layer::draw(sf::RenderTarget & target, sf::RenderStates states) const
@@ -43,38 +43,39 @@ void Layer::update(const sf::Vector2f & worldVelocity)
 	m_sections[m_middle].sprite.move(worldVelocity.x * m_scrollMultiplier, 0);
 	m_sections[m_right].sprite.move(worldVelocity.x * m_scrollMultiplier, 0);
 
-	if (m_sections[m_middle].sprite.getPosition().x + (m_sectionWidth / 2.f) < 0)
+	if (m_sections[m_middle].sprite.getPosition().x + (m_sectionWidth * 0.5f) < 0)
 	{
 		m_left = m_middle;
 		m_middle = m_right;
-		m_right = clamp(m_right + 1);
+		m_right = Helpers::clamp(m_right + 1, 0, SECTIONS);
 		positionSection(m_right, 1);
 	}
-	else if (m_sections[m_middle].sprite.getPosition().x - (m_sectionWidth / 2.f) > m_screenSize.x)
+	else if (m_sections[m_middle].sprite.getPosition().x - (m_sectionWidth * 0.5f) > m_screenSize.x)
 	{
 		m_right = m_middle;
 		m_middle = m_left;
-		m_left = clamp(m_left - 1);
+		m_left = Helpers::clamp(m_left - 1, 0, SECTIONS);
 		positionSection(m_left, -1);
 	}
+}
+
+int Layer::getSectionWidth()
+{
+	return m_sectionWidth;
+}
+
+int Layer::getSectionHeight()
+{
+	return m_sectionHeight;
+}
+
+int Layer::getSectionCount()
+{
+	return SECTIONS;
 }
 
 void Layer::positionSection(int section, int direction)
 {	
 	m_sections[section].sprite.setPosition(m_sections[m_middle].sprite.getPosition().x + (m_screenSize.x * direction),
 										   m_sections[m_middle].sprite.getPosition().y);
-}
-
-int Layer::clamp(int value)
-{
-	if (value < 0)
-	{
-		return SECTIONS - 1;
-	}
-	if (value >= SECTIONS)
-	{
-		return 0;
-	}
-
-	return value; 
 }
