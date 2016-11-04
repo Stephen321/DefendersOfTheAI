@@ -7,10 +7,8 @@ class Layer : public sf::Drawable
 public:
 	Layer(const std::string& path, const sf::Vector2f& screenSize, int sections, float scrollMultiplier);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void update(const sf::Vector2f& worldVelocity);
-	int getSectionWidth();
-	int getSectionHeight();
-	int getSectionCount();
+	void update(float worldVelX);
+	sf::Vector2u getTotalSectionSize() const;
 
 private:
 	struct Section

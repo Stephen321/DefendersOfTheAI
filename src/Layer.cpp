@@ -37,11 +37,11 @@ void Layer::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(m_sections[m_right].sprite);
 }
 
-void Layer::update(const sf::Vector2f & worldVelocity)
+void Layer::update(float worldVelX)
 {
-	m_sections[m_left].sprite.move(worldVelocity.x * m_scrollMultiplier, 0);
-	m_sections[m_middle].sprite.move(worldVelocity.x * m_scrollMultiplier, 0);
-	m_sections[m_right].sprite.move(worldVelocity.x * m_scrollMultiplier, 0);
+	m_sections[m_left].sprite.move(worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_middle].sprite.move(worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_right].sprite.move(worldVelX * m_scrollMultiplier, 0);
 
 	if (m_sections[m_middle].sprite.getPosition().x + (m_sectionWidth * 0.5f) < 0)
 	{
@@ -59,19 +59,9 @@ void Layer::update(const sf::Vector2f & worldVelocity)
 	}
 }
 
-int Layer::getSectionWidth()
+sf::Vector2u Layer::getTotalSectionSize() const
 {
-	return m_sectionWidth;
-}
-
-int Layer::getSectionHeight()
-{
-	return m_sectionHeight;
-}
-
-int Layer::getSectionCount()
-{
-	return SECTIONS;
+	return sf::Vector2u(m_sectionWidth * SECTIONS, m_sectionHeight);
 }
 
 void Layer::positionSection(int section, int direction)

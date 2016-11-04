@@ -17,6 +17,12 @@ int GameScreen::run(sf::RenderWindow &window)
 	playerTex.loadFromFile("assets/sprites/player/square.png");
 	Player player(worldSize, windowSize * 0.5f, playerTex);
 
+
+
+	sf::Texture enemyTex;
+	enemyTex.loadFromFile("assets/sprites/enemy.png");
+	GameObject enemy(worldSize, windowSize * 0.5f - sf::Vector2f(460.f, 0), enemyTex);
+
 	
 
 	while (Running)
@@ -38,11 +44,13 @@ int GameScreen::run(sf::RenderWindow &window)
 
 		player.update(dt);
 		sf::Vector2f worldVelocity = -player.getVelocity() * dt;
-		background.update(worldVelocity);
+		background.update(worldVelocity.x);
+		enemy.update(dt, worldVelocity.x);
 
 		window.clear();
 		window.draw(background);
 		window.draw(player);
+		window.draw(enemy);
 		window.display();
 	}
 

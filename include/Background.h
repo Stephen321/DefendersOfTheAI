@@ -7,8 +7,8 @@ class Background : public sf::Drawable
 public:
 	Background(const sf::Vector2f& screenSize);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void update(const sf::Vector2f& worldVelocity);
-	sf::Vector2u getWorldSize();
+	void update(float worldVelX);
+	sf::Vector2u getWorldSize() const;
 
 private:
 	const int LAYERS = 1;

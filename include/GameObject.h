@@ -8,7 +8,7 @@ class GameObject : public sf::Drawable
 public:
 	GameObject(const sf::Vector2u& worldSize, const sf::Vector2f& startPos, const sf::Texture& texture);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	virtual void update(float dt);
+	virtual void update(float dt, float worldVelX = 0.f);
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getVelocity() const;
 
@@ -28,4 +28,6 @@ private:
 	sf::Vector2u m_worldSize;
 	const float DRAG_COEFFICIENT;
 	const float MAX_VEL;
+
+	void checkWorldBounds();
 };

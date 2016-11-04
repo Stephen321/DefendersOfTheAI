@@ -7,7 +7,7 @@ GameObject::GameObject(const sf::Vector2u& worldSize, const sf::Vector2f& startP
 	, FORCE(800.f)
 	, m_worldSize(worldSize)
 	, DRAG_COEFFICIENT(0.9f)
-	, MAX_VEL(400.f)
+	, MAX_VEL(4000.f)
 {
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width * 0.5f, m_sprite.getLocalBounds().height * 0.5f);
@@ -18,7 +18,7 @@ void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_sprite);
 }
 
-void GameObject::update(float dt)
+void GameObject::update(float dt, float worldVelX)
 {
 	move(dt);
 	m_sprite.setPosition(m_position);
@@ -38,7 +38,6 @@ void GameObject::move(float dt)
 {
 	calcForce();
 	sf::Vector2f linearDrag;
-	//std::cout << "Velocity: " << getVectorLength(m_velocity) << std::endl;
 
 	if (Helpers::getLength(m_velocity) > 0)
 	{// if moving and not holding key then apply linear drag on that axis
@@ -52,21 +51,31 @@ void GameObject::move(float dt)
 		}
 	}
 
-
 	m_acceleration = m_force + linearDrag; //a = F/m
 	m_velocity += m_acceleration * dt; //v = u + at
 
 	if (Helpers::getLength(m_velocity) >= MAX_VEL)
-	{ //reached max velocity
+	{ 
 		m_velocity = Helpers::normalise(m_velocity) * MAX_VEL;
 	}
 
 	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
-
-	std::cout << "Position.x: " << m_position.x << std::endl;
+	checkWorldBounds();
 }
 
 void GameObject::calcForce()
 {
 	m_force = FORCE * m_dir;
+}
+
+void GameObject::checkWorldBounds()
+{
+	if (m_position.x > m_worldSize.x)
+	{
+		m_position.x = 0;
+	}
+	else if (m_position.x < 0)
+	{
+		m_position.x = m_worldSize.x;
+	}
 }

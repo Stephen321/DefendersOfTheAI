@@ -14,15 +14,15 @@ void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	}
 }
 
-void Background::update(const sf::Vector2f & worldVelocity)
+void Background::update(float worldVelX)
 {
 	for (Layer& layer : m_layers)
 	{
-		layer.update(worldVelocity);
+		layer.update(worldVelX);
 	}
 }
 
-sf::Vector2u Background::getWorldSize()
-{ //world width is the number of sections in the surface layer times the width of each
-	return sf::Vector2u(m_layers.back().getSectionWidth() * m_layers.back().getSectionCount(), m_layers.back().getSectionHeight());
+sf::Vector2u Background::getWorldSize() const
+{ 
+	return m_layers.back().getTotalSectionSize(); //world size is the total section size of the last layer (the surface)
 }
