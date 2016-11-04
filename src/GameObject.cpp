@@ -1,8 +1,12 @@
 #include "GameObject.h"
 
 GameObject::GameObject(const sf::Vector2f& startPos, const sf::Texture& texture)
-	: m_position(startPos)
+	: m_position(sf::Vector2f(startPos.x, startPos.y))
 	, m_sprite(texture)
+	, m_dir()
+	, FORCE(800.f)
+	, DRAG_COEFFICIENT(0.9f)
+	, MAX_VEL(400.f)
 {
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width / 2.f, m_sprite.getLocalBounds().height / 2.f);
@@ -31,9 +35,53 @@ sf::Vector2f GameObject::getVelocity() const
 
 void GameObject::move(float dt)
 {
-	m_acceleration = m_speed * m_dir * dt;//m_speed * m_dir;
-	//m_velocity += m_acceleration;
-	//m_position += m_velocity * dt;
-	m_velocity = sf::Vector2f(250.f, 0.f)  * dt;
-	m_position += m_velocity;
+	calcForce();
+	sf::Vector2f linearDrag;
+	std::cout << "Velocity: " << getVectorLength(m_velocity) << std::endl;
+
+	if (getVectorLength(m_velocity) > 0)
+	{// if moving and not holding key then apply linear drag on that axis
+		if (m_force.x == 0.f)
+		{
+			linearDrag.x = DRAG_COEFFICIENT * -m_velocity.x;
+		}
+		if (m_force.y == 0.f)
+		{
+			linearDrag.y = DRAG_COEFFICIENT * -m_velocity.y;
+		}
+	}
+
+
+	m_acceleration = m_force + linearDrag; //a = F/m
+	m_velocity += m_acceleration * dt; //v = u + at
+
+	if (getVectorLength(m_velocity) >= MAX_VEL)
+	{ //reached max velocity
+		m_velocity = normalise(m_velocity) * MAX_VEL;
+	}
+
+	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
+}
+
+void GameObject::calcForce()
+{
+	m_force = FORCE * m_dir;
+}
+
+float GameObject::getVectorLength(const sf::Vector2f & v)
+{
+	float length = sqrt(v.x * v.x + v.y * v.y);
+	return length;
+}
+
+sf::Vector2f GameObject::normalise(const sf::Vector2f & v)
+{
+	sf::Vector2f n;
+	float length = getVectorLength(v);
+	if (length != 0)
+	{
+		n.x = v.x / length;
+		n.y = v.y / length;
+	}
+	return n;
 }

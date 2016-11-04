@@ -32,7 +32,7 @@ int GameScreen::run(sf::RenderWindow &window)
 		float dt = frameClock.restart().asSeconds();
 
 		player.update(dt);
-		sf::Vector2f worldVelocity = -player.getVelocity();
+		sf::Vector2f worldVelocity = -player.getVelocity() * dt;
 		background.update(worldVelocity);
 
 		window.clear();

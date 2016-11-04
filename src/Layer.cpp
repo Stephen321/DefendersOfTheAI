@@ -39,9 +39,9 @@ void Layer::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 void Layer::update(const sf::Vector2f & worldVelocity)
 {
-	m_sections[m_left].sprite.move(worldVelocity * m_scrollMultiplier);
-	m_sections[m_middle].sprite.move(worldVelocity * m_scrollMultiplier);
-	m_sections[m_right].sprite.move(worldVelocity * m_scrollMultiplier);
+	m_sections[m_left].sprite.move(worldVelocity.x * m_scrollMultiplier, 0);
+	m_sections[m_middle].sprite.move(worldVelocity.x * m_scrollMultiplier, 0);
+	m_sections[m_right].sprite.move(worldVelocity.x * m_scrollMultiplier, 0);
 
 	if (m_sections[m_middle].sprite.getPosition().x + (m_sectionWidth / 2.f) < 0)
 	{

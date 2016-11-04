@@ -10,6 +10,7 @@ public:
 	void update(float dt) override;
 
 private:
+	void calcForce() override;
 };
 
 #endif 
