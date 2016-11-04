@@ -2,6 +2,7 @@
 
 Background::Background(const sf::Vector2f& screenSize)
 {
+	m_layers.push_back(Layer("assets/sprites/enviroment/stars", screenSize, 3, 0.33f));
 	m_layers.push_back(Layer("assets/sprites/enviroment/surface", screenSize, 9, 1.f));
 }
 

@@ -29,7 +29,7 @@
 //////////////////////////////////////////////////////////// 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(1920u, 1080u, 32), "Defenders Of The AI");
+	sf::RenderWindow window(sf::VideoMode(1920u, 1080u, 32), "Defenders Of The AI", sf::Style::Fullscreen);
 
 	std::vector<Screen*> Screens;
 	int screen = 1;
