@@ -7,13 +7,13 @@ Player::Player(const sf::Vector2u& worldSize, const sf::Vector2f& startPos, cons
 
 void Player::update(float dt)
 {
-	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0)
+	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0) //TODO: override GameObject::checkWorldBounds()
 	{
 		m_velocity.y = 0;
 		m_force.y = 0;
 	}
-	move(dt);
-	m_sprite.setPosition(m_sprite.getPosition().x, m_position.y);
+	GameObject::move(dt);
+	m_sprite.setPosition(m_position);
 }
 
 void Player::calcForce()

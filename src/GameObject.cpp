@@ -7,7 +7,7 @@ GameObject::GameObject(const sf::Vector2u& worldSize, const sf::Vector2f& startP
 	, FORCE(800.f)
 	, m_worldSize(worldSize)
 	, DRAG_COEFFICIENT(0.9f)
-	, MAX_VEL(4000.f)
+	, MAX_VEL(1000.f)
 {
 	m_sprite.setPosition(m_position);
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width * 0.5f, m_sprite.getLocalBounds().height * 0.5f);
@@ -18,7 +18,7 @@ void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	target.draw(m_sprite);
 }
 
-void GameObject::update(float dt, float worldVelX)
+void GameObject::update(float dt)
 {
 	move(dt);
 	m_sprite.setPosition(m_position);
@@ -32,6 +32,13 @@ sf::Vector2f GameObject::getPosition() const
 sf::Vector2f GameObject::getVelocity() const
 {
 	return m_velocity;
+}
+
+void GameObject::move(float dx, float dy)
+{
+	m_position.x += dx;
+	m_position.y += dy;
+	m_sprite.setPosition(m_position);
 }
 
 void GameObject::move(float dt)
@@ -70,12 +77,12 @@ void GameObject::calcForce()
 
 void GameObject::checkWorldBounds()
 {
-	if (m_position.x > m_worldSize.x)
-	{
-		m_position.x = 0;
-	}
-	else if (m_position.x < 0)
-	{
-		m_position.x = m_worldSize.x;
-	}
+	//if (m_position.x > m_worldSize.x)
+	//{
+	//	m_position.x = 0;
+	//}
+	//else if (m_position.x < 0)
+	//{
+	//	m_position.x = m_worldSize.x;
+	//}
 }

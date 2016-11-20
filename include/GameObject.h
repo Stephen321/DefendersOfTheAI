@@ -8,9 +8,10 @@ class GameObject : public sf::Drawable
 public:
 	GameObject(const sf::Vector2u& worldSize, const sf::Vector2f& startPos, const sf::Texture& texture);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	virtual void update(float dt, float worldVelX = 0.f);
+	virtual void update(float dt);
 	sf::Vector2f getPosition() const;
 	sf::Vector2f getVelocity() const;
+	void move(float dx, float dy);
 
 protected:
 	sf::Sprite m_sprite;
