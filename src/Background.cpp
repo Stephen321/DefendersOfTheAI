@@ -2,7 +2,7 @@
 
 Background::Background(const sf::FloatRect& bounds)
 {
-	m_layers.push_back(Layer("assets/sprites/enviroment/stars", bounds, 3, 0.33f));
+	m_layers.push_back(Layer("assets/sprites/enviroment/stars", bounds, 3, -0.666666f));
 	m_layers.push_back(Layer("assets/sprites/enviroment/surface", bounds, 9));
 	m_worldLayer = &m_layers[1]; //layer which will contain all the gameobjects (surface layer) which has 0.f for m_scrollMultiplier
 }

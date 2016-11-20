@@ -175,13 +175,13 @@ void Layer::positionSection(int section, int direction)
 {
 	if (m_scrollable)
 	{
-		m_sections[section].sprite.setPosition(m_sections[m_middle].sprite.getPosition().x + (m_bounds.width * direction),
+		m_sections[section].sprite.setPosition(m_sections[m_middle].sprite.getPosition().x + (m_sectionWidth * direction),
 			m_sections[m_middle].sprite.getPosition().y);
 
 		//debug
-		m_sections[section].debugShape.setPosition(m_sections[m_middle].sprite.getPosition().x + (m_bounds.width * direction),
+		m_sections[section].debugShape.setPosition(m_sections[m_middle].sprite.getPosition().x + (m_sectionWidth * direction),
 			m_sections[m_middle].sprite.getPosition().y);
-		m_sections[section].debugText.setPosition(m_sections[m_middle].sprite.getPosition().x + (m_bounds.width * direction),
+		m_sections[section].debugText.setPosition(m_sections[m_middle].sprite.getPosition().x + (m_sectionWidth * direction),
 			m_sections[m_middle].sprite.getPosition().y);
 	}
 	else if (m_teleportSection < 0 && (m_middle == 0 || m_middle == SECTIONS - 1))
