@@ -18,6 +18,8 @@ private:
 	struct Section
 	{
 		sf::Texture texture;
+		int width;
+		int height;
 		sf::Sprite sprite;
 		sf::RectangleShape debugShape;
 		sf::Font debugFont;
@@ -31,8 +33,6 @@ private:
 	std::vector<Section> m_sections;
 	const sf::FloatRect& m_bounds;
 	int m_left, m_middle, m_right;
-	int m_sectionWidth;
-	int m_sectionHeight;
 	float m_scrollMultiplier;
 	bool m_scrollable;
 

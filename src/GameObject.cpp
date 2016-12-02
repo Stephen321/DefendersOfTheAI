@@ -29,6 +29,12 @@ sf::Vector2f GameObject::getPosition() const
 	return m_position;
 }
 
+void GameObject::setPosition(const sf::Vector2f & v)
+{
+	m_position = v;
+	m_sprite.setPosition(m_position);
+}
+
 sf::Vector2f GameObject::getVelocity() const
 {
 	return m_velocity;

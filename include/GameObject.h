@@ -10,6 +10,7 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void update(float dt);
 	sf::Vector2f getPosition() const;
+	void setPosition(const sf::Vector2f& v);
 	sf::Vector2f getVelocity() const;
 	void move(float dx, float dy);
 

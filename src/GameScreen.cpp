@@ -13,7 +13,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	Background background(bounds);
 
-	sf::Vector2u worldSize = background.getWorldSize(); //put this somewhere else and use world units?
+	sf::Vector2u worldSize = background.getWorldSize(); //put this somewhere else and use world units?, no longer works for y height as textures only as high as they need to be
 
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 
