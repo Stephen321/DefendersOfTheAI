@@ -47,7 +47,7 @@ int GameScreen::run(sf::RenderWindow &window)
 	{
 		while (window.pollEvent(Event))
 		{
-			if (Event.type == sf::Event::Closed)
+			if (Event.type == sf::Event::Closed || (Event.type == sf::Event::KeyPressed && Event.key.code == sf::Keyboard::Escape))
 			{
 				return (-1);
 			}
@@ -71,7 +71,7 @@ int GameScreen::run(sf::RenderWindow &window)
 			if (Event.type == sf::Event::MouseButtonReleased)
 			{
 				if (Event.mouseButton.button == sf::Mouse::Button::Right)
-					view.reset(sf::FloatRect(0.f, 0.f, window.getSize().x, window.getSize().y));
+					view.reset(sf::FloatRect(0.f, 0.f, (float)window.getSize().x, (float)window.getSize().y));
 			}
 			if (Event.type == sf::Event::LostFocus)
 			{
@@ -117,22 +117,22 @@ int GameScreen::run(sf::RenderWindow &window)
 		boundsRect.setPosition(bounds.left, bounds.top);
 		sf::Vertex line[] =
 		{
-			sf::Vertex(sf::Vector2f(0, 0), sf::Color::Red),
-			sf::Vertex(sf::Vector2f(350, 0), sf::Color::Red),
-			sf::Vertex(sf::Vector2f(0, 0), sf::Color::Green),
-			sf::Vertex(sf::Vector2f(0, 350), sf::Color::Green),
-			sf::Vertex(sf::Vector2f(0, window.getSize().y), sf::Color::Red),
-			sf::Vertex(sf::Vector2f(350,  window.getSize().y), sf::Color::Red),
-			sf::Vertex(sf::Vector2f(0,  window.getSize().y), sf::Color::Green),
-			sf::Vertex(sf::Vector2f(0,  window.getSize().y - 350), sf::Color::Green),
-			sf::Vertex(sf::Vector2f(worldSize.x, 0), sf::Color::Magenta),
-			sf::Vertex(sf::Vector2f(worldSize.x - 350, 0), sf::Color::Magenta),
-			sf::Vertex(sf::Vector2f(worldSize.x, 0), sf::Color::Yellow),
-			sf::Vertex(sf::Vector2f(worldSize.x, 350), sf::Color::Yellow),
-			sf::Vertex(sf::Vector2f(worldSize.x, window.getSize().y), sf::Color::Magenta),
-			sf::Vertex(sf::Vector2f(worldSize.x - 350,  window.getSize().y), sf::Color::Magenta),
-			sf::Vertex(sf::Vector2f(worldSize.x,  window.getSize().y), sf::Color::Yellow),
-			sf::Vertex(sf::Vector2f(worldSize.x,  window.getSize().y - 350), sf::Color::Yellow)
+			sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color::Red),
+			sf::Vertex(sf::Vector2f(350, 0.f), sf::Color::Red),
+			sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color::Green),
+			sf::Vertex(sf::Vector2f(0.f, 350), sf::Color::Green),
+			sf::Vertex(sf::Vector2f(0.f, (float)window.getSize().y), sf::Color::Red),
+			sf::Vertex(sf::Vector2f(350.f,  (float)window.getSize().y), sf::Color::Red),
+			sf::Vertex(sf::Vector2f(0.f,  (float)window.getSize().y), sf::Color::Green),
+			sf::Vertex(sf::Vector2f(0.f,  (float)window.getSize().y - 350.f), sf::Color::Green),
+			sf::Vertex(sf::Vector2f((float)worldSize.x, 0.f), sf::Color::Magenta),
+			sf::Vertex(sf::Vector2f((float)worldSize.x - 350.f, 0.f), sf::Color::Magenta),
+			sf::Vertex(sf::Vector2f((float)worldSize.x, 0.f), sf::Color::Yellow),
+			sf::Vertex(sf::Vector2f((float)worldSize.x, 350.f), sf::Color::Yellow),
+			sf::Vertex(sf::Vector2f((float)worldSize.x, (float)window.getSize().y), sf::Color::Magenta),
+			sf::Vertex(sf::Vector2f((float)worldSize.x - 350.f,  (float)window.getSize().y), sf::Color::Magenta),
+			sf::Vertex(sf::Vector2f((float)worldSize.x,  (float)window.getSize().y), sf::Color::Yellow),
+			sf::Vertex(sf::Vector2f((float)worldSize.x,  (float)window.getSize().y - 350.f), sf::Color::Yellow)
 		};
 		window.draw(line, 16, sf::Lines);
 		window.draw(boundsRect);
