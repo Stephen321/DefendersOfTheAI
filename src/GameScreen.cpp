@@ -7,13 +7,12 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::Clock frameClock;
 	int menu = 0;
 
-	sf::Vector2f windowSize = (sf::Vector2f)window.getSize();
+	sf::Vector2u windowSize = window.getSize();
 	sf::View view = window.getView();
 	sf::FloatRect bounds(0.f, 0.f, view.getSize().x, view.getSize().y);
 
-	Background background(bounds);
 
-	sf::Vector2u worldSize = background.getWorldSize(); //put this somewhere else and use world units?, no longer works for y height as textures only as high as they need to be
+	sf::Vector2u worldSize(windowSize.x * 9u, windowSize.y); //TODO: 9 is 9 screen widths, put in constant
 
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 
@@ -24,12 +23,12 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	sf::Texture enemyTex;
 	enemyTex.loadFromFile("assets/sprites/enemy.png");
-	m_gameObjects.push_back(std::make_shared<GameObject>(GameObject(worldSize, sf::Vector2f(100, worldSize.y * 0.5f), enemyTex)));
+	m_gameObjects.push_back(std::make_shared<GameObject>(GameObject(worldSize, sf::Vector2f(100, worldSize.y * 0.1f), enemyTex)));
 
-	for (std::shared_ptr<GameObject>& go : m_gameObjects)
-	{
-		background.addGameObject(go);
-	}
+	m_gameObjects.push_back(std::make_shared<GameObject>(GameObject(worldSize, sf::Vector2f(9500, worldSize.y * 0.5f), enemyTex)));
+	
+
+	Background background(bounds, player, m_gameObjects);
 
 
 	//debug
@@ -91,8 +90,7 @@ int GameScreen::run(sf::RenderWindow &window)
 		{
 			go->update(dt);
 		}
-		float worldVelX = -player->getVelocity().x * dt; 
-		background.update(worldVelX);
+		background.update(dt);
 
 		view.setCenter(player->getPosition().x , view.getCenter().y);
 		bounds.left = view.getCenter().x - (bounds.width * 0.5f);

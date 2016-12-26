@@ -1,15 +1,19 @@
 #include "Layer.h"
 
-Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections, float scrollMultiplier)
+Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections, const std::shared_ptr<GameObject> player, float scrollMultiplier,
+	const std::vector<std::shared_ptr<GameObject>> gameObjects)
 	: m_teleportSection(-1)
 	, m_teleported(true)
 	, SECTIONS(sections)
 	, m_sections(SECTIONS)
+	, m_lastPlayerPos(m_player->getPosition())
 	, m_bounds(bounds)
 	, m_left(0)
 	, m_middle(1)
 	, m_right(2)
+	, m_player(player)
 	, m_scrollMultiplier(scrollMultiplier)
+	, m_gameObjects(gameObjects)
 	, m_scrollable(m_scrollMultiplier != 0.f)
 {
 	for (int i = 0; i < SECTIONS; i++)
@@ -17,19 +21,22 @@ Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections,
 		Section& s = m_sections[i];
 		s.texture.loadFromFile(path + std::to_string(i) + ".png");
 		s.sprite.setTexture(s.texture);
-		s.sprite.setScale(sf::Vector2f(1920 / s.sprite.getLocalBounds().width, 1080 / s.sprite.getLocalBounds().height));
+		s.sprite.setScale(bounds.width / s.sprite.getLocalBounds().width, bounds.height / s.sprite.getLocalBounds().height);
+		if (m_scrollMultiplier == 0.f)
+		{
+			s.sprite.setScale(s.sprite.getScale().x, 1.f);
+		}
+		int width = (int)s.sprite.getGlobalBounds().width;
+		int height = (int)s.sprite.getGlobalBounds().height;
 
-		s.width = (int)s.sprite.getGlobalBounds().width;
-		s.height = (int)s.sprite.getGlobalBounds().height;
-		
 		s.sprite.setOrigin((int)(s.sprite.getLocalBounds().width  * 0.5f), (int)(s.sprite.getLocalBounds().height * 0.5f));
-		s.sprite.setPosition((s.width * 0.5f)+ (s.width * i), (m_bounds.height - (s.height * 0.5f)));
+		s.sprite.setPosition((width * 0.5f) + (width * i), (m_bounds.height - (height * 0.5f)));
 
 		//debug
 		s.debugShape.setOutlineThickness(3.f);
 		s.debugShape.setFillColor(sf::Color::Transparent);
 		s.debugShape.setOutlineColor(sf::Color::Magenta);
-		s.debugShape.setSize(sf::Vector2f(s.width, s.height));
+		s.debugShape.setSize(sf::Vector2f(width, height));
 		s.debugShape.setOrigin(s.debugShape.getLocalBounds().width * 0.5f, s.debugShape.getLocalBounds().height * 0.5f);
 		s.debugShape.setPosition(s.sprite.getPosition());
 
@@ -57,42 +64,36 @@ void Layer::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 	/*for (Section s : m_sections)
 	{
-		target.draw(s.sprite);
-		target.draw(s.debugShape);
-		target.draw(s.debugText);
+	target.draw(s.sprite);
+	target.draw(s.debugShape);
+	target.draw(s.debugText);
 	}*/
 }
 
-void Layer::update(float worldVelX)
+void Layer::update(float dt)
 {
-	if (m_scrollable)
-	{
-		m_sections[m_left].sprite.move(worldVelX * m_scrollMultiplier, 0);
-		m_sections[m_middle].sprite.move(worldVelX * m_scrollMultiplier, 0);
-		m_sections[m_right].sprite.move(worldVelX * m_scrollMultiplier, 0);
+	sf::Vector2f currentPlayerPos = m_player->getPosition();
+	float worldVelX = m_player->getVelocity().x * dt;
+	float teleportCorrectionDist = 0.f;
 
-		//debug
-		m_sections[m_left].debugShape.move(worldVelX * m_scrollMultiplier, 0);
-		m_sections[m_middle].debugShape.move(worldVelX * m_scrollMultiplier, 0);
-		m_sections[m_right].debugShape.move(worldVelX * m_scrollMultiplier, 0);
-		m_sections[m_left].debugText.move(worldVelX * m_scrollMultiplier, 0);
-		m_sections[m_middle].debugText.move(worldVelX * m_scrollMultiplier, 0);
-		m_sections[m_right].debugText.move(worldVelX * m_scrollMultiplier, 0);
-
-
-	/*	std::cout << "Middle X: " << m_sections[m_middle].sprite.getPosition().x << " Y: " << m_sections[m_middle].sprite.getPosition().y << ". ";
-		std::cout << "Bounds X: " << m_bounds.left << " Y: " << m_bounds.top << std::endl;*/
+	float distanceMoved = Helpers::getLength(currentPlayerPos - m_lastPlayerPos);
+	if (distanceMoved > m_bounds.width && m_scrollMultiplier != 0.f) //if player just moved more than an entire screen in one frame then we know they have teleported
+	{ //move all scrolling sections to be the same
+		teleportCorrectionDist = distanceMoved;//moved right
+		if (currentPlayerPos.x < m_lastPlayerPos.x)
+		{
+			teleportCorrectionDist *= -1;//moved left
+		}
 	}
 
-
-	if (m_sections[m_middle].sprite.getPosition().x + (m_sections[m_middle].width * 0.5f) < m_bounds.left)
+	if (m_sections[m_middle].sprite.getPosition().x + (m_bounds.width * 0.5f) < m_bounds.left)
 	{
 		m_left = m_middle;
 		m_middle = m_right;
 		m_right = Helpers::clamp(m_right + 1, 0, SECTIONS);
 		positionSection(m_right, 1);
 	}
-	else if (m_sections[m_middle].sprite.getPosition().x - (m_sections[m_middle].width * 0.5f) > m_bounds.left + m_bounds.width)
+	else if (m_sections[m_middle].sprite.getPosition().x - (m_bounds.width * 0.5f) > m_bounds.left + m_bounds.width)
 	{
 		m_right = m_middle;
 		m_middle = m_left;
@@ -144,12 +145,25 @@ void Layer::update(float worldVelX)
 			teleport(section, direction, sectionLocation);
 		}
 	}
+
+	m_sections[m_left].sprite.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_middle].sprite.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_right].sprite.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+
+	//debug
+	m_sections[m_left].debugShape.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_middle].debugShape.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_right].debugShape.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_left].debugText.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_middle].debugText.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+	m_sections[m_right].debugText.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
+	m_lastPlayerPos = currentPlayerPos;
 }
 
 void Layer::teleport(int section, int direction, int sectionLocation)
 {
 	sf::Vector2f sectionPos = m_sections[section].sprite.getPosition();
-	int sectionWidth = m_sections[section].width;
+	int sectionWidth = m_bounds.width;
 
 	m_sections[section].sprite.setPosition(sectionPos.x + sectionWidth  * SECTIONS * direction, sectionPos.y);
 
@@ -168,23 +182,17 @@ void Layer::teleport(int section, int direction, int sectionLocation)
 		if (location == sectionLocation)
 		{
 			go->setPosition(sf::Vector2f(go->getPosition().x + sectionWidth * SECTIONS * direction, go->getPosition().y));
-		}	
+		}
 	}
 
 	m_teleported = true;
-}
-
-sf::Vector2u Layer::getTotalSectionSize() const
-{
-	//world size is screen size * 9
-	return sf::Vector2u(m_bounds.width * SECTIONS, m_bounds.height);
 }
 
 void Layer::positionSection(int section, int direction)
 {
 	if (m_scrollable)
 	{
-		float offset = ((m_sections[m_middle].width * 0.5f) + (m_sections[section].width * 0.5f)) * direction;
+		float offset = ((m_bounds.width * 0.5f) + (m_bounds.width * 0.5f)) * direction;
 		m_sections[section].sprite.setPosition(m_sections[m_middle].sprite.getPosition().x + offset,
 			m_sections[section].sprite.getPosition().y);
 
@@ -199,10 +207,4 @@ void Layer::positionSection(int section, int direction)
 		m_teleported = false;
 		m_teleportSection = section;
 	}
-}
-
-
-void Layer::addGameObject(std::shared_ptr<GameObject> gameObject)
-{
-	m_gameObjects.push_back(gameObject);
 }

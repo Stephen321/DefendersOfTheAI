@@ -8,34 +8,31 @@
 class Layer : public sf::Drawable
 {
 public:
-	Layer(const std::string& path, const sf::FloatRect& bounds, int sections, float scrollMultiplier = 0.f);
+	Layer(const std::string& path, const sf::FloatRect& bounds, int sections, const std::shared_ptr<GameObject> player, float scrollMultiplier = 0.f,
+		const std::vector<std::shared_ptr<GameObject>> gameObjects = std::vector<std::shared_ptr<GameObject>>());
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void update(float worldVelX);
-	sf::Vector2u getTotalSectionSize() const;
-	void addGameObject(std::shared_ptr<GameObject> gameObject);
-
+	void update(float dt);
 private:
+	void teleport(int section, int direction, int sectionLocation);
+	virtual void positionSection(int section, int direction);
+
+	const int SECTIONS;
 	struct Section
 	{
 		sf::Texture texture;
-		int width;
-		int height;
 		sf::Sprite sprite;
 		sf::RectangleShape debugShape;
 		sf::Font debugFont;
 		sf::Text debugText;
 	};
-	std::vector<std::shared_ptr<GameObject>> m_gameObjects; //store pointer to game objects so we can teleport them to either end of the world for seamless wrap around
+	std::vector<Section> m_sections;
+	int m_left, m_middle, m_right;
+	const sf::FloatRect& m_bounds;
+	std::shared_ptr<GameObject> m_player;
+	sf::Vector2f m_lastPlayerPos;
+	float m_scrollMultiplier;
+	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 	int m_teleportSection;
 	bool m_teleported;
-
-	const int SECTIONS;
-	std::vector<Section> m_sections;
-	const sf::FloatRect& m_bounds;
-	int m_left, m_middle, m_right;
-	float m_scrollMultiplier;
 	bool m_scrollable;
-
-	void positionSection(int section, int direction);
-	void teleport(int section, int direction, int sectionLocation);
 };
