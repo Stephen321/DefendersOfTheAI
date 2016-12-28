@@ -16,16 +16,19 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 
+	sf::Texture laserTex;
+	laserTex.loadFromFile("assets/sprites/laser.png");
+
 	sf::Texture playerTex;
 	playerTex.loadFromFile("assets/sprites/player/square.png");
-	std::shared_ptr<Player> player = std::make_shared<Player>(Player(worldSize, sf::Vector2f(worldSize.x * 0.5f, worldSize.y * 0.5f), playerTex)); //easier to refer to player for getting world vel and setting bounds
+	std::shared_ptr<Player> player = std::make_shared<Player>(Player(sf::Vector2f(worldSize.x * 0.5f, worldSize.y * 0.5f), playerTex, laserTex));
 	m_gameObjects.push_back(player);
 
 	sf::Texture enemyTex;
 	enemyTex.loadFromFile("assets/sprites/enemy.png");
-	m_gameObjects.push_back(std::make_shared<GameObject>(GameObject(worldSize, sf::Vector2f(100, worldSize.y * 0.1f), enemyTex)));
+	m_gameObjects.push_back(std::make_shared<GameObject>(AI(sf::Vector2f(100.f, worldSize.y * 0.1f), enemyTex)));
 
-	m_gameObjects.push_back(std::make_shared<GameObject>(GameObject(worldSize, sf::Vector2f(9500, worldSize.y * 0.5f), enemyTex)));
+	m_gameObjects.push_back(std::make_shared<GameObject>(AI(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), enemyTex)));
 	
 
 	Background background(bounds, player, m_gameObjects);
@@ -51,7 +54,7 @@ int GameScreen::run(sf::RenderWindow &window)
 				return (-1);
 			}
 
-			if (Event.type == sf::Event::KeyReleased && Event.key.code == sf::Keyboard::Space)
+			if (Event.type == sf::Event::KeyReleased && Event.key.code == sf::Keyboard::Return)
 			{
 				std::cout << "Going to screen: " << 2 << std::endl;
 				return (2);
