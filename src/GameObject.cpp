@@ -46,8 +46,8 @@ void GameObject::moveBy(float dx, float dy)
 
 void GameObject::move(float dt)
 {
-	calcForce();
 	sf::Vector2f linearDrag;
+	m_force = m_physicsProperties.MAX_FORCE * m_dir;
 
 	if (Helpers::getLength(m_velocity) > 0)
 	{// if moving and not holding key then apply linear drag on that axis
@@ -70,9 +70,4 @@ void GameObject::move(float dt)
 	}
 
 	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
-}
-
-void GameObject::calcForce()
-{
-	m_force = m_physicsProperties.MAX_FORCE * m_dir;
 }

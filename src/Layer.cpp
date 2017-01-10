@@ -26,6 +26,7 @@ Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections,
 		{
 			s.sprite.setScale(s.sprite.getScale().x, 1.f);
 		}
+		s.sprite.setScale(s.sprite.getScale().x, 1.f);
 		int width = (int)s.sprite.getGlobalBounds().width;
 		int height = (int)s.sprite.getGlobalBounds().height;
 

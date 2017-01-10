@@ -11,11 +11,11 @@ void Player::update(float dt)
 	checkInput();
 	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0) //TODO: override GameObject::checkWorldBounds()
 	{
+		m_position.y = m_sprite.getGlobalBounds().height * 0.5f;
 		m_velocity.y = 0;
 		m_force.y = 0;
 	}
-	GameObject::move(dt);
-	m_sprite.setPosition(m_position);
+	GameObject::update(dt);
 
 	for (Laser& l : m_lasers)
 	{
@@ -43,18 +43,10 @@ void Player::checkInput()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
 		dir.x = -1.f;
-		if (m_velocity.x > 0.f)
-		{//instantly change direction
-			m_velocity.x = 0;
-		}
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
 		dir.x = 1.f;
-		if (m_velocity.x < 0.f)
-		{//instantly change direction
-			m_velocity.x = 0;
-		}
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 	{

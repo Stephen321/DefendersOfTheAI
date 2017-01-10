@@ -27,7 +27,6 @@ public:
 
 protected:
 	void move(float dt);
-	virtual void calcForce();
 
 	sf::Sprite m_sprite;
 	sf::Vector2f m_acceleration;
