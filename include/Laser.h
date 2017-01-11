@@ -5,5 +5,5 @@
 class Laser : public GameObject
 {
 public:
-	Laser(const sf::Vector2f& startPos, const sf::Texture& texture, const sf::Vector2f& startVelocity);
+	Laser(const sf::Vector2f& startPos, const sf::Texture& texture, float startSpeed, const sf::Vector2f& direction);
 };

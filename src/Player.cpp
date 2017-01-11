@@ -1,7 +1,7 @@
 #include "Player.h"
 
 Player::Player(const sf::Vector2f& startPos, const sf::Texture& texture, const sf::Texture& tempLaserTex)
-	: GameObject(startPos, texture, PhysicsProperties(800.f, 0.9f, 1000.f))
+	: GameObject(Type::Player, startPos, texture, PhysicsProperties(800.f, 0.9f, 1000.f))
 	, m_tempLaserTex(tempLaserTex)
 {
 }
@@ -32,9 +32,18 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
+void Player::teleport(float offset, int section, float width)
+{
+	for (Laser& l : m_lasers)
+	{
+		l.teleport(offset, section, width);
+	}
+	GameObject::teleport(offset, section, width);
+}
+
 void Player::fire()
 {
-	m_lasers.push_back(Laser(m_position, m_tempLaserTex, m_velocity));
+	m_lasers.push_back(Laser(m_position, m_tempLaserTex, Helpers::getLength(m_velocity), sf::Vector2f(1,0)));
 }
 
 void Player::checkInput()

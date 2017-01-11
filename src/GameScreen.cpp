@@ -102,7 +102,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 		window.setView(view);
 
-		window.clear();
+		window.clear(sf::Color(96, 23, 54));
 		window.draw(background);
 		for (std::shared_ptr<GameObject>& go : m_gameObjects)
 		{

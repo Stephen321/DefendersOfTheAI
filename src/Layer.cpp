@@ -20,19 +20,15 @@ Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections,
 	{
 		Section& s = m_sections[i];
 		s.texture.loadFromFile(path + std::to_string(i) + ".png");
+		s.texture.setSmooth(true);
 		s.sprite.setTexture(s.texture);
-		s.sprite.setScale(bounds.width / s.sprite.getLocalBounds().width, bounds.height / s.sprite.getLocalBounds().height);
-		if (m_scrollMultiplier == 0.f)
-		{
-			s.sprite.setScale(s.sprite.getScale().x, 1.f);
-		}
-		s.sprite.setScale(s.sprite.getScale().x, 1.f);
+		float scalar = bounds.width / s.sprite.getLocalBounds().width;
+		s.sprite.setScale(scalar, scalar);
 		int width = (int)s.sprite.getGlobalBounds().width;
 		int height = (int)s.sprite.getGlobalBounds().height;
 
 		s.sprite.setOrigin((int)(s.sprite.getLocalBounds().width  * 0.5f), (int)(s.sprite.getLocalBounds().height * 0.5f));
 		s.sprite.setPosition((width * 0.5f) + (width * i), (m_bounds.height - (height * 0.5f)));
-
 		//debug
 		s.debugShape.setOutlineThickness(3.f);
 		s.debugShape.setFillColor(sf::Color::Transparent);
@@ -56,12 +52,12 @@ void Layer::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(m_sections[m_right].sprite);
 
 	//debug
-	target.draw(m_sections[m_left].debugShape);
-	target.draw(m_sections[m_middle].debugShape);
-	target.draw(m_sections[m_right].debugShape);
-	target.draw(m_sections[m_left].debugText);
-	target.draw(m_sections[m_middle].debugText);
-	target.draw(m_sections[m_right].debugText);
+	//target.draw(m_sections[m_left].debugShape);
+	//target.draw(m_sections[m_middle].debugShape);
+	//target.draw(m_sections[m_right].debugShape);
+	//target.draw(m_sections[m_left].debugText);
+	//target.draw(m_sections[m_middle].debugText);
+	//target.draw(m_sections[m_right].debugText);
 
 	/*for (Section s : m_sections)
 	{
@@ -173,17 +169,10 @@ void Layer::teleport(int section, int direction, int sectionLocation)
 	m_sections[section].debugText.setPosition(sectionPos.x + sectionWidth  * SECTIONS * direction, sectionPos.y);
 
 	//teleport game objects that were in that section
-	for (std::shared_ptr<GameObject>& go : m_gameObjects)
+	for (std::shared_ptr<GameObject>& go : m_gameObjects) //TODO: why is this called 4 times for one wrap around??
 	{
-		int location = (int)go->getPosition().x / sectionWidth; //forced integer division to get number between 0 and SECTIONS - 1
-		if (go->getPosition().x < 0.f)
-		{
-			location--;
-		}
-		if (location == sectionLocation)
-		{
-			go->setPosition(sf::Vector2f(go->getPosition().x + sectionWidth * SECTIONS * direction, go->getPosition().y));
-		}
+		float offset = sectionWidth * SECTIONS * direction;
+		go->teleport(offset, sectionLocation, sectionWidth);
 	}
 
 	m_teleported = true;

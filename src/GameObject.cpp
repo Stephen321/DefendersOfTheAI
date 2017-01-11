@@ -1,7 +1,8 @@
 #include "GameObject.h"
 
-GameObject::GameObject(const sf::Vector2f& startPos, const sf::Texture& texture, const PhysicsProperties& physicProperties)
-	: m_position(sf::Vector2f(startPos.x, startPos.y))
+GameObject::GameObject(Type type, const sf::Vector2f& startPos, const sf::Texture& texture, const PhysicsProperties& physicProperties)
+	: m_type(type)
+	, m_position(sf::Vector2f(startPos.x, startPos.y))
 	, m_sprite(texture)
 	, m_physicsProperties(physicProperties)
 	, m_dir()
@@ -42,6 +43,24 @@ void GameObject::moveBy(float dx, float dy)
 	m_position.x += dx;
 	m_position.y += dy;
 	m_sprite.setPosition(m_position);
+}
+
+void GameObject::teleport(float offset, int section, float width)
+{
+	int location = (int)m_position.x / width; //forced integer division to get number between 0 and max sections
+	if (m_position.x < 0.f)
+	{
+		location--;
+	}
+	if (location == section)
+	{
+		setPosition(sf::Vector2f(m_position.x + offset, m_position.y));
+	}
+}
+
+GameObject::Type GameObject::getType() const
+{
+	return m_type;
 }
 
 void GameObject::move(float dt)
