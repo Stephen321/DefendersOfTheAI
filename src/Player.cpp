@@ -7,7 +7,6 @@ Player::Player(const sf::Vector2u& worldSize, const sf::Vector2f& startPos, cons
 
 void Player::update(float dt)
 {
-	std::cout << m_position.y << std::endl;
 	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0)
 	{
 		m_velocity.y = 0;

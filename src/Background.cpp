@@ -1,4 +1,5 @@
 #include "Background.h"
+#include <iostream>
 
 Background::Background(const sf::Vector2f& screenSize)
 {
@@ -19,26 +20,32 @@ void Background::generateSurface(const sf::Vector2f& screenSize)
 	{
 		sf::ConvexShape convex;
 
-		int width = rand() % 160 + 40;
+		int width = (rand() % 16 * 10) + 40;
 		int height = 0;
 
-		if (m_surfaceShapes.size() % 2 == 0)
-		{
-			height += rand() % 2 + 1;
 
-			if (rand() % 2 == 0 || yPos > screenSize.y * 0.9)
+		if (m_surfaceShapes.size() != 0)
+		{
+			if (m_surfaceShapes.size() % 2 == 0)
 			{
-				height *= -1;
+				height += rand() % 2 + 1;
+
+				if (((rand() % 2 == 0 || yPos > screenSize.y * 0.9) && yPos > screenSize.y * 0.75f) || currentWidth > worldWidth * 0.925f)
+				{
+					height *= -1;
+				}
+
+				height *= 10;
+				width = abs(height);
 			}
 
-			height *= 10;
-			width = abs(height);
+			// make the first and last shape y the same so they seamlessly connect
+			if (yPos == m_surfaceShapes[0].getPoint(0).y && currentWidth > worldWidth * 0.925f)
+			{
+				width = worldWidth - currentWidth; //close the gap
+			}
 		}
-
-		if (currentWidth + width > worldWidth)
-		{
-			width -= (currentWidth + width) - worldWidth;
-		}
+				
 
 		// resize it to 4 points
 		convex.setPointCount(4);
@@ -62,8 +69,16 @@ void Background::generateSurface(const sf::Vector2f& screenSize)
 			convex.setFillColor(sf::Color(222, 112, 145));
 		}				
 
-		m_surfaceShapes.push_back(convex);
-		
+		m_surfaceShapes.push_back(convex);		
+
+		// define the points for the rim highlight, reusing the convex shape from before
+		convex.setPoint(0, sf::Vector2f(xPos, yPos - 4));
+		convex.setPoint(1, sf::Vector2f(xPos + width, yPos + height - 4));
+		convex.setPoint(2, sf::Vector2f(xPos + width, yPos + height));
+		convex.setPoint(3, sf::Vector2f(xPos, yPos));
+		convex.setFillColor(sf::Color(225, 155, 176)); //set the rim highlight colour
+		m_surfaceRimShapes.push_back(convex); 		
+	
 		currentWidth += width;
 		xPos = currentWidth;
 		yPos += height;
@@ -81,6 +96,11 @@ void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	{
 		target.draw(m_surfaceShapes[i]);
 	}
+
+	for (int i = 0; i < m_surfaceRimShapes.size(); i++)
+	{
+		target.draw(m_surfaceRimShapes[i]);
+	}
 }
 
 void Background::update(float worldVelX)
@@ -93,6 +113,11 @@ void Background::update(float worldVelX)
 	for (int i = 0; i < m_surfaceShapes.size(); i++)
 	{
 		m_surfaceShapes[i].move(sf::Vector2f(worldVelX, 0));
+	}
+
+	for (int i = 0; i < m_surfaceRimShapes.size(); i++)
+	{
+		m_surfaceRimShapes[i].move(sf::Vector2f(worldVelX, 0));
 	}
 }
 

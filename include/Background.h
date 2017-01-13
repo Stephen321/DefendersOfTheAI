@@ -15,4 +15,5 @@ private:
 	const int LAYERS = 1;
 	std::vector<Layer> m_layers;
 	std::vector<sf::ConvexShape> m_surfaceShapes;
+	std::vector<sf::ConvexShape> m_surfaceRimShapes;
 };
