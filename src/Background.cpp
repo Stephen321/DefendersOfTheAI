@@ -2,7 +2,7 @@
 #include <iostream>
 
 Background::Background(const sf::Vector2f& screenSize)
-{
+{	
 	m_layers.push_back(Layer("assets/sprites/enviroment/stars", screenSize, 3, 0.33f));
 	//m_layers.push_back(Layer("assets/sprites/enviroment/surface", screenSize, 9, 1.f));
 
@@ -11,6 +11,7 @@ Background::Background(const sf::Vector2f& screenSize)
 
 void Background::generateSurface(const sf::Vector2f& screenSize)
 {
+	srand(time(NULL));
 	//variables to store the positional data of each shape
 	int xPos = 0;
 	int yPos = screenSize.y * 0.75f;
@@ -30,7 +31,7 @@ void Background::generateSurface(const sf::Vector2f& screenSize)
 			if (m_surfaceShapes.size() % 2 == 0) //make sure there's a flat piece between every slope by creating a slope every 2nd shape
 			{
 				height += (rand() % 2 + 1) * 10; // min 10, max 30
-				width = height; //make every slope a perfect 45 degrees by ensuring width and height are equal
+				width = height; //make every slope a perfect 45 degrees by ensuring width and height are equal				
 
 				//first randomly choose a number, 1 or 0, 0 signifies negative height (incline as - on the y is vertical),
 				//OR, ensure a slope goes up if the current yPos of shapes is too low on the screen, don't want the path going off screen,
@@ -39,17 +40,31 @@ void Background::generateSurface(const sf::Vector2f& screenSize)
 				//ensuring opposing ends meet on the same yPos, if the yPos is < shape 0 a decline is guaranteed
 				if (((rand() % 2 == 0 || yPos > screenSize.y * 0.9) && 
 					yPos > screenSize.y * 0.75f) || 
-					(allShapesWidth > worldWidth * 0.925f && yPos > m_surfaceShapes[0].getPoint(0).y))
+					(allShapesWidth > worldWidth * 0.9f && yPos > m_surfaceShapes[0].getPoint(0).y))
 				{
 					height *= -1;
-				}				
-			}
+				}			
 
-			// check if the current shapes yPos is equal to the first shape, if so extend the width of the shape to "meet" first shape
-			if (yPos == m_surfaceShapes[0].getPoint(0).y && allShapesWidth > worldWidth * 0.925f)
-			{
-				width = worldWidth - allShapesWidth;
+				//if near the end of the surface generation try to make the ends meet by adjusting the slope
+				if (allShapesWidth > worldWidth * 0.975f && yPos + height != m_surfaceShapes[0].getPoint(0).y)
+				{
+					if (yPos + height < m_surfaceShapes[0].getPoint(0).y)					
+						height += m_surfaceShapes[0].getPoint(0).y - (yPos + height);					
+					else					
+						height -= (yPos + height) - m_surfaceShapes[0].getPoint(0).y;					
+
+					width = abs(height);
+				}
 			}
+			else //only do this on flat surface
+			{
+				//make sure the shape is near the very end of the generated surface
+				// check if the current shapes yPos is equal to the first shape, if so extend the width of the shape to "meet" first shape
+				if (allShapesWidth > worldWidth * 0.975f && yPos == m_surfaceShapes[0].getPoint(0).y)
+				{
+					width = worldWidth - allShapesWidth;
+				}
+			}								
 		}				
 
 		// give the convex shape 4 points, every part of the surcase is a rect or trapezoid
@@ -82,6 +97,8 @@ void Background::generateSurface(const sf::Vector2f& screenSize)
 		xPos = allShapesWidth;
 		yPos += height;
 	}
+
+	std::cout << m_surfaceShapes[0].getPoint(0).y << "  point1Y  " << m_surfaceShapes[m_surfaceShapes.size() - 1].getPoint(0).y << "  endPoint y  " << std::endl;
 }
 
 void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
