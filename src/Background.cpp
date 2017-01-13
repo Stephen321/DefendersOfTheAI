@@ -11,26 +11,27 @@ Background::Background(const sf::Vector2f& screenSize)
 
 void Background::generateSurface(const sf::Vector2f& screenSize)
 {
-	srand(time(NULL));
+	//srand(time(NULL));
 	//variables to store the positional data of each shape
 	int xPos = 0;
 	int yPos = screenSize.y * 0.75f;
 
 	const int worldWidth = screenSize.x * 9;
+	const int screenUnit = (screenSize.x / 128);
 	int allShapesWidth = 0;
 
 	while (allShapesWidth < worldWidth)
 	{
 		sf::ConvexShape convex; //each segment of the surface is a convex shape
 
-		int width = (rand() % 16 * 10) + 40; // min 40, max 200
+		int width = (rand() % 16 + 4) * screenUnit;
 		int height = 0;
 
 		if (m_surfaceShapes.size() != 0)
 		{
 			if (m_surfaceShapes.size() % 2 == 0) //make sure there's a flat piece between every slope by creating a slope every 2nd shape
 			{
-				height += (rand() % 2 + 1) * 10; // min 10, max 30
+				height += (rand() % 2 + 1) * screenUnit;
 				width = height; //make every slope a perfect 45 degrees by ensuring width and height are equal				
 
 				//first randomly choose a number, 1 or 0, 0 signifies negative height (incline as - on the y is vertical),
@@ -86,11 +87,11 @@ void Background::generateSurface(const sf::Vector2f& screenSize)
 		m_surfaceShapes.push_back(convex); //add the shape to the shape vector
 
 		// define the points for the rim highlight, reusing the convex shape from before
-		convex.setPoint(0, sf::Vector2f(xPos, yPos - 4));					//top left
-		convex.setPoint(1, sf::Vector2f(xPos + width, yPos + height - 4));	//top right
-		convex.setPoint(2, sf::Vector2f(xPos + width, yPos + height));		//bottom right
-		convex.setPoint(3, sf::Vector2f(xPos, yPos));						//bottom left
-		convex.setFillColor(sf::Color(225, 155, 176));						//set the rim highlight colour
+		convex.setPoint(0, sf::Vector2f(xPos, yPos - (screenUnit * 0.5f)));						//top left
+		convex.setPoint(1, sf::Vector2f(xPos + width, yPos + height - (screenUnit * 0.5f)));	//top right
+		convex.setPoint(2, sf::Vector2f(xPos + width, yPos + height));							//bottom right
+		convex.setPoint(3, sf::Vector2f(xPos, yPos));											//bottom left
+		convex.setFillColor(sf::Color(225, 155, 176));											//set the rim highlight colour
 		m_surfaceRimShapes.push_back(convex); //add the 
 	
 		allShapesWidth += width;
