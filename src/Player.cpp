@@ -3,7 +3,9 @@
 Player::Player(const sf::Vector2f& startPos, const sf::Texture& texture, const sf::Texture& tempLaserTex)
 	: GameObject(Type::Player, startPos, texture, PhysicsProperties(800.f, 0.9f, 1000.f))
 	, m_tempLaserTex(tempLaserTex)
+	, m_reloadTimer(0.f)
 {
+	m_dir.x = 1.f;
 }
 
 void Player::update(float dt)
@@ -13,14 +15,16 @@ void Player::update(float dt)
 	{
 		m_position.y = m_sprite.getGlobalBounds().height * 0.5f;
 		m_velocity.y = 0;
-		m_force.y = 0;
 	}
-	GameObject::update(dt);
-
+	if (m_reloadTimer < RELOAD_TIME)
+	{
+		m_reloadTimer += dt;
+	}
 	for (Laser& l : m_lasers)
 	{
 		l.update(dt);
 	}
+	GameObject::update(dt);
 }
 
 void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -43,31 +47,49 @@ void Player::teleport(float offset, int section, float width)
 
 void Player::fire()
 {
-	m_lasers.push_back(Laser(m_position, m_tempLaserTex, Helpers::getLength(m_velocity), sf::Vector2f(1,0)));
+	if (m_reloadTimer < RELOAD_TIME)
+		return;
+
+	m_reloadTimer = 0.f;
+	sf::Vector2f dir = m_dir;
+	if (dir.x < 0.f)
+	{
+		dir.x = -1.f;
+	}
+	else if (dir.x > 0.f)
+	{
+		dir.x = 1.f;
+	}
+	dir.y = 0.f;
+	m_lasers.push_back(Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), m_tempLaserTex, dir));
 }
 
 void Player::checkInput()
 {
-	sf::Vector2f dir;
+	m_moving = false;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
-		dir.x = -1.f;
+		m_dir.x = -1.f;
+		m_moving = true;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
-		dir.x = 1.f;
+		m_dir.x = 1.f;
+		m_moving = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 	{
-		dir.y = -1.f;
+		m_dir.y = -1.f;
+		m_moving = true;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 	{
-		dir.y = 1.f;
+		m_dir.y = 1.f;
+		m_moving = true;
 	}
-	m_dir = Helpers::normalise(dir);
+	m_dir = Helpers::normalise(m_dir);
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
 	{
 		fire();
 	}
