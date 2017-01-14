@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "AI.h"
 #include "Background.h"
+#include "GameLoader.h"
 
 class GameScreen : public Screen
 {

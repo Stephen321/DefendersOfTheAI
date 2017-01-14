@@ -1,7 +1,15 @@
 #include "AI.h"
 
 
-AI::AI(const sf::Vector2f& startPos, const sf::Texture& texture)
-	: GameObject(Type::AI, startPos, texture, PhysicsProperties(800.f, 0.9f, 1000.f))
+AI::AI(const sf::Vector2f& startPos)
+	: GameObject(Type::AI, startPos)
 {
+	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
+	m_sprite.setTexture(props.texture);
+	m_forceAmount = props.forceAmount;
+	m_dragCoefficent = props.dragCoefficent;
+	m_maxVelocity = props.maxVelocity;
+	m_dir.x = 1.f;
+
+	setOrigin();
 }

@@ -1,15 +1,19 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Type type, const sf::Vector2f& startPos, const sf::Texture& texture, const PhysicsProperties& physicProperties)
+GameObject::GameObject(Type type, const sf::Vector2f& startPos)
 	: m_moving(false)
 	, m_type(type)
 	, m_position(sf::Vector2f(startPos.x, startPos.y))
-	, m_sprite(texture)
-	, m_physicsProperties(physicProperties)
+	, m_forceAmount(0.f)
+	, m_dragCoefficent(0.f)
+	, m_maxVelocity(0.f)
 	, m_dir()
 	, m_active(true)
 {
-	m_sprite.setPosition(m_position);
+}
+
+void GameObject::setOrigin()
+{
 	m_sprite.setOrigin(m_sprite.getLocalBounds().width * 0.5f, m_sprite.getLocalBounds().height * 0.5f);
 }
 
@@ -77,12 +81,12 @@ bool GameObject::getActive() const
 void GameObject::move(float dt)
 {
 	sf::Vector2f linearDrag;
-	float force = (m_moving) ? m_physicsProperties.FORCE : 0.f;
+	float force = (m_moving) ? m_forceAmount : 0.f;
 	if (m_moving == false)
 	{
 		if (abs(m_velocity.x) > MIN_VEL)
 		{
-			linearDrag.x = m_physicsProperties.DRAG_COEFFICIENT * -m_velocity.x;
+			linearDrag.x = m_dragCoefficent * -m_velocity.x;
 		}
 		else
 		{
@@ -90,7 +94,7 @@ void GameObject::move(float dt)
 		}
 		if (abs(m_velocity.y) > MIN_VEL)
 		{
-			linearDrag.y = m_physicsProperties.DRAG_COEFFICIENT * -m_velocity.y;
+			linearDrag.y = m_dragCoefficent * -m_velocity.y;
 		}
 		else
 		{
@@ -102,9 +106,9 @@ void GameObject::move(float dt)
 	m_acceleration = (force * m_dir) + linearDrag; //a = F/m
 	m_velocity += m_acceleration * dt; //v = u + at
 
-	if (Helpers::getLength(m_velocity) >= m_physicsProperties.MAX_VEL)
+	if (Helpers::getLength(m_velocity) >= m_maxVelocity)
 	{ 
-		m_velocity = Helpers::normalise(m_velocity) * m_physicsProperties.MAX_VEL;
+		m_velocity = Helpers::normalise(m_velocity) * m_maxVelocity;
 	}
 
 

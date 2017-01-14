@@ -2,6 +2,7 @@
 
 int GameScreen::run(sf::RenderWindow &window)
 {
+	GameLoader gameLoader("assets/");
 	sf::Event Event;
 	bool Running = true;
 	sf::Clock frameClock;
@@ -16,19 +17,10 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 
-	sf::Texture laserTex;
-	laserTex.loadFromFile("assets/sprites/laser.png");
-
-	sf::Texture playerTex;
-	playerTex.loadFromFile("assets/sprites/player/square.png");
-	std::shared_ptr<Player> player = std::make_shared<Player>(Player(sf::Vector2f(worldSize.x * 0.5f, worldSize.y * 0.5f), playerTex, laserTex));
+	std::shared_ptr<Player> player = std::make_shared<Player>(Player(sf::Vector2f(worldSize.x * 0.5f, worldSize.y * 0.5f)));
 	m_gameObjects.push_back(player);
-
-	sf::Texture enemyTex;
-	enemyTex.loadFromFile("assets/sprites/enemy.png");
-	m_gameObjects.push_back(std::make_shared<GameObject>(AI(sf::Vector2f(100.f, worldSize.y * 0.1f), enemyTex)));
-
-	m_gameObjects.push_back(std::make_shared<GameObject>(AI(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), enemyTex)));
+	m_gameObjects.push_back(std::make_shared<GameObject>(AI(sf::Vector2f(100.f, worldSize.y * 0.1f))));
+	m_gameObjects.push_back(std::make_shared<GameObject>(AI(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f))));
 	
 
 	Background background(bounds, player, m_gameObjects);
@@ -59,7 +51,6 @@ int GameScreen::run(sf::RenderWindow &window)
 				std::cout << "Going to screen: " << 2 << std::endl;
 				return (2);
 			}
-
 			if (Event.type == sf::Event::MouseWheelScrolled)
 			{
 				if (Event.mouseWheelScroll.delta < 0 && zoom > 1)

@@ -1,0 +1,23 @@
+{
+	"sprite_folder_path": "sprites/",
+	"object_properties": {
+		"player": {
+			"texture_path": "player/square.png",
+			"force": 800,
+			"drag_coefficent": 0.9,
+			"max_velocity": 800
+		},
+		"ai": {
+			"texture_path": "ai/square.png",
+			"force": 800,
+			"drag_coefficent": 0.9,
+			"max_velocity": 800
+		},
+		"laser": {
+			"texture_path": "laser.png",
+			"force": 0,
+			"drag_coefficent": 0,
+			"max_velocity": 1600
+		}
+	}
+}
