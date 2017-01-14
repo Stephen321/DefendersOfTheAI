@@ -2,6 +2,7 @@
 
 #include "Screen.h"
 #include "Player.h"
+#include "AI.h"
 #include "Background.h"
 
 class GameScreen : public Screen

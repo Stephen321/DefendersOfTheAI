@@ -1,0 +1,3 @@
+flickering when teleporting
+teleporting into moving objects that hve moved within 1 screen width
+objects should wrap around
