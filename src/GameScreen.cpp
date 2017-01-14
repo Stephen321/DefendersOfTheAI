@@ -34,11 +34,17 @@ int GameScreen::run(sf::RenderWindow &window)
 				return (-1);
 			}
 
-			if (Event.type == sf::Event::KeyReleased && Event.key.code == sf::Keyboard::Space)
+			if (Event.type == sf::Event::KeyReleased && Event.key.code == sf::Keyboard::Return)
 			{
 				std::cout << "Going to screen: " << 2 << std::endl;
 				return (2);
 			}
+
+			if (Event.type == sf::Event::KeyReleased && Event.key.code == sf::Keyboard::Escape)
+			{
+				return (-1);
+			}
+
 		}
 		float dt = frameClock.restart().asSeconds();
 
