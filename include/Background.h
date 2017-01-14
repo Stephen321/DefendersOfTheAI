@@ -5,12 +5,10 @@
 class Background : public sf::Drawable
 {
 public:
-	Background(const sf::Vector2f& screenSize);
+	Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player, const std::vector<std::shared_ptr<GameObject>>& gameObjects);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void update(float worldVelX);
-	sf::Vector2u getWorldSize() const;
-
+	void update(float dt);
 private:
 	const int LAYERS = 1;
-	std::vector<Layer> m_layers;
+	std::vector<std::unique_ptr<Layer>> m_layers;
 };
