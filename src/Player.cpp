@@ -1,11 +1,17 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2f& startPos, const sf::Texture& texture, const sf::Texture& tempLaserTex)
-	: GameObject(Type::Player, startPos, texture, PhysicsProperties(800.f, 0.9f, 1000.f))
-	, m_tempLaserTex(tempLaserTex)
+Player::Player(const sf::Vector2f& startPos)
+	: GameObject(Type::Player, startPos)
 	, m_reloadTimer(0.f)
 {
+	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
+	m_sprite.setTexture(props.texture);
+	m_forceAmount = props.forceAmount;
+	m_dragCoefficent = props.dragCoefficent;
+	m_maxVelocity = props.maxVelocity;
 	m_dir.x = 1.f;
+
+	setOrigin();
 }
 
 void Player::update(float dt)
@@ -61,7 +67,7 @@ void Player::fire()
 		dir.x = 1.f;
 	}
 	dir.y = 0.f;
-	m_lasers.push_back(Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), m_tempLaserTex, dir));
+	m_lasers.push_back(Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), dir));
 }
 
 void Player::checkInput()

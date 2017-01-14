@@ -1,68 +1,23 @@
 {
-	"animation_folder_path" : "animations/",
-	"sound_folder_path" : "sounds/",
-	"image_folder_path" : "images/",
-	"map_folder_path" : "maps/",
-    "initial_map" : "map.json", 
-	"sounds" :
-	{
-        "sound" : 
-        {
-            "bird_tweet_1" : "birdTweet_1.mp3",
-            "bird_tweet_2" : "birdTweet_2.mp3",
-            "bird_tweet_3" : "birdTweet_3.mp3",
-            "bird_tweet_4" : "birdTweet_4.mp3",
-            "bird_tweet_5" : "birdTweet_5.mp3",
-            "crow" : "crow.mp3",
-            "walking_grass" : "walking_grass.mp3" ,
-            "punch" : "punch.mp3"
-        },
-        "stream" : 
-        {
-            "wind_ambience" : "windAmbience.mp3"
-        }
-    },
-    "textures" : 
-    {
-        "projectileTextureFile" : "projectile.png",
-        "rockTextureFile": "rockTexture.png",
-        "bushTextureFile": "bushTexture.png",
-        "treeTextureFile": "treeTexture.png",
-        "grassBlade1TextureFile": "grassBlade1Texture.png",
-        "grassBlade2TextureFile": "grassBlade2Texture.png",
-        "grassBlade3TextureFile": "grassBlade3Texture.png",
-        "grassBlade4TextureFile": "grassBlade4Texture.png",
-        "grassBlade5TextureFile": "grassBlade5Texture.png",
-        "grassBlade6TextureFile": "grassBlade6Texture.png",
-        "menuPlayTextureFile": "menuPlayTexture.png",
-        "menuOptionsTextureFile": "menuOptionsTexture.png",
-        "menuQuitTextureFile": "menuQuitTexture.png",
-        "menuUnfoldedTextureFile": "menuUnfolded.png",
-        "menuLettersTextureFile": "menuLettersTexture.png",        
-        "menuBlackGradientTextureFile": "menuDarknessTexture.png",
-        "playSelectedTextureFile": "playSelected.png",
-        "optionsSelectedTextureFile": "optionsSelected.png",
-        "quitSelectedTextureFile": "quitSelected.png",
-        "cloud1TextureFile": "cloudShadow1.png",
-        "cloud2TextureFile": "cloudShadow2.png",
-        "cloud3TextureFile": "cloudShadow3.png"
-    },
-    "char_properties" :
-    {
-        "player" :
-        {
-            "max_health" : 100,
-            "max_speed" : 280
-        },
-        "ai" :
-        {
-            "max_health" : 80,
-            "max_speed" : 85
-        },
-        "popout" :
-        {
-            "max_health" : 40,
-            "max_speed" : 180
-        }
-    }
+	"sprite_folder_path": "sprites/",
+	"object_properties": {
+		"player": {
+			"texture_path": "player/square.png",
+			"force": 800,
+			"drag_coefficent": 0.9,
+			"max_velocity": 800
+		},
+		"ai": {
+			"texture_path": "ai/square.png",
+			"force": 800,
+			"drag_coefficent": 0.9,
+			"max_velocity": 800
+		},
+		"laser": {
+			"texture_path": "laser.png",
+			"force": 0,
+			"drag_coefficent": 0,
+			"max_velocity": 1600
+		}
+	}
 }

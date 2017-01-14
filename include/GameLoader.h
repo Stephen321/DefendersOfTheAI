@@ -12,17 +12,12 @@ using namespace rapidjson;
 
 class GameLoader {
 public:
-	GameLoader(std::string const & filePath);
+	GameLoader(const std::string& filePath);
 private:
 	rapidjson::Document m_document;
 	std::string m_JSONData;
-	const std::string m_filePath;
-	void loadData();
+	void loadData(const std::string& filePath);
 	void loadJSONDATA(std::string const & filename);
-	//std::vector<std::string> loadJSONFileNames(const std::string & animationFilePath);
-	//void loadAnimations(const std::string & animationFilePath, const std::vector<std::string> & jsonAnimFileNames);
-	//GameData::CharInfo* findCurrentChar(std::string name);
-	//void setCollisionFilter(std::string charName, GameData::CharInfo* info);
 };
 
 #endif 

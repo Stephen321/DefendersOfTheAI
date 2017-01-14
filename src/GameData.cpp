@@ -1,14 +1,19 @@
 #include "GameData.h"
 
-std::weak_ptr<GameData> GameData::m_instance;
-
 GameData::GameData() {}
 
-std::shared_ptr<GameData> GameData::getInstance() {
-	std::shared_ptr<GameData> ptr = m_instance.lock();
-	if (!ptr) {
-		ptr = std::make_shared<GameData>(GameData());
-		m_instance = std::weak_ptr<GameData>(ptr);
+GameData& GameData::getInstance() 
+{
+	static GameData gd;
+	return gd;
+}
+
+
+GameData::ObjectProperties & GameData::getObjectProperties(int id)
+{
+	if (m_objectProperties.find(id) == m_objectProperties.end())
+	{
+		m_objectProperties.insert(std::pair<int, ObjectProperties>(id, ObjectProperties()));
 	}
-	return ptr;
+	return m_objectProperties.at(id);
 }

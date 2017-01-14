@@ -2,6 +2,7 @@
 
 #include <iostream> //debug purposes
 #include "Helpers.h"
+#include "GameData.h"
 
 class GameObject : public sf::Drawable
 {
@@ -11,18 +12,7 @@ public:
 		AI,
 		Laser
 	};
-	struct PhysicsProperties
-	{
-		PhysicsProperties(float force, float dragCoefficient, float maxVel)
-			: FORCE(force)
-			, DRAG_COEFFICIENT(dragCoefficient)
-			, MAX_VEL(maxVel) {}
-		const float FORCE;
-		const float DRAG_COEFFICIENT;
-		const float MAX_VEL;
-	};
-
-	GameObject(Type type, const sf::Vector2f& startPos, const sf::Texture& texture, const PhysicsProperties& physicProperties);
+	GameObject(Type type, const sf::Vector2f& startPos);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void update(float dt);
 	sf::Vector2f getPosition() const;
@@ -34,6 +24,7 @@ public:
 	bool getActive() const;
 
 protected:
+	void setOrigin();
 	void move(float dt);
 
 	bool m_active;
@@ -45,5 +36,7 @@ protected:
 	sf::Vector2f m_dir;
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;
-	PhysicsProperties m_physicsProperties;
+	float m_forceAmount;
+	float m_dragCoefficent;
+	float m_maxVelocity;
 };
