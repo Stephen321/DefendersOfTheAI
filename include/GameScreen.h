@@ -2,7 +2,9 @@
 
 #include "Screen.h"
 #include "Player.h"
+#include "Nest.h"
 #include "Background.h"
+#include "GameLoader.h"
 
 class GameScreen : public Screen
 {

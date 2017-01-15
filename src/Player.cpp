@@ -1,49 +1,102 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2u& worldSize, const sf::Vector2f& startPos, const sf::Texture& texture)
-	: GameObject(worldSize, startPos, texture)
+Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
+	: GameObject(Type::Player, startPos, worldSize)
+	, m_reloadTimer(0.f)
 {
+	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
+	m_sprite.setTexture(props.texture);
+	m_forceAmount = props.forceAmount;
+	m_dragCoefficent = props.dragCoefficent;
+	m_maxVelocity = props.maxVelocity;
+	m_dir.x = 1.f;
+
+	setOrigin();
 }
 
 void Player::update(float dt)
 {
-	//std::cout << m_position.x << std::endl;
-	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0)
+	checkInput();
+	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0) //TODO: override GameObject::checkWorldBounds()
 	{
+		m_position.y = m_sprite.getGlobalBounds().height * 0.5f;
 		m_velocity.y = 0;
-		m_force.y = 0;
 	}
-	move(dt);
-	m_sprite.setPosition(m_sprite.getPosition().x, m_position.y);
+	if (m_reloadTimer < RELOAD_TIME)
+	{
+		m_reloadTimer += dt;
+	}
+	for (Laser& l : m_lasers)
+	{
+		l.update(dt);
+	}
+	GameObject::update(dt);
 }
 
-void Player::calcForce()
+void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	sf::Vector2f dir;
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+	GameObject::draw(target, states);
+	for (const Laser& l : m_lasers)
+	{
+		target.draw(l);
+	}
+}
+
+void Player::teleport(float offset, int section, float width)
+{
+	for (Laser& l : m_lasers)
+	{
+		l.teleport(offset, section, width);
+	}
+	GameObject::teleport(offset, section, width);
+}
+
+void Player::fire()
+{
+	if (m_reloadTimer < RELOAD_TIME)
+		return;
+
+	m_reloadTimer = 0.f;
+	sf::Vector2f dir = m_dir;
+	if (dir.x < 0.f)
 	{
 		dir.x = -1.f;
-		if (m_velocity.x > 0.f)
-		{//instantly change direction
-			m_velocity.x = 0;
-		}
+	}
+	else if (dir.x > 0.f)
+	{
+		dir.x = 1.f;
+	}
+	dir.y = 0.f;
+	m_lasers.push_back(Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), dir));
+}
+
+void Player::checkInput()
+{
+	m_moving = false;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+	{
+		m_dir.x = -1.f;
+		m_moving = true;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
-		dir.x = 1.f;
-		if (m_velocity.x < 0.f)
-		{//instantly change direction
-			m_velocity.x = 0;
-		}
+		m_dir.x = 1.f;
+		m_moving = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
 	{
-		dir.y = -1.f; 
+		m_dir.y = -1.f;
+		m_moving = true;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
 	{
-		dir.y = 1.f;
+		m_dir.y = 1.f;
+		m_moving = true;
 	}
-	m_dir = Helpers::normalise(dir);
-	m_force = m_dir * FORCE;
+	Helpers::normalise(m_dir);
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+	{
+		fire();
+	}
 }

@@ -29,6 +29,7 @@
 //////////////////////////////////////////////////////////// 
 int main()
 {
+	srand(time(NULL));
 	sf::RenderWindow window(sf::VideoMode(1280u, 720u, 32), "Defenders Of The AI");
 
 	std::vector<Screen*> Screens;
@@ -45,6 +46,5 @@ int main()
 	{
 		screen = Screens[screen]->run(window);
 	}
-
 	return EXIT_SUCCESS;
 }
