@@ -14,7 +14,8 @@ public:
 		Player,
 		Nest,
 		Laser,
-		Missile
+		Missile,
+		Abductor
 	};
 	GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

@@ -1,6 +1,7 @@
 #include "GameScreen.h"
 #include "StateMap.h"
 #include "NestStates.h"
+#include "Abductor.h"
 
 int GameScreen::run(sf::RenderWindow &window)
 {
@@ -24,6 +25,18 @@ int GameScreen::run(sf::RenderWindow &window)
 	m_gameObjects.push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player)));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
 	
+	std::vector<Abductor> testAbductors;
+	sf::Vector2f testStart(100, 100);
+	testAbductors.push_back(Abductor(testStart, worldSize, false));
+	testStart.x += 100.f;
+	testAbductors.push_back(Abductor(testStart, worldSize, false));
+	testStart.x += 100.f;
+	testAbductors.push_back(Abductor(testStart, worldSize, false));
+	testStart.x += 100.f;
+	testAbductors.push_back(Abductor(testStart, worldSize, false));
+	testStart.x += 100.f;
+	testAbductors.push_back(Abductor(testStart, worldSize, false));
+	testStart.x += 100.f;
 
 	Background background(bounds, player, m_gameObjects);
 
@@ -100,6 +113,12 @@ int GameScreen::run(sf::RenderWindow &window)
 		for (const std::shared_ptr<GameObject>& go : m_gameObjects)
 		{
 			window.draw(*go);
+		}
+
+		for (int i = 0; i < testAbductors.size(); i++)
+		{
+			testAbductors[i].run(dt, testAbductors);
+			window.draw(testAbductors[i]);
 		}
 
 

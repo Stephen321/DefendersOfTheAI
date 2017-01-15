@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\Abductor.h" />
     <ClInclude Include="include\AI.h" />
     <ClInclude Include="include\Background.h" />
     <ClInclude Include="include\FSM.h" />
@@ -184,6 +185,7 @@
     <ClInclude Include="include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Abductor.cpp" />
     <ClCompile Include="src\FSM.cpp" />
     <ClCompile Include="src\Missile.cpp" />
     <ClCompile Include="src\Nest.cpp">
