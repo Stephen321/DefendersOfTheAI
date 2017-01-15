@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="include\AI.h" />
     <ClInclude Include="include\Background.h" />
+    <ClInclude Include="include\FSM.h" />
     <ClInclude Include="include\GameData.h" />
     <ClInclude Include="include\GameLoader.h" />
     <ClInclude Include="include\GameObject.h" />
@@ -171,13 +172,19 @@
     <ClInclude Include="include\Laser.h" />
     <ClInclude Include="include\Layer.h" />
     <ClInclude Include="include\MenuScreen.h" />
+    <ClInclude Include="include\Nest.h" />
+    <ClInclude Include="include\NestStates.h" />
     <ClInclude Include="include\Player.h" />
     <ClInclude Include="include\Screen.h" />
+    <ClInclude Include="include\State.h" />
+    <ClInclude Include="include\StateMap.h" />
+    <ClInclude Include="include\StateType.h" />
     <ClInclude Include="include\stdafx.h" />
     <ClInclude Include="include\targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\AI.cpp">
+    <ClCompile Include="src\FSM.cpp" />
+    <ClCompile Include="src\Nest.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Background.cpp">
@@ -230,6 +237,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\NestStates.cpp" />
     <ClCompile Include="src\Player.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>

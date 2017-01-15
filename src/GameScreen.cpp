@@ -1,4 +1,6 @@
 #include "GameScreen.h"
+#include "StateMap.h"
+#include "NestStates.h"
 
 int GameScreen::run(sf::RenderWindow &window)
 {
@@ -19,8 +21,8 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	std::shared_ptr<Player> player = std::make_shared<Player>(Player(sf::Vector2f(worldSize.x * 0.5f, worldSize.y * 0.5f)));
 	m_gameObjects.push_back(player);
-	m_gameObjects.push_back(std::make_shared<GameObject>(AI(sf::Vector2f(100.f, worldSize.y * 0.1f))));
-	m_gameObjects.push_back(std::make_shared<GameObject>(AI(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f))));
+	m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(100.f, worldSize.y * 0.1f))));
+	m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f))));
 	
 
 	Background background(bounds, player, m_gameObjects);

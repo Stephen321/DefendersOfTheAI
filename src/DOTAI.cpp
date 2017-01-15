@@ -45,6 +45,5 @@ int main()
 	{
 		screen = Screens[screen]->run(window);
 	}
-
 	return EXIT_SUCCESS;
 }
