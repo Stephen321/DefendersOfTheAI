@@ -6,30 +6,28 @@ Background::Background(const sf::Vector2f& screenSize)
 	m_layers.push_back(Layer("assets/sprites/enviroment/stars", screenSize, 3, 0.33f));
 	//m_layers.push_back(Layer("assets/sprites/enviroment/surface", screenSize, 9, 1.f));
 
-	generateSurface(screenSize);
+	calculateSurfacePoints(screenSize);
 }
 
-void Background::generateSurface(const sf::Vector2f& screenSize)
+void Background::calculateSurfacePoints(const sf::Vector2f& screenSize)
 {
-	//srand(time(NULL));
+	srand(time(NULL));
 	//variables to store the positional data of each shape
 	int xPos = 0;
 	int yPos = screenSize.y * 0.75f;
 
 	const int worldWidth = screenSize.x * 9;
 	const int screenUnit = (screenSize.x / 128);
-	int allShapesWidth = 0;
+	int allShapesWidth = 0;	
 
 	while (allShapesWidth < worldWidth)
 	{
-		sf::ConvexShape convex; //each segment of the surface is a convex shape
-
 		int width = (rand() % 16 + 4) * screenUnit;
 		int height = 0;
 
-		if (m_surfaceShapes.size() != 0)
+		if (pointCoords.size() != 0)
 		{
-			if (m_surfaceShapes.size() % 2 == 0) //make sure there's a flat piece between every slope by creating a slope every 2nd shape
+			if (pointCoords.size() % 4 == 0) //make sure there's a flat piece between every slope by creating a slope every 2nd shape
 			{
 				height += (rand() % 2 + 1) * screenUnit;
 				width = height; //make every slope a perfect 45 degrees by ensuring width and height are equal				
@@ -41,18 +39,18 @@ void Background::generateSurface(const sf::Vector2f& screenSize)
 				//ensuring opposing ends meet on the same yPos, if the yPos is < shape 0 a decline is guaranteed
 				if (((rand() % 2 == 0 || yPos > screenSize.y * 0.9) && 
 					yPos > screenSize.y * 0.75f) || 
-					(allShapesWidth > worldWidth * 0.9f && yPos > m_surfaceShapes[0].getPoint(0).y))
+					(allShapesWidth > worldWidth * 0.9f && yPos > pointCoords[0].y))
 				{
 					height *= -1;
 				}			
 
 				//if near the end of the surface generation try to make the ends meet by adjusting the slope
-				if (allShapesWidth > worldWidth * 0.975f && yPos + height != m_surfaceShapes[0].getPoint(0).y)
+				if (allShapesWidth > worldWidth * 0.975f && yPos + height != pointCoords[0].y)
 				{
-					if (yPos + height < m_surfaceShapes[0].getPoint(0).y)					
-						height += m_surfaceShapes[0].getPoint(0).y - (yPos + height);					
+					if (yPos + height < pointCoords[0].y)
+						height += pointCoords[0].y - (yPos + height);
 					else					
-						height -= (yPos + height) - m_surfaceShapes[0].getPoint(0).y;					
+						height -= (yPos + height) - pointCoords[0].y;
 
 					width = abs(height);
 				}
@@ -61,45 +59,109 @@ void Background::generateSurface(const sf::Vector2f& screenSize)
 			{
 				//make sure the shape is near the very end of the generated surface
 				// check if the current shapes yPos is equal to the first shape, if so extend the width of the shape to "meet" first shape
-				if (allShapesWidth > worldWidth * 0.975f && yPos == m_surfaceShapes[0].getPoint(0).y)
+				if (allShapesWidth > worldWidth * 0.975f && yPos == pointCoords[0].y)
 				{
-					width = worldWidth - allShapesWidth;
+					width = worldWidth - allShapesWidth;					
 				}
 			}								
-		}				
+		}	
 
-		// give the convex shape 4 points, every part of the surcase is a rect or trapezoid
-		convex.setPointCount(4);
-
-		// define the points
-		convex.setPoint(0, sf::Vector2f(xPos, yPos));						//top left
-		convex.setPoint(1, sf::Vector2f(xPos + width, yPos + height));		//top right
-		convex.setPoint(2, sf::Vector2f(xPos + width, screenSize.y));		//bottom right
-		convex.setPoint(3, sf::Vector2f(xPos, screenSize.y));				//bottom left
-		
-		if (convex.getPoint(0).y == convex.getPoint(1).y)					//flat surface, use default colour		
-			convex.setFillColor(sf::Color(196, 55, 98));		
-		else if (convex.getPoint(0).y < convex.getPoint(1).y)				//decline, use shade colour		
-			convex.setFillColor(sf::Color(119, 24, 52));		
-		else																//incline, use highlight colour					
-			convex.setFillColor(sf::Color(222, 112, 145));						
-
-		m_surfaceShapes.push_back(convex); //add the shape to the shape vector
-
-		// define the points for the rim highlight, reusing the convex shape from before
-		convex.setPoint(0, sf::Vector2f(xPos, yPos - (screenUnit * 0.5f)));						//top left
-		convex.setPoint(1, sf::Vector2f(xPos + width, yPos + height - (screenUnit * 0.5f)));	//top right
-		convex.setPoint(2, sf::Vector2f(xPos + width, yPos + height));							//bottom right
-		convex.setPoint(3, sf::Vector2f(xPos, yPos));											//bottom left
-		convex.setFillColor(sf::Color(225, 155, 176));											//set the rim highlight colour
-		m_surfaceRimShapes.push_back(convex); //add the 
-	
+		pointCoords.push_back(sf::Vector2i(xPos, yPos));					//left
+		pointCoords.push_back(sf::Vector2i(xPos + width, yPos + height));	//right
 		allShapesWidth += width;
 		xPos = allShapesWidth;
 		yPos += height;
 	}
 
-	std::cout << m_surfaceShapes[0].getPoint(0).y << "  point1Y  " << m_surfaceShapes[m_surfaceShapes.size() - 1].getPoint(0).y << "  endPoint y  " << std::endl;
+	createSurface(screenSize, screenUnit);
+}
+
+void Background::createSurface(const sf::Vector2f& screenSize, int screenUnit)
+{
+	sf::ConvexShape convex; //each segment of the surface is a convex shape
+	// give the convex shape 4 points, every part of the surface is a rect or trapezoid
+	convex.setPointCount(4);	
+
+	for (int i = 0; i < pointCoords.size(); i += 2)
+	{
+		// define the points
+		convex.setPoint(0, sf::Vector2f(pointCoords[i].x, pointCoords[i].y));			//top left
+		convex.setPoint(1, sf::Vector2f(pointCoords[i + 1].x, pointCoords[i + 1].y));	//top right
+		convex.setPoint(2, sf::Vector2f(pointCoords[i + 1].x, screenSize.y));			//bottom right
+		convex.setPoint(3, sf::Vector2f(pointCoords[i].x, screenSize.y));				//bottom left
+
+		if (convex.getPoint(0).y == convex.getPoint(1).y)									
+			convex.setFillColor(sf::Color(196, 55, 98));	//flat surface, use default colour	
+		else if (convex.getPoint(0).y < convex.getPoint(1).y)								
+			convex.setFillColor(sf::Color(119, 24, 52));	//decline, use shade colour	
+		else																
+			convex.setFillColor(sf::Color(222, 112, 145));	//incline, use highlight colour		
+
+		m_surfaceShapes.push_back(convex); //add the shape to the shape vector
+
+		// define the points for the rim highlight, reusing the convex shape from before
+		convex.setPoint(0, sf::Vector2f(pointCoords[i].x, pointCoords[i].y - (screenUnit * 0.5f)));				//top left
+		convex.setPoint(1, sf::Vector2f(pointCoords[i + 1].x, pointCoords[i + 1].y - (screenUnit * 0.5f)));		//top right
+		convex.setPoint(2, sf::Vector2f(pointCoords[i + 1].x, pointCoords[i + 1].y));							//bottom right
+		convex.setPoint(3, sf::Vector2f(pointCoords[i].x, pointCoords[i].y));									//bottom left
+		convex.setFillColor(sf::Color(225, 155, 176));	//set the rim highlight colour
+		m_surfaceRimShapes.push_back(convex);
+	}	
+
+	//add shapes onto the end to accomodate teleportation edges
+	int width = 0;
+	int copiedShapes = 0;
+	for (int i = 0; i < m_surfaceShapes.size(); i++)
+	{
+		sf::ConvexShape convex = m_surfaceShapes[i];
+		convex.setPosition(sf::Vector2f(convex.getPosition().x + screenSize.x * 9, convex.getPosition().y));
+		m_surfaceShapes.push_back(convex);
+
+		convex = m_surfaceRimShapes[i];
+		convex.setPosition(sf::Vector2f(convex.getPosition().x + screenSize.x * 9, convex.getPosition().y));
+		m_surfaceRimShapes.push_back(convex);
+		copiedShapes++;
+
+		width += convex.getPoint(1).x - convex.getPoint(0).x;
+		if (width > screenSize.x * 0.5f)
+			break;
+	}
+
+	//add shapes onto the start to accomodate teleportation edges
+	width = 0;
+	for (int i = m_surfaceShapes.size() - (1 + copiedShapes); i >= 0; i--)
+	{			
+		sf::ConvexShape convex = m_surfaceShapes[i];
+		int shapeWidth = convex.getPoint(1).x - convex.getPoint(0).x;		
+
+		convex.setPoint(0, sf::Vector2f(-(shapeWidth + width), 
+			m_surfaceShapes[i].getPoint(0).y));
+		convex.setPoint(1, sf::Vector2f(-width,
+			m_surfaceShapes[i].getPoint(1).y));
+		convex.setPoint(2, sf::Vector2f(-width, 
+			m_surfaceShapes[i].getPoint(2).y));
+		convex.setPoint(3, sf::Vector2f(-(shapeWidth + width),
+			m_surfaceShapes[i].getPoint(3).y));
+
+		m_surfaceShapes.push_front(convex);
+
+		convex = m_surfaceRimShapes[i];
+		convex.setPoint(0, sf::Vector2f(-(shapeWidth + width),
+			m_surfaceRimShapes[i].getPoint(0).y));
+		convex.setPoint(1, sf::Vector2f(-width,
+			m_surfaceRimShapes[i].getPoint(1).y));
+		convex.setPoint(2, sf::Vector2f(-width,
+			m_surfaceRimShapes[i].getPoint(2).y));
+		convex.setPoint(3, sf::Vector2f(-(shapeWidth + width),
+			m_surfaceRimShapes[i].getPoint(3).y));
+
+		m_surfaceRimShapes.push_front(convex);
+		i++;
+
+		width += shapeWidth;
+		if (width > screenSize.x * 0.5f)
+			break;		
+	}
 }
 
 void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
