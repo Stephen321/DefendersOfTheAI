@@ -7,7 +7,7 @@
 			"drag_coefficent": 0.9,
 			"max_velocity": 800
 		},
-		"ai": {
+		"nest": {
 			"texture_path": "ai/square.png",
 			"force": 800,
 			"drag_coefficent": 0.9,

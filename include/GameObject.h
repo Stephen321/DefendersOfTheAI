@@ -9,7 +9,7 @@ class GameObject : public sf::Drawable
 public:
 	enum class Type {
 		Player,
-		AI,
+		Nest,
 		Laser
 	};
 	GameObject(Type type, const sf::Vector2f& startPos);
