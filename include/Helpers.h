@@ -28,7 +28,7 @@ namespace Helpers
 		return length;
 	}
 
-	inline sf::Vector2f normalise(const sf::Vector2f & v)
+	inline sf::Vector2f normaliseCopy(const sf::Vector2f & v)
 	{
 		sf::Vector2f n;
 		float length = getLength(v);
@@ -38,5 +38,20 @@ namespace Helpers
 			n.y = v.y / length;
 		}
 		return n;
+	}
+
+	inline void normalise(sf::Vector2f & v)
+	{
+		v = normaliseCopy(v);
+	}
+	
+	inline float randomNumberF(float min, float max)
+	{
+		return ((float(rand()) / float(RAND_MAX)) * (max - min)) + min;
+	}
+
+	inline int randomNumber(int min, int max)
+	{
+		return rand() % (max - min + 1) + min;
 	}
 }

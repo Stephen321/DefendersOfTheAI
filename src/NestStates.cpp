@@ -2,30 +2,44 @@
 
 void NWanderState::start(Nest* nest)
 {
-	std::cout << "started NWanderState" << std::endl;
+	nest->setMoving(true);
 }
 
 void NWanderState::update(Nest* nest)
 {
-	std::cout << "update NWanderState" << std::endl;
+	if (nest->checkIfReachedTarget())
+	{
+		nest->getWanderTarget();
+	}
+	if (nest->playerInRange())
+	{
+		nest->changeState(NEvadeState::getInstance());
+	}
 }
 
 void NWanderState::end(Nest* nest)
 {
-	std::cout << "end NWanderState" << std::endl;
+	nest->setMoving(false);
 }
+
 //-----------------------------------------------------------------------------
 void NEvadeState::start(Nest* nest)
 {
-	std::cout << "started Evade" << std::endl;
+	nest->setMoving(true);
 }
 
 void NEvadeState::update(Nest* nest)
 {
-	std::cout << "update Evade" << std::endl;
+	nest->evade();
+	if (nest->playerInRange() == false)
+	{
+		nest->changeState(NWanderState::getInstance());
+	}
+	nest->fire();
 }
 
 void NEvadeState::end(Nest* nest)
 {
-	std::cout << "end Evade" << std::endl;
+	nest->setMoving(false);
+	nest->setTargetPos(nest->getPosition());
 }

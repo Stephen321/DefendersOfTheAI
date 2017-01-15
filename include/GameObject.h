@@ -1,5 +1,8 @@
 #pragma once
 
+#define _USE_MATH_DEFINES
+#include <math.h>
+
 #include <iostream> //debug purposes
 #include "Helpers.h"
 #include "GameData.h"
@@ -10,9 +13,10 @@ public:
 	enum class Type {
 		Player,
 		Nest,
-		Laser
+		Laser,
+		Missile
 	};
-	GameObject(Type type, const sf::Vector2f& startPos);
+	GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void update(float dt);
 	sf::Vector2f getPosition() const;
@@ -27,6 +31,7 @@ protected:
 	void setOrigin();
 	void move(float dt);
 
+	sf::Vector2f m_worldSize;
 	bool m_active;
 	bool m_moving;
 	const float MIN_VEL = 2.5f;

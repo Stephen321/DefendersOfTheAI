@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2f& startPos)
-	: GameObject(Type::Player, startPos)
+Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
+	: GameObject(Type::Player, startPos, worldSize)
 	, m_reloadTimer(0.f)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
@@ -93,7 +93,7 @@ void Player::checkInput()
 		m_dir.y = 1.f;
 		m_moving = true;
 	}
-	m_dir = Helpers::normalise(m_dir);
+	Helpers::normalise(m_dir);
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
 	{

@@ -1,7 +1,8 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Type type, const sf::Vector2f& startPos)
-	: m_moving(false)
+GameObject::GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
+	: m_worldSize(worldSize)
+	, m_moving(false)
 	, m_type(type)
 	, m_position(sf::Vector2f(startPos.x, startPos.y))
 	, m_forceAmount(0.f)
@@ -102,13 +103,12 @@ void GameObject::move(float dt)
 		}
 	}
 
-
 	m_acceleration = (force * m_dir) + linearDrag; //a = F/m
 	m_velocity += m_acceleration * dt; //v = u + at
 
 	if (Helpers::getLength(m_velocity) >= m_maxVelocity)
 	{ 
-		m_velocity = Helpers::normalise(m_velocity) * m_maxVelocity;
+		m_velocity = Helpers::normaliseCopy(m_velocity) * m_maxVelocity;
 	}
 
 

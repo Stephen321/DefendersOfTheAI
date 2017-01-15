@@ -172,6 +172,7 @@
     <ClInclude Include="include\Laser.h" />
     <ClInclude Include="include\Layer.h" />
     <ClInclude Include="include\MenuScreen.h" />
+    <ClInclude Include="include\Missile.h" />
     <ClInclude Include="include\Nest.h" />
     <ClInclude Include="include\NestStates.h" />
     <ClInclude Include="include\Player.h" />
@@ -184,6 +185,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FSM.cpp" />
+    <ClCompile Include="src\Missile.cpp" />
     <ClCompile Include="src\Nest.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

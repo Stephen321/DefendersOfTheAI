@@ -15,14 +15,14 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::FloatRect bounds(0.f, 0.f, view.getSize().x, view.getSize().y);
 
 
-	sf::Vector2u worldSize(windowSize.x * 9u, windowSize.y); //TODO: 9 is 9 screen widths, put in constant
+	sf::Vector2f worldSize(windowSize.x * 9.f, windowSize.y); //TODO: 9 is 9 screen widths, put in constant
 
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 
-	std::shared_ptr<Player> player = std::make_shared<Player>(Player(sf::Vector2f(worldSize.x * 0.5f, worldSize.y * 0.5f)));
+	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f), worldSize));
 	m_gameObjects.push_back(player);
-	m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(100.f, worldSize.y * 0.1f))));
-	m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f))));
+	m_gameObjects.push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player)));
+	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
 	
 
 	Background background(bounds, player, m_gameObjects);
@@ -97,7 +97,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 		window.clear(sf::Color(96, 23, 54));
 		window.draw(background);
-		for (std::shared_ptr<GameObject>& go : m_gameObjects)
+		for (const std::shared_ptr<GameObject>& go : m_gameObjects)
 		{
 			window.draw(*go);
 		}

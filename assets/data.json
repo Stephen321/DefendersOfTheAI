@@ -9,14 +9,20 @@
 		},
 		"nest": {
 			"texture_path": "ai/square.png",
-			"force": 800,
+			"force": 1500,
 			"drag_coefficent": 0.9,
-			"max_velocity": 800
+			"max_velocity": 200
 		},
 		"laser": {
 			"texture_path": "laser.png",
 			"force": 0,
 			"drag_coefficent": 0,
+			"max_velocity": 1600
+		},
+		"missile": {
+			"texture_path": "missile.png",
+			"force": 800,
+			"drag_coefficent": 10,
 			"max_velocity": 1600
 		}
 	}
