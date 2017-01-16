@@ -5,7 +5,7 @@ void NWanderState::start(Nest* nest)
 	nest->setMoving(true);
 }
 
-void NWanderState::update(Nest* nest)
+void NWanderState::update(Nest* nest, float dt)
 {
 	if (nest->checkIfReachedTarget())
 	{
@@ -28,7 +28,7 @@ void NEvadeState::start(Nest* nest)
 	nest->setMoving(true);
 }
 
-void NEvadeState::update(Nest* nest)
+void NEvadeState::update(Nest* nest, float dt)
 {
 	nest->evade();
 	if (nest->playerInRange() == false)

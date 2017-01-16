@@ -4,7 +4,7 @@
 Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player)
 	: AI(Type::Nest, startPos, worldSize)
 	, m_targetPos(m_position)
-	, LOWEST_DISTANCE(worldSize.y * 0.75f)
+	, LOWEST_DISTANCE(worldSize.y * 0.65f)
 	, m_wanderOrientation(atan2(m_dir.y, m_dir.x))
 	, m_player(player)
 {
@@ -81,7 +81,7 @@ void Nest::getWanderTarget(float offsetScale)
 	m_wanderOrientation += change;
 
 	float currentOrientation = atan2(m_dir.y, m_dir.x);
-	std::cout << "currentOrientation: " << currentOrientation << std::endl;
+	//std::cout << "currentOrientation: " << currentOrientation << std::endl;
 
 	float targetOrientation = m_wanderOrientation + currentOrientation;
 
@@ -91,7 +91,7 @@ void Nest::getWanderTarget(float offsetScale)
 	sf::Vector2f targetDir;
 	targetDir.x = cos(targetOrientation);
 	targetDir.y = sin(targetOrientation);
-	std::cout << "targetOrientation: " << targetOrientation << std::endl;
+	//std::cout << "targetOrientation: " << targetOrientation << std::endl;
 
 	m_targetPos += WANDER_RADIUS * targetDir;
 	testCircle2.setPosition(m_targetPos);

@@ -25,18 +25,12 @@ int GameScreen::run(sf::RenderWindow &window)
 	m_gameObjects.push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player)));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
 	
-	std::vector<Abductor> testAbductors;
-	sf::Vector2f testStart(100, 100);
-	testAbductors.push_back(Abductor(testStart, worldSize, false));
-	testStart.x += 100.f;
-	testAbductors.push_back(Abductor(testStart, worldSize, false));
-	testStart.x += 100.f;
-	testAbductors.push_back(Abductor(testStart, worldSize, false));
-	testStart.x += 100.f;
-	testAbductors.push_back(Abductor(testStart, worldSize, false));
-	testStart.x += 100.f;
-	testAbductors.push_back(Abductor(testStart, worldSize, false));
-	testStart.x += 100.f;
+	std::vector<std::shared_ptr<Abductor>> testAbductors;
+	sf::Vector2f testStart(100, 300);
+	for (int i = 0; i < 50; i++)
+	{
+		testAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(testStart, worldSize, testAbductors)));
+	}
 
 	Background background(bounds, player, m_gameObjects);
 
@@ -78,6 +72,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 			if (Event.type == sf::Event::MouseButtonReleased)
 			{
+				testAbductors[rand() % testAbductors.size()]->setVelocity(sf::Vector2f(Helpers::randomNumberF(-0.03, 0.03f), Helpers::randomNumberF(-0.03, 0.03f)));
 				if (Event.mouseButton.button == sf::Mouse::Button::Right)
 					view.reset(sf::FloatRect(0.f, 0.f, (float)window.getSize().x, (float)window.getSize().y));
 			}
@@ -117,8 +112,8 @@ int GameScreen::run(sf::RenderWindow &window)
 
 		for (int i = 0; i < testAbductors.size(); i++)
 		{
-			testAbductors[i].run(dt, testAbductors);
-			window.draw(testAbductors[i]);
+			testAbductors[i]->update(dt);
+			window.draw(*testAbductors[i]);
 		}
 
 

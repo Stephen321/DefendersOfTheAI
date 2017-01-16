@@ -40,9 +40,6 @@
     <ClCompile Include="src\Nest.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\FSM.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\NestStates.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -50,6 +47,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Abductor.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AbductorStates.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -121,6 +121,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Abductor.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AbductorStates.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

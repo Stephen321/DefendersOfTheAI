@@ -5,7 +5,7 @@ class State
 {
 public:
 	virtual void start(T*) = 0;
-	virtual void update(T*) = 0;
+	virtual void update(T*, float) = 0;
 	virtual void end(T*) = 0;
 	virtual ~State() = default;
 	State(State const&) = delete;             // Copy construct

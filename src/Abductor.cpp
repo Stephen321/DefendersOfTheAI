@@ -3,126 +3,64 @@
 #include "SFML/Graphics.hpp"
 #include "Abductor.h"
 
-
-
-void limit(sf::Vector2f& v, float max)
-{
-	if (Helpers::getLength(v) > max)
-	{
-		v = Helpers::normaliseCopy(v) * max;
-	}
-}
-
-Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, bool predCheck)
+Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::vector<std::shared_ptr<Abductor>>& abductors)
 	: AI(Type::Abductor, startPos, worldSize)
+	, m_abductors(abductors)
+	, LOWEST_DISTANCE(worldSize.y * 0.65f)
 {
-	predator = predCheck;
-	if (predCheck == true) {
-		maxSpeed = 7.5;
-		maxForce = 0.5;
-		velocity = sf::Vector2f(rand() % 3 - 1, rand() % 3 - 1);
-	}
-	else {
-		maxSpeed = 3.5;
-		maxForce = 0.5;
-		velocity = sf::Vector2f(rand() % 3 - 2, rand() % 3 - 2); // Allows for range of -2 -> 2
-	}
-	acceleration = sf::Vector2f(0, 0);
-	location = startPos;
-}
-
-// =============================================== //
-// ======== Abductor Functions from Abductor.h =========== //
-// =============================================== //
-
-// Adds force sf::Vector2f to current force sf::Vector2f
-void Abductor::applyForce(sf::Vector2f force)
-{
-	acceleration += force;
+	m_velocity = sf::Vector2f(Helpers::randomNumberF(-2, 2), Helpers::randomNumberF(-2, 2)); // Allows for range of -2 -> 2
+	m_fsm.init(this);
+	m_fsm.changeState(AFlockState::getInstance());
 }
 
 // Function that checks and modifies the distance
 // of a Abductor if it breaks the law of separation.
-sf::Vector2f Abductor::Separation(const std::vector<Abductor>& Abductors)
+sf::Vector2f Abductor::separation()
 {
-	// If the Abductor we're looking at is a predator, do not run the separation
-	// algorithm
-	
-	// Distance of field of vision for separation between Abductors
-	float desiredseparation = 100;
-
 	sf::Vector2f steer(0, 0);
 	int count = 0;
 	// For every Abductor in the system, check if it's too close
-	for (int i = 0; i < Abductors.size(); i++)
+	for (int i = 0; i < m_abductors.size(); i++)
 	{
 		// Calculate distance from current Abductor to Abductor we're looking at
-		float d = Helpers::getLength(location - Abductors[i].location);
+		float d = Helpers::getLength(m_position - m_abductors[i]->getPosition());
 		// If this is a fellow Abductor and it's too close, move away from it
-		if ((d > 0) && (d < desiredseparation))
+		if (d > 0 && d < DESIRED_SEPARATION)
 		{
-			sf::Vector2f diff(0,0);
-			diff = location - Abductors[i].location;
+			sf::Vector2f diff = m_position - m_abductors[i]->getPosition();
 			Helpers::normalise(diff);
-			diff /= d;      // Weight by distance
+			diff /= d;      // Weight by distance. Further away doesnt influence as much
 			steer += diff;
 			count++;
 		}
-		// If current Abductor is a predator and the Abductor we're looking at is also
-		// a predator, then separate only slightly 
-		if ((d > 0) && (d < desiredseparation) && predator == true && Abductors[i].predator == true)
-		{
-			sf::Vector2f pred2pred(0, 0);
-			pred2pred = location - Abductors[i].location;
-			Helpers::normalise(pred2pred);
-			pred2pred /= d;
-			steer += pred2pred;
-			count++;
-		} 
-		// If current Abductor is not a predator, but the Abductor we're looking at is
-		// a predator, then create a large separation sf::Vector2f
-		else if ((d > 0) && (d < desiredseparation+70) && Abductors[i].predator == true)
-		{
-			sf::Vector2f pred(0, 0);
-			pred = location - Abductors[i].location;
-			pred *= 900.f;
-			steer += pred;
-			count++;
-		}
 	}
-	// Adds average difference of location to acceleration
+	// Adds average difference of m_position to m_acceleration
 	if (count > 0)
 		steer /= (float)count;
 	if (Helpers::getLength(steer) > 0) 
 	{
 		// Steering = Desired - Velocity
 		Helpers::normalise(steer);
-		steer *= maxSpeed;
-		steer -= velocity;
-		limit(steer, maxForce);
+		steer *= m_maxVelocity;
+		steer -= m_velocity;
+		Helpers::limit(steer, m_forceAmount);
 	}
-	return steer;
+	return steer * SEPERATION_WEIGHT;
 }
 
 // Alignment calculates the average velocity in the field of view and 
 // manipulates the velocity of the Abductor passed as parameter to adjust to that
 // of nearby Abductors.
-sf::Vector2f Abductor::Alignment(const std::vector<Abductor>& Abductors)
+sf::Vector2f Abductor::alignment()
 {
-	// If the Abductor we're looking at is a predator, do not run the alignment
-	// algorithm
-	//if (predator == true)
-	//	return sf::Vector2f(0,0);
-	float neighbordist = 500;
-
 	sf::Vector2f sum(0, 0);	
 	int count = 0;
-	for (int i = 0; i < Abductors.size(); i++)
+	for (int i = 0; i < m_abductors.size(); i++)
 	{
-		float d = Helpers::getLength(location - Abductors[i].location);
-		if ((d > 0) && (d < neighbordist)) // 0 < d < 50
+		float d = Helpers::getLength(m_position - m_abductors[i]->getPosition());
+		if (d > 0 && d < NEIGHBOUR_RADIUS)
 		{
-			sum += Abductors[i].velocity;
+			sum += m_abductors[i]->getVelocity();
 			count++;
 		}
 	}
@@ -131,47 +69,39 @@ sf::Vector2f Abductor::Alignment(const std::vector<Abductor>& Abductors)
 	{
 		sum /= (float)count;// Divide sum by the number of close Abductors (average of velocity)
 		Helpers::normalise(sum);	   		// Turn sum into a unit vector, and
-		sum *= maxSpeed;    // Multiply by maxSpeed
+		sum *= m_maxVelocity;    // Multiply by maxSpeed
 		// Steer = Desired - Velocity
 		sf::Vector2f steer; 
-		steer = sum - velocity; //sum = desired(average)  
-		limit(steer, maxForce);
-		return steer;
+		steer = sum - m_velocity; //sum = desired(average)  
+		Helpers::limit(steer, m_forceAmount);
+		return steer * ALIGNMENT_WEIGHT;
 	} else {
 		sf::Vector2f temp(0, 0);
 		return temp;
 	}
 }
 
-// Cohesion finds the average location of nearby Abductors and manipulates the 
+// Cohesion finds the average m_position of nearby Abductors and manipulates the 
 // steering force to move in that direction.
-sf::Vector2f Abductor::Cohesion(const std::vector<Abductor>& Abductors)
+sf::Vector2f Abductor::cohesion()
 {
-	// If the Abductor we're looking at is a predator, do not run the cohesion
-	// algorithm
-	//if (predator == true)
-	//	return sf::Vector2f(0,0);
-
-	float neighbordist = 500;
-
 	sf::Vector2f sum(0, 0);	
 	int count = 0;
-	for (int i = 0; i < Abductors.size(); i++)
+	for (int i = 0; i < m_abductors.size(); i++)
 	{
-		float d = Helpers::getLength(location - Abductors[i].location);
-		if ((d > 0) && (d < neighbordist))
+		float d = Helpers::getLength(m_position - m_abductors[i]->getPosition());
+		if (d > 0 && d < NEIGHBOUR_RADIUS)
 		{
-			sum += Abductors[i].location;
+			sum += m_abductors[i]->getPosition();
 			count++;
 		}
 	}
 	if (count > 0)
 	{
 		sum /= (float)count;
-		return seek(sum);
+		return seek(sum) * COHESION_WEIGHT;
 	} else {
-		sf::Vector2f temp(0,0);
-		return temp;
+		return sf::Vector2f();
 	}
 }
 
@@ -179,92 +109,74 @@ sf::Vector2f Abductor::Cohesion(const std::vector<Abductor>& Abductors)
 // normalizes the vectors.
 sf::Vector2f Abductor::seek(const sf::Vector2f& v)
 {
-	sf::Vector2f desired;
-	desired -= v;  // A vector pointing from the location to the target
+	sf::Vector2f desired = v - m_position;  // A vector pointing from the m_position to the target
 	// Normalize desired and scale to maximum speed
 	Helpers::normalise(desired);
-	desired *= maxSpeed;
+	desired *= m_maxVelocity;
 	// Steering = Desired minus Velocity
-	acceleration = desired - velocity;
-	limit(acceleration, maxForce);  // Limit to maximum steering force
-	return acceleration;
+	sf::Vector2f steer;
+	steer = desired - m_velocity;
+	Helpers::limit(steer, m_forceAmount);  // Limit to maximum steering force
+	return steer;
 }
 
-//Update modifies velocity, location, and resets acceleration with values that
+//Update modifies velocity, m_position, and resets m_acceleration with values that
 //are given by the three laws.
 void Abductor::update(float dt)
 {
-	//To make the slow down not as abrupt
-	acceleration *= 0.4f;
-	// Update velocity
-	velocity += acceleration;
-	// Limit speed
-	limit(velocity, maxSpeed);
-	location += velocity * dt;
-	// Reset accelertion to 0 each cycle
-	acceleration *= 0.f;
+	m_fsm.update(dt);				
+}
 
-	m_position = location;
+void Abductor::setAcceleration(const sf::Vector2f & acceleration)
+{
+	m_acceleration = acceleration;
+}
+
+void Abductor::checkBounds()
+{
+	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
+	if (m_position.y < halfHeight || m_position.y > LOWEST_DISTANCE - halfHeight)
+	{
+		m_velocity.y = -m_velocity.y * 0.9f;
+	}
+}
+
+void Abductor::move(float dt)
+{
+	m_velocity += m_acceleration  * dt; //v = u + at
+	Helpers::limit(m_velocity, m_maxVelocity);
+	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
 	m_sprite.setPosition(m_position);
+	m_sprite.setRotation(angle(m_velocity));
 }
 
-//Run runs flock on the flock of Abductors for each Abductor.
-//Which applies the three rules, modifies accordingly, updates data, checks is data is
-//out of range, fixes that for SFML, and renders it on the window.
-void Abductor::run(float dt, const std::vector<Abductor>& v)
+int Abductor::getNeighbourCount() const
 {
-	flock(v);
-	update(dt);
+	int count = 0;
+	for (int i = 0; i < m_abductors.size(); i++)
+	{
+		float d = Helpers::getLength(m_position - m_abductors[i]->getPosition());
+		if (d > 0 && d < NEIGHBOUR_RADIUS)
+		{
+			count++;
+		}
+	}
+	return count;
 }
 
-//Applies all three laws for the flock of Abductors and modifies to keep them from
-//breaking the laws.
-void Abductor::flock(const std::vector<Abductor>& v) 
+void Abductor::patrolMove(float dt)
 {
-	sf::Vector2f sep = Separation(v);
-	sf::Vector2f ali = Alignment(v);
-	sf::Vector2f coh = Cohesion(v);
-	// Arbitrarily weight these forces
-	sep *= 1.5f;
-	ali *= 1.0f; // Might need to alter weights for different characteristics
-	coh *= 1.0f;
-	// Add the force vectors to acceleration
-	applyForce(sep);
-	applyForce(ali);
-	applyForce(coh);
+	m_acceleration = (m_forceAmount * m_dir); //a = F/m
+	m_velocity += m_acceleration * dt; //v = u + at
+	m_position.x = m_velocity.x;
+	m_position.y += -(float)cos(m_position.x / 100) + m_worldSize.y * 0.5f;
 }
 
 // Calculates the angle for the velocity of a Abductor which allows the visual 
 // image to rotate in the direction that it is going in.
-float Abductor::angle(sf::Vector2f v)
+float Abductor::angle(const sf::Vector2f& v)
 {
 	// From the definition of the dot product
-	float angle = (float)(atan2(v.x, -v.y) * 180 / M_PI);
+	float angle = (float)(atan2(v.x, -v.y) * 180.f / M_PI);
 	return angle;
-}
-
-void Abductor::swarm(const std::vector<Abductor>& v)
-{
-	sf::Vector2f sum(0, 0);
-	for (int i = 0; i < v.size(); i++)
-	{
-		if (this != &v[i]) 
-		{
-			float A = 0.2f;
-			float N = 0.3f;
-			float B = 0.3f;
-			float M = 0.4f;
-
-			sf::Vector2f	R;
-			R = location - v[i].location;
-			float D = Helpers::getLength(R);
-			float U = (-A / pow(D, N)) + (B / pow(D, M));
-			Helpers::normalise(R);
-			R *= U;
-
-			sum += R;
-		}
-	}
-	applyForce(sum);
-	update(1.f);
 }

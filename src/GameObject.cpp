@@ -49,6 +49,11 @@ sf::Vector2f GameObject::getVelocity() const
 	return m_velocity;
 }
 
+void GameObject::setVelocity(const sf::Vector2f & v)
+{
+	m_velocity = v;
+}
+
 void GameObject::moveBy(float dx, float dy)
 {
 	m_position.x += dx;
@@ -83,28 +88,22 @@ void GameObject::move(float dt)
 {
 	sf::Vector2f linearDrag;
 	float force = (m_moving) ? m_forceAmount : 0.f;
+	sf::Vector2f acceleration;
 	if (m_moving == false)
 	{
-		if (abs(m_velocity.x) > MIN_VEL)
-		{
-			linearDrag.x = m_dragCoefficent * -m_velocity.x;
-		}
-		else
+		acceleration = calculateLinearDrag();
+
+		if (m_velocity.x <= MIN_VEL)
 		{
 			m_velocity.x = 0.f;
 		}
-		if (abs(m_velocity.y) > MIN_VEL)
-		{
-			linearDrag.y = m_dragCoefficent * -m_velocity.y;
-		}
-		else
+		if (m_velocity.y <= MIN_VEL)
 		{
 			m_velocity.y = 0.f;
 		}
 	}
-
-	m_acceleration = (force * m_dir) + linearDrag; //a = F/m
-	m_velocity += m_acceleration * dt; //v = u + at
+	acceleration += (force * m_dir); //a = F/m
+	m_velocity += acceleration * dt; //v = u + at
 
 	if (Helpers::getLength(m_velocity) >= m_maxVelocity)
 	{ 
@@ -112,5 +111,19 @@ void GameObject::move(float dt)
 	}
 
 
-	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
+	m_position += m_velocity * dt + (0.5f * (acceleration * (dt * dt))); // s = ut + 0.5at^2
+}
+
+sf::Vector2f GameObject::calculateLinearDrag()
+{
+	sf::Vector2f linearDrag;
+	if (abs(m_velocity.x) > MIN_VEL)
+	{
+		linearDrag.x = m_dragCoefficent * -m_velocity.x;
+	}
+	if (abs(m_velocity.y) > MIN_VEL)
+	{
+		linearDrag.y = m_dragCoefficent * -m_velocity.y;
+	}
+	return linearDrag;
 }

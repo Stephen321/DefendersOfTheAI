@@ -23,14 +23,16 @@ public:
 	sf::Vector2f getPosition() const;
 	void setPosition(const sf::Vector2f& v);
 	sf::Vector2f getVelocity() const;
+	void setVelocity(const sf::Vector2f& v);
 	void moveBy(float dx, float dy);
 	virtual void teleport(float offset, int section, float width);
 	Type getType() const;
 	bool getActive() const;
+	virtual void move(float dt);
 
 protected:
 	void setOrigin();
-	void move(float dt);
+	sf::Vector2f calculateLinearDrag();
 
 	sf::Vector2f m_worldSize;
 	bool m_active;
@@ -38,7 +40,6 @@ protected:
 	const float MIN_VEL = 2.5f;
 	Type m_type;
 	sf::Sprite m_sprite;
-	sf::Vector2f m_acceleration;
 	sf::Vector2f m_dir;
 	sf::Vector2f m_position;
 	sf::Vector2f m_velocity;

@@ -15,13 +15,13 @@ public:
 		m_forceAmount = props.forceAmount;
 		m_dragCoefficent = props.dragCoefficent;
 		m_maxVelocity = props.maxVelocity;
-		m_dir.x = -1.f;
+		m_dir.x = 1.f;
 		setOrigin();
 	}
 
 	void update(float dt) override
 	{
-		m_fsm.update();
+		m_fsm.update(dt);
 		GameObject::update(dt);
 	}
 
