@@ -5,7 +5,9 @@ Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
 	, m_reloadTimer(0.f)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
+	props.texture.setSmooth(true);
 	m_sprite.setTexture(props.texture);
+	//m_sprite.setScale(sf::Vector2f(0.5,0.5));
 	m_forceAmount = props.forceAmount;
 	m_dragCoefficent = props.dragCoefficent;
 	m_maxVelocity = props.maxVelocity;

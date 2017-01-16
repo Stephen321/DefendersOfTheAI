@@ -11,6 +11,7 @@ public:
 	void update(float dt);
 	void calculateSurfacePoints(const sf::Vector2f& screenSize);
 	void createSurface(const sf::Vector2f& screenSize, int screenUnit);
+	std::vector<sf::Vector2i> getSurfacePath() const;
 
 private:
 	const int LAYERS = 1;
