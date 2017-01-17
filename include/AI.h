@@ -39,6 +39,17 @@ public:
 	{
 		m_moving = moving;
 	}
+
+	void checkWorldBounds() override
+	{
+		GameObject::checkWorldBounds();
+		float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
+		if (m_position.y > LOWEST_DISTANCE - halfHeight)
+		{
+			m_position.y = LOWEST_DISTANCE - halfHeight;
+			m_velocity.y = 0.f;
+		}
+	}
 protected:
 	const float LOWEST_DISTANCE;
 	FSM<T> m_fsm;

@@ -73,7 +73,7 @@ bool Nest::checkIfReachedTarget()
 	return reachedTarget;
 }
 
-void Nest::getWanderTarget(float offsetScale)
+void Nest::getWanderTarget()
 {
 	float change = (rand() % 2 == 0) ? ANGLE_CHANGE : -ANGLE_CHANGE;
 	change = change * (M_PI / 180.f);
@@ -84,7 +84,7 @@ void Nest::getWanderTarget(float offsetScale)
 
 	float targetOrientation = m_wanderOrientation + currentOrientation;
 
-	m_targetPos = m_position + (offsetScale * WANDER_OFFSET * m_dir);
+	m_targetPos = m_position + (WANDER_OFFSET * m_dir);
 	testCircle.setPosition(m_targetPos);
 
 	sf::Vector2f targetDir;
@@ -93,40 +93,45 @@ void Nest::getWanderTarget(float offsetScale)
 	//std::cout << "targetOrientation: " << targetOrientation << std::endl;
 
 	m_targetPos += WANDER_RADIUS * targetDir;
-	testCircle2.setPosition(m_targetPos);
-	testCircle3.setPosition(m_targetPos);
-	m_dir = Helpers::normaliseCopy(m_targetPos - m_position); // direction might have changed if target did
 
 
 	if (m_targetPos.y < 0.f)
 	{
-		m_dir.y = -m_dir.y;
+		m_targetPos += 1.5f * (abs(m_targetPos.y) + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, 1.f);
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
-		getWanderTarget(0.5f);
+		m_wanderOrientation = 0.f;
 	}
 	else if (m_targetPos.y > LOWEST_DISTANCE)
 	{
-		m_dir.y = -m_dir.y;
+		m_targetPos += 1.5f * (m_targetPos.y - LOWEST_DISTANCE + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, -1.f);
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
-		getWanderTarget(0.5f);
+		m_wanderOrientation = 0.f;
 	}
-	//TODOWRAP: make sure this goes to next screen and calc will make it go shortest distance
 	if (m_targetPos.x < 0.f)
 	{
-		m_dir.x = -m_dir.x;
+		m_targetPos.x = m_worldSize.x - abs(m_targetPos.x);
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
-		getWanderTarget(0.5f);
+		m_wanderOrientation = 0.f;
 	}
 	else if (m_targetPos.x > m_worldSize.x)
 	{
-		m_dir.x = -m_dir.x;
+		m_targetPos.x = m_worldSize.x - m_targetPos.x;
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
-		getWanderTarget(0.5f);
+		m_wanderOrientation = 0.f;
 	}
+	testCircle2.setPosition(m_targetPos);
+	testCircle3.setPosition(m_targetPos);
+	m_dir = Helpers::normaliseCopy(m_targetPos - m_position); // direction might have changed if target did
+	////check is it better to wrap around to reach target
+	//float distanceWithWrap = m_position.x + abs(m_worldSize.x - m_targetPos.x);
+	//if (distanceWithWrap < m_targetPos.x - m_position.x)
+	//{
+	//	m_dir.x = -m_dir.x;
+	//}
 }
 
 bool Nest::playerInRange() const

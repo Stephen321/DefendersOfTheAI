@@ -11,7 +11,7 @@ public:
 	void update(float dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	bool checkIfReachedTarget();
-	void getWanderTarget(float offsetScale = 1.f);
+	void getWanderTarget();
 	bool playerInRange() const;
 	void evade();
 	void fire();

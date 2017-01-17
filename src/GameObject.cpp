@@ -81,11 +81,11 @@ void GameObject::move(float dt)
 	{
 		acceleration = calculateLinearDrag();
 
-		if (m_velocity.x <= MIN_VEL)
+		if (abs(m_velocity.x) <= MIN_VEL)
 		{
 			m_velocity.x = 0.f;
 		}
-		if (m_velocity.y <= MIN_VEL)
+		if (abs(m_velocity.y) <= MIN_VEL)
 		{
 			m_velocity.y = 0.f;
 		}
@@ -115,8 +115,14 @@ void GameObject::checkWorldBounds()
 {
 	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
 	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
-	if (m_position.y < halfHeight || m_position.y > m_worldSize.y - halfHeight)
+	if (m_position.y < halfHeight)
 	{
+		m_position.y = halfHeight;
+		m_velocity.y = 0.f;
+	}		
+	else if (m_position.y > m_worldSize.y - halfHeight)
+	{
+		m_position.y = m_worldSize.y - halfHeight;
 		m_velocity.y = 0.f;
 	}
 	if (m_position.x < -halfWidth)
