@@ -5,6 +5,7 @@
 #include "Nest.h"
 #include "Background.h"
 #include "GameLoader.h"
+#include "Meteor.h"
 
 class GameScreen : public Screen
 {

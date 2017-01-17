@@ -49,6 +49,9 @@
     <ClCompile Include="src\Missile.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Meteor.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Background.h">
@@ -115,6 +118,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Missile.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Meteor.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

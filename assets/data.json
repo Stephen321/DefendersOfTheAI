@@ -24,6 +24,12 @@
 			"force": 800,
 			"drag_coefficent": 10,
 			"max_velocity": 1600
+		},
+		"meteor": {
+			"texture_path": "meteor.png",
+			"force": 800,
+			"drag_coefficent": 0,
+			"max_velocity": 1600
 		}
 	}
 }

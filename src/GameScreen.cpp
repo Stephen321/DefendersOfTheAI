@@ -20,13 +20,17 @@ int GameScreen::run(sf::RenderWindow &window)
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 
 	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f), worldSize));
+
+
+	
+
 	m_gameObjects.push_back(player);
 	m_gameObjects.push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player)));
+	m_gameObjects.push_back(std::shared_ptr<Meteor>(new Meteor(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize)));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
 	
 
 	Background background(bounds, player, m_gameObjects);
-
 
 	//debug
 	bool pause = false;
