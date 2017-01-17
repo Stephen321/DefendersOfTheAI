@@ -9,6 +9,7 @@ public: //TODO: use pursue steering to aim at player (make Pursue/Flee/Seek/Evad
 	void update(float dt) override;
 	void checkWorldBounds() override;
 private:
+	const float VEL_DROP_STOP_SCALE = 0.4f;
 	const float DROP_DIST = 50.f;
 	const float TTL = 10.f;
 	const float MIN_Y_VEL = 10.f;

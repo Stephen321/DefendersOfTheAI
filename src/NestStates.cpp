@@ -17,6 +17,7 @@ void NWanderState::update(Nest* nest, float dt)
 	{
 		nest->changeState(NEvadeState::getInstance());
 	}
+	nest->fire(dt);
 }
 
 void NWanderState::end(Nest* nest)

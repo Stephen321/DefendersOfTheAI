@@ -61,34 +61,23 @@ void Nest::getWanderTarget()
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 	}
-	bool wrappedEnd = false;
+	m_dir = Helpers::normaliseCopy(m_targetPos - m_position);
 	if (m_targetPos.x < 0.f)
 	{
+		m_dir = Helpers::normaliseCopy(m_targetPos - m_position);
 		m_targetPos.x = m_worldSize.x - abs(m_targetPos.x);
 	}
 	else if (m_targetPos.x > m_worldSize.x)
 	{
-		wrappedEnd = true;
+		m_dir = Helpers::normaliseCopy(m_targetPos - m_position);
 		m_targetPos.x = m_targetPos.x - m_worldSize.x;
-	}
-
-	m_dir = Helpers::normaliseCopy(m_targetPos - m_position); // direction might have changed if target did
-	//check is it better to wrap around to reach target
-	float distanceWithWrap = m_position.x + abs(m_worldSize.x - m_targetPos.x);
-	if (distanceWithWrap < m_targetPos.x - m_position.x)
-	{
-		m_dir = Helpers::normaliseCopy(sf::Vector2f(m_position.x - distanceWithWrap, m_targetPos.y) - m_position);
-	}
-	else if (wrappedEnd)
-	{
-		m_dir = Helpers::normaliseCopy(sf::Vector2f(m_targetPos.x + m_worldSize.x, m_targetPos.y) - m_position);
 	}
 }
 
 bool Nest::playerInRange() const
 {
 	bool inRange = false;
-	if (Helpers::getLength(m_player->getPosition() - m_position) <= PLAYER_IN_RANGE)
+	if (Helpers::getLength(m_player->getPosition() - m_position) <= PLAYER_EVADE_RANGE)
 	{
 		inRange = true;
 	}
@@ -101,9 +90,10 @@ void Nest::fire(float dt)
 	m_reloadTimer += dt;
 	if (m_reloadTimer < RELOAD_TIME)
 		return;
-	m_reloadTimer = 0.f;
-	if (m_missilesAlive < MAX_MISSILES_ALIVE)
+	if ((Helpers::getLength(m_player->getPosition() - m_position)) < PLAYER_MISSILE_RANGE
+		&& m_missilesAlive < MAX_MISSILES_ALIVE)
 	{
+		m_reloadTimer = 0.f;
 		m_missilesAlive++;
 		sf::Vector2f startPos(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f));
 		m_gameProjectiles.push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, m_playerPos, m_missilesAlive)));

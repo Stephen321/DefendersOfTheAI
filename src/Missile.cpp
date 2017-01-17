@@ -17,7 +17,7 @@ Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf
 
 	m_dir = sf::Vector2f(0, 1);
 	m_position += ((m_sprite.getGlobalBounds().width * 0.5f) * m_dir);
-	m_velocity = m_dir * m_maxVelocity * 0.25f;
+	m_velocity = m_dir * m_maxVelocity * VEL_DROP_STOP_SCALE;
 	m_moving = true;
 	setOrigin();
 }
@@ -28,7 +28,25 @@ void Missile::update(float dt)
 	{
 		if (m_finishedDropping)
 		{
-			m_dir = Helpers::normaliseCopy(m_target - m_position);
+			sf::Vector2f vectorBetween = m_target - m_position;
+			float distanceToTarget = Helpers::getLength(vectorBetween);
+			m_dir = Helpers::normaliseCopy(vectorBetween);
+
+			float leftrWrapDistanceToTarget = m_position.x + (m_worldSize.x - m_target.x);
+			float rightWrapDistanceToTarget = m_target.x + (m_worldSize.x - m_position.x);			
+
+			//TODO: tidy this up
+			if (leftrWrapDistanceToTarget < distanceToTarget)
+			{//better to wrap aroud to reach target offscreen left
+				vectorBetween = sf::Vector2f(m_position.x - leftrWrapDistanceToTarget, m_target.y) - m_position;
+				m_dir = Helpers::normaliseCopy(vectorBetween);
+			}
+			else if (rightWrapDistanceToTarget < distanceToTarget)
+			{
+				vectorBetween = sf::Vector2f(m_position.x + rightWrapDistanceToTarget, m_target.y) - m_position;
+				m_dir = Helpers::normaliseCopy(vectorBetween);
+			}
+
 			m_liveTimer += dt;
 			if (m_liveTimer > TTL)
 			{
@@ -42,12 +60,11 @@ void Missile::update(float dt)
 			{
 				m_dir.y = 0.f;
 				m_moving = false;
-				if (m_velocity.y < 50.f)
+				if (m_velocity.y < m_maxVelocity * (1.f - VEL_DROP_STOP_SCALE))
 				{
 					m_finishedDropping = true;
 					m_moving = true;
 					m_dir = Helpers::normaliseCopy(m_target - m_position);
-					m_velocity.y = 0.f;
 				}
 			}
 		}
