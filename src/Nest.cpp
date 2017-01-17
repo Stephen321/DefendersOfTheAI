@@ -81,7 +81,7 @@ void Nest::getWanderTarget(float offsetScale)
 	m_wanderOrientation += change;
 
 	float currentOrientation = atan2(m_dir.y, m_dir.x);
-	std::cout << "currentOrientation: " << currentOrientation << std::endl;
+	//std::cout << "currentOrientation: " << currentOrientation << std::endl;
 
 	float targetOrientation = m_wanderOrientation + currentOrientation;
 
@@ -91,7 +91,7 @@ void Nest::getWanderTarget(float offsetScale)
 	sf::Vector2f targetDir;
 	targetDir.x = cos(targetOrientation);
 	targetDir.y = sin(targetOrientation);
-	std::cout << "targetOrientation: " << targetOrientation << std::endl;
+	//std::cout << "targetOrientation: " << targetOrientation << std::endl;
 
 	m_targetPos += WANDER_RADIUS * targetDir;
 	testCircle2.setPosition(m_targetPos);

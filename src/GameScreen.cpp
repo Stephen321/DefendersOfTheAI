@@ -25,8 +25,7 @@ int GameScreen::run(sf::RenderWindow &window)
 	
 
 	m_gameObjects.push_back(player);
-	m_gameObjects.push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player)));
-	m_gameObjects.push_back(std::shared_ptr<Meteor>(new Meteor(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize)));
+	m_gameObjects.push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player)));	
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
 	
 
@@ -95,6 +94,11 @@ int GameScreen::run(sf::RenderWindow &window)
 		view.setCenter(player->getPosition().x , view.getCenter().y);
 		bounds.left = view.getCenter().x - (bounds.width * 0.5f);
 		bounds.top = view.getCenter().y - (bounds.height * 0.5f);
+		
+		if (rand() % 2 == 0)
+			m_gameObjects.push_back(std::shared_ptr<Meteor>(new Meteor(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize)));
+		else
+			m_gameObjects.push_back(std::shared_ptr<Meteor>(new Meteor(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize)));
 
 
 		window.setView(view);
