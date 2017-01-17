@@ -3,6 +3,7 @@
 void AFlockState::start(Abductor* abductor)
 {
 	abductor->setMoving(true);
+	abductor->resetMaxVelocity();
 }
 
 void AFlockState::update(Abductor* abductor, float dt)
@@ -32,16 +33,21 @@ void AFlockState::end(Abductor* abductor)
 void APatrolState::start(Abductor* abductor)
 {
 	abductor->setMoving(true);
+	abductor->setDirection(sf::Vector2f((rand() % 2 == 0) ? -1.f : 1.f, 0.f));
+	abductor->setAcceleration(abductor->getForceAmount() * abductor->getDirection());
+	abductor->setMaxPatrolVelocity();
 }
 
 void APatrolState::update(Abductor* abductor, float dt)
-{
+{ //TODO: this has a fixed speed not set from anywhere (player x moves at max vel * 0.5 and y is sin way
 	int neighbourCount = abductor->getNeighbourCount();
 	if (neighbourCount > 0)
 	{
-		abductor->changeState(AFlockState::getInstance());
+		//abductor->changeState(AFlockState::getInstance());
 	}
-	abductor->patrolMove(dt);
+	abductor->move(dt);
+	abductor->setYPosWave();
+	abductor->checkBounds();
 }
 
 void APatrolState::end(Abductor * abductor)

@@ -98,6 +98,7 @@ void Nest::getWanderTarget(float offsetScale)
 	testCircle3.setPosition(m_targetPos);
 	m_dir = Helpers::normaliseCopy(m_targetPos - m_position); // direction might have changed if target did
 
+
 	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
 	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
 	if (m_targetPos.y < halfHeight)
@@ -114,20 +115,22 @@ void Nest::getWanderTarget(float offsetScale)
 		m_velocity.y = 0.f;
 		getWanderTarget(0.5f);
 	}
-	if (m_targetPos.x < halfWidth)
+	if (m_targetPos.x < -(m_worldSize.x / Constants::WORLD_SCREEN_SIZES) - halfWidth)
 	{
 		m_dir.x = -m_dir.x;
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 		getWanderTarget(0.5f);
 	}
-	else if (m_targetPos.x > m_worldSize.x - halfWidth)
+	else if (m_targetPos.x > m_worldSize.x + (m_worldSize.x / Constants::WORLD_SCREEN_SIZES) + halfWidth)
 	{
 		m_dir.x = -m_dir.x;
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 		getWanderTarget(0.5f);
 	}
+
+
 }
 
 bool Nest::playerInRange() const
@@ -192,13 +195,19 @@ void Nest::evade()
 }
 
 //TODO: way to have this in Character superclass
-void Nest::teleport(float offset, int section, float width)
+bool Nest::teleport(float offset, int section, float width)
 {
 	for (Missile& m : m_missiles)
 	{
 		m.teleport(offset, section, width);
 	}
-	GameObject::teleport(offset, section, width);
+	bool teleported = GameObject::teleport(offset, section, width);
+	if (teleported)
+	{
+		m_targetPos = (sf::Vector2f(m_targetPos.x + offset, m_targetPos.y));
+	}
+	
+	return teleported;
 }
 
 void Nest::draw(sf::RenderTarget & target, sf::RenderStates states) const

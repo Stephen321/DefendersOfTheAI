@@ -4,6 +4,7 @@
 #include <memory>
 #include "Helpers.h"
 #include "GameObject.h"
+#include "Constants.h"
 
 class Layer : public sf::Drawable
 {

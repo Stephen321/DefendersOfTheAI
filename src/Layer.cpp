@@ -162,11 +162,11 @@ void Layer::teleport(int section, int direction, int sectionLocation)
 	sf::Vector2f sectionPos = m_sections[section].sprite.getPosition();
 	int sectionWidth = m_bounds.width;
 
-	m_sections[section].sprite.setPosition(sectionPos.x + sectionWidth  * SECTIONS * direction, sectionPos.y);
+	m_sections[section].sprite.setPosition(sectionPos.x + sectionWidth  * Constants::WORLD_SCREEN_SIZES * direction, sectionPos.y);
 
 	//debug
-	m_sections[section].debugShape.setPosition(sectionPos.x + sectionWidth  * SECTIONS * direction, sectionPos.y);
-	m_sections[section].debugText.setPosition(sectionPos.x + sectionWidth  * SECTIONS * direction, sectionPos.y);
+	m_sections[section].debugShape.setPosition(sectionPos.x + sectionWidth  * Constants::WORLD_SCREEN_SIZES * direction, sectionPos.y);
+	m_sections[section].debugText.setPosition(sectionPos.x + sectionWidth  * Constants::WORLD_SCREEN_SIZES * direction, sectionPos.y);
 
 	//teleport game objects that were in that section
 	for (std::shared_ptr<GameObject>& go : m_gameObjects) //TODO: why is this called 4 times for one wrap around??

@@ -18,11 +18,19 @@ public:
 	void checkBounds();
 	void move(float dt) override;
 	int getNeighbourCount() const;
-	void patrolMove(float dt);
+	void setYPosWave();
+	float getForceAmount() const;
+	void setDirection(const sf::Vector2f& dir);
+	sf::Vector2f getDirection() const;
+	void resetMaxVelocity();
+	void setMaxPatrolVelocity();
 
 private:
+	const float PATROL_MAX_VEL_SCALE = 0.2f;
+	const float START_MAX_VEL;
 	sf::Vector2f m_acceleration;
 	std::vector<std::shared_ptr<Abductor>>& m_abductors;
+	float m_patrolWaveTimer;
 	const float LOWEST_DISTANCE;
 	const float NEIGHBOUR_RADIUS = 400.f;
 	const float DESIRED_SEPARATION = 200.f;

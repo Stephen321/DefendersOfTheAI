@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Layer.h"
 
 class Background : public sf::Drawable
@@ -9,6 +8,5 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 private:
-	const int LAYERS = 1;
 	std::vector<std::unique_ptr<Layer>> m_layers;
 };

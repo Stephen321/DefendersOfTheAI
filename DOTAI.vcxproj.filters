@@ -52,6 +52,9 @@
     <ClCompile Include="src\AbductorStates.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Constants.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Background.h">
@@ -124,6 +127,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\AbductorStates.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Constants.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

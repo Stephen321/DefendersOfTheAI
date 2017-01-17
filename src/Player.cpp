@@ -42,13 +42,13 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
-void Player::teleport(float offset, int section, float width)
+bool Player::teleport(float offset, int section, float width)
 {
 	for (Laser& l : m_lasers)
 	{
 		l.teleport(offset, section, width);
 	}
-	GameObject::teleport(offset, section, width);
+	return GameObject::teleport(offset, section, width);
 }
 
 void Player::fire()

@@ -11,12 +11,10 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::Clock frameClock;
 	int menu = 0;
 
-	sf::Vector2u windowSize = window.getSize();
 	sf::View view = window.getView();
 	sf::FloatRect bounds(0.f, 0.f, view.getSize().x, view.getSize().y);
-
-
-	sf::Vector2f worldSize(windowSize.x * 9.f, windowSize.y); //TODO: 9 is 9 screen widths, put in constant
+	
+	sf::Vector2f worldSize(bounds.width * Constants::WORLD_SCREEN_SIZES, bounds.height); 
 
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 
@@ -27,7 +25,7 @@ int GameScreen::run(sf::RenderWindow &window)
 	
 	std::vector<std::shared_ptr<Abductor>> testAbductors;
 	sf::Vector2f testStart(100, 300);
-	for (int i = 0; i < 50; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		testAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(testStart, worldSize, testAbductors)));
 	}

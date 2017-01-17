@@ -164,6 +164,7 @@
     <ClInclude Include="include\AbductorStates.h" />
     <ClInclude Include="include\AI.h" />
     <ClInclude Include="include\Background.h" />
+    <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\FSM.h" />
     <ClInclude Include="include\GameData.h" />
     <ClInclude Include="include\GameLoader.h" />
@@ -188,6 +189,7 @@
   <ItemGroup>
     <ClCompile Include="src\Abductor.cpp" />
     <ClCompile Include="src\AbductorStates.cpp" />
+    <ClCompile Include="src\Constants.cpp" />
     <ClCompile Include="src\Missile.cpp" />
     <ClCompile Include="src\Nest.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>

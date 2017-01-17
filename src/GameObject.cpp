@@ -61,8 +61,9 @@ void GameObject::moveBy(float dx, float dy)
 	m_sprite.setPosition(m_position);
 }
 
-void GameObject::teleport(float offset, int section, float width)
+bool GameObject::teleport(float offset, int section, float width)
 {
+	bool teleported = false;
 	int location = (int)m_position.x / width; //forced integer division to get number between 0 and max sections
 	if (m_position.x < 0.f)
 	{
@@ -70,8 +71,10 @@ void GameObject::teleport(float offset, int section, float width)
 	}
 	if (location == section)
 	{
+		teleported = true;
 		setPosition(sf::Vector2f(m_position.x + offset, m_position.y));
 	}
+	return teleported;
 }
 
 GameObject::Type GameObject::getType() const
@@ -104,12 +107,7 @@ void GameObject::move(float dt)
 	}
 	acceleration += (force * m_dir); //a = F/m
 	m_velocity += acceleration * dt; //v = u + at
-
-	if (Helpers::getLength(m_velocity) >= m_maxVelocity)
-	{ 
-		m_velocity = Helpers::normaliseCopy(m_velocity) * m_maxVelocity;
-	}
-
+	Helpers::limit(m_velocity, m_maxVelocity);
 
 	m_position += m_velocity * dt + (0.5f * (acceleration * (dt * dt))); // s = ut + 0.5at^2
 }

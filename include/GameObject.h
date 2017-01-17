@@ -25,7 +25,7 @@ public:
 	sf::Vector2f getVelocity() const;
 	void setVelocity(const sf::Vector2f& v);
 	void moveBy(float dx, float dy);
-	virtual void teleport(float offset, int section, float width);
+	virtual bool teleport(float offset, int section, float width);
 	Type getType() const;
 	bool getActive() const;
 	virtual void move(float dt);
