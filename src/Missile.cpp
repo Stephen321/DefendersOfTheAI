@@ -1,6 +1,6 @@
 #include "Missile.h"
 
-Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& target, int& ownerMissileCount)
+Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf::Vector2f& target, int& ownerMissileCount)
 	: GameObject(Type::Missile, startPos, worldSize)
 	, m_liveTimer(0.f)
 	, m_finishedDropping(false)
@@ -19,7 +19,6 @@ Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, co
 	m_position += ((m_sprite.getGlobalBounds().width * 0.5f) * m_dir);
 	m_velocity = m_dir * m_maxVelocity * 0.25f;
 	m_moving = true;
-
 	setOrigin();
 }
 
@@ -29,6 +28,7 @@ void Missile::update(float dt)
 	{
 		if (m_finishedDropping)
 		{
+			m_dir = Helpers::normaliseCopy(m_target - m_position);
 			m_liveTimer += dt;
 			if (m_liveTimer > TTL)
 			{

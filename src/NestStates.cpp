@@ -7,6 +7,7 @@ void NWanderState::start(Nest* nest)
 
 void NWanderState::update(Nest* nest, float dt)
 {
+	nest->setPlayerPos();
 	if (nest->checkIfReachedTarget())
 	{
 		nest->getWanderTarget();
@@ -31,13 +32,14 @@ void NEvadeState::start(Nest* nest)
 
 void NEvadeState::update(Nest* nest, float dt)
 {
+	nest->setPlayerPos();
 	nest->evade();
 	nest->checkWorldBounds();
 	if (nest->playerInRange() == false)
 	{
 		nest->changeState(NWanderState::getInstance());
 	}
-	nest->fire();
+	nest->fire(dt);
 }
 
 void NEvadeState::end(Nest* nest)

@@ -11,35 +11,6 @@ Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const st
 {
 	m_fsm.init(this);
 	m_fsm.changeState(NWanderState::getInstance());
-
-
-	testCircle.setOutlineColor(sf::Color::Green);
-	testCircle.setFillColor(sf::Color::Transparent);
-	testCircle.setOutlineThickness(2.f);
-	testCircle.setPosition(m_targetPos);
-	testCircle.setRadius(WANDER_RADIUS);
-	testCircle.setOrigin(testCircle.getRadius(), testCircle.getRadius());
-
-	testCircle2.setFillColor(sf::Color(0, 0, 0, 255));
-	testCircle2.setPosition(m_targetPos);
-	testCircle2.setRadius(5.f);
-	testCircle2.setOrigin(testCircle2.getRadius(), testCircle2.getRadius());
-
-	testCircle3.setFillColor(sf::Color(0, 120, 0, 128));
-	testCircle3.setPosition(m_targetPos);
-	testCircle3.setRadius(MIN_TARGET_DIST);
-	testCircle3.setOrigin(testCircle3.getRadius(), testCircle3.getRadius());
-
-
-	testCircle4.setFillColor(sf::Color(255, 255, 255, 128));
-	testCircle4.setPosition(m_position);
-	testCircle4.setRadius(5.f);
-	testCircle4.setOrigin(testCircle4.getRadius(), testCircle4.getRadius());
-
-	testCircle5.setFillColor(sf::Color(200, 200, 200, 50));
-	testCircle5.setPosition(m_position);
-	testCircle5.setRadius(PLAYER_IN_RANGE);
-	testCircle5.setOrigin(testCircle5.getRadius(), testCircle5.getRadius());
 }
 
 void Nest::setTargetPos(const sf::Vector2f & target)
@@ -47,18 +18,6 @@ void Nest::setTargetPos(const sf::Vector2f & target)
 	m_velocity.x = 0.f;
 	m_velocity.y = 0.f;
 	m_targetPos = target;
-
-
-	testCircle.setPosition(m_targetPos);
-}
-
-void Nest::update(float dt)
-{
-	testCircle4.setPosition(m_position);
-	testCircle5.setPosition(m_position);
-
-	m_reloadTimer += dt;
-	AI::update(dt);
 }
 
 bool Nest::checkIfReachedTarget()
@@ -78,17 +37,14 @@ void Nest::getWanderTarget()
 	m_wanderOrientation += change;
 
 	float currentOrientation = atan2(m_dir.y, m_dir.x);
-	//std::cout << "currentOrientation: " << currentOrientation << std::endl;
 
 	float targetOrientation = m_wanderOrientation + currentOrientation;
 
 	m_targetPos = m_position + (WANDER_OFFSET * m_dir);
-	testCircle.setPosition(m_targetPos);
 
 	sf::Vector2f targetDir;
 	targetDir.x = cos(targetOrientation);
 	targetDir.y = sin(targetOrientation);
-	//std::cout << "targetOrientation: " << targetOrientation << std::endl;
 
 	m_targetPos += WANDER_RADIUS * targetDir;
 
@@ -115,8 +71,7 @@ void Nest::getWanderTarget()
 		wrappedEnd = true;
 		m_targetPos.x = m_targetPos.x - m_worldSize.x;
 	}
-	testCircle2.setPosition(m_targetPos);
-	testCircle3.setPosition(m_targetPos);
+
 	m_dir = Helpers::normaliseCopy(m_targetPos - m_position); // direction might have changed if target did
 	//check is it better to wrap around to reach target
 	float distanceWithWrap = m_position.x + abs(m_worldSize.x - m_targetPos.x);
@@ -141,8 +96,9 @@ bool Nest::playerInRange() const
 }
 
 
-void Nest::fire()
+void Nest::fire(float dt)
 {
+	m_reloadTimer += dt;
 	if (m_reloadTimer < RELOAD_TIME)
 		return;
 	m_reloadTimer = 0.f;
@@ -150,9 +106,13 @@ void Nest::fire()
 	{
 		m_missilesAlive++;
 		sf::Vector2f startPos(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f));
-		sf::Vector2f target(m_player->getPosition() + m_player->getVelocity());
-		m_gameProjectiles.push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, target, m_missilesAlive)));
+		m_gameProjectiles.push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, m_playerPos, m_missilesAlive)));
 	}
+}
+
+void Nest::setPlayerPos()
+{
+	m_playerPos = m_player->getPosition();
 }
 
 void Nest::evade()
@@ -173,16 +133,9 @@ void Nest::evade()
 
 	m_targetPos = m_player->getPosition() + (m_player->getVelocity() * prediction);
 	m_dir = Helpers::normaliseCopy(m_position - m_targetPos);
-
-	testCircle2.setPosition(m_targetPos);
 }
 
 void Nest::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	GameObject::draw(target, states);
-	target.draw(testCircle);
-	target.draw(testCircle2);
-	target.draw(testCircle3);
-	target.draw(testCircle4);
-	target.draw(testCircle5);
 }

@@ -23,7 +23,7 @@
 			"texture_path": "missile.png",
 			"force": 800,
 			"drag_coefficent": 10,
-			"max_velocity": 1600
+			"max_velocity": 800
 		},
 		"abductor": {
 			"texture_path": "ai/abductor.png",

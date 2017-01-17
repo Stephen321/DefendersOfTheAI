@@ -35,7 +35,7 @@ int GameScreen::run(sf::RenderWindow &window)
 	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f), worldSize, gameObjectsMap[Constants::PROJECTILE_KEY]));
 	gameObjectsMap[Constants::MISC_KEY].push_back(player);
 	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
-	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
+	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
 
 	Background background(bounds, player);
@@ -194,15 +194,12 @@ int GameScreen::run(sf::RenderWindow &window)
 		rightTexture.draw(boundsRect);
 		window.draw(boundsRect);
 
-		if (player->getPosition().x <= bounds.width)
+		if (player->getPosition().x <= bounds.width || player->getPosition().x >= worldSize.x - bounds.width)
 		{
 			leftTexture.display();
 			sf::Sprite s(leftTexture.getTexture());
 			s.setPosition(-bounds.width, 0.f);
 			window.draw(s);
-		}
-		else if (player->getPosition().x >= worldSize.x - bounds.width)
-		{
 			rightTexture.display();
 			sf::Sprite s2(rightTexture.getTexture());
 			s2.setPosition(worldSize.x, 0.f);

@@ -3,4 +3,5 @@ teleporting into moving objects that hve moved within 1 screen width
 objects should wrap around
 nest sometimes moves out the top of the map
 flock is not seperating correctly
-better way to do leftTextue andr ightTexutre
+better way to do leftTextue andr ightTexutre (culling)
+only half of ai visible at wrap around points
