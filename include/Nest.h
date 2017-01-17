@@ -14,14 +14,12 @@ public:
 	void getWanderTarget(float offsetScale = 1.f);
 	bool playerInRange() const;
 	void evade();
-	void teleport(float offset, int section, float width) override;//TODO: put this into a super class such as Character which AI and the Player both inheirit from
-	void fire(); 
+	void fire();
 private:
 	const std::shared_ptr<GameObject> m_player;
 	float m_wanderOrientation;
 	const float PLAYER_IN_RANGE = 400.f;
 	const float MIN_TARGET_DIST = 30.f;
-	const float LOWEST_DISTANCE;
 
 	const float ANGLE_CHANGE = 45.f;
 	const float WANDER_OFFSET = 150.f;

@@ -9,7 +9,6 @@ public:
 	Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize);
 	void update(float dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
-	void teleport(float offset, int section, float width) override;
 
 private:
 	void checkInput();

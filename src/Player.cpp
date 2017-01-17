@@ -17,11 +17,6 @@ Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
 void Player::update(float dt)
 {
 	checkInput();
-	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0) //TODO: override GameObject::checkWorldBounds()
-	{
-		m_position.y = m_sprite.getGlobalBounds().height * 0.5f;
-		m_velocity.y = 0;
-	}
 	if (m_reloadTimer < RELOAD_TIME)
 	{
 		m_reloadTimer += dt;
@@ -42,15 +37,6 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 	}
 }
 
-void Player::teleport(float offset, int section, float width)
-{
-	for (Laser& l : m_lasers)
-	{
-		l.teleport(offset, section, width);
-	}
-	GameObject::teleport(offset, section, width);
-}
-
 void Player::fire()
 {
 	if (m_reloadTimer < RELOAD_TIME)
@@ -67,7 +53,7 @@ void Player::fire()
 		dir.x = 1.f;
 	}
 	dir.y = 0.f;
-	m_lasers.push_back(Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), dir));
+	m_lasers.push_back(Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), m_worldSize, dir));
 }
 
 void Player::checkInput()

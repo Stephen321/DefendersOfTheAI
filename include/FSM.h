@@ -7,8 +7,8 @@ class FSM
 {
 public:
 
-	FSM() :
-		m_currentState(0)
+	FSM() 
+		: m_currentState(0)
 	{};
 
 	void init(T* owner)
@@ -21,11 +21,11 @@ public:
 		m_currentState = s;
 	}
 
-	void update() 
+	void update(float dt)
 	{
 		if (m_currentState)
 		{
-			m_currentState->update(m_owner);
+			m_currentState->update(m_owner, dt);
 		}
 	}
 
@@ -34,13 +34,11 @@ public:
 	{
 		if (!newState)
 		{
-			std::cout << "newState was nullptr" << std::endl;
 			return;
 		}
 		if (!m_currentState)
 		{
 			m_currentState = newState;
-			std::cout << "m_currentState was nullptr" << std::endl;
 			m_currentState->start(m_owner);
 			return;
 		}
@@ -50,15 +48,10 @@ public:
 		m_currentState->start(m_owner);
 	}
 
-	//accessors
 	std::shared_ptr<State<T>> currentState()  const
 	{ 
 		return m_currentState;
 	};
-
-	//returns true if the current state’s type is equal to the type of the
-	//class passed as a parameter.
-	//bool  isInState(const State<T>& st)const;
 
 private:
 	T* m_owner;

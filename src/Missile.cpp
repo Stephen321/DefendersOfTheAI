@@ -1,7 +1,7 @@
 #include "Missile.h"
 
-Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& target)
-	: GameObject(Type::Missile, startPos, sf::Vector2f())
+Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& target)
+	: GameObject(Type::Missile, startPos, worldSize)
 	, m_liveTimer(0.f)
 	, m_finishedDropping(false)
 	, m_startY(startPos.y)
@@ -53,4 +53,17 @@ void Missile::update(float dt)
 	m_angle = (m_dir != sf::Vector2f()) ? atan2(m_dir.y, m_dir.x) : m_angle;
 	m_sprite.setRotation(m_angle * (180.f / M_PI));
 	GameObject::update(dt);
+}
+
+void Missile::checkWorldBounds()
+{
+	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
+	if (m_position.x < -halfWidth)
+	{
+		m_position.x = m_worldSize.x - halfWidth;
+	}
+	else if (m_position.x > m_worldSize.x + halfWidth)
+	{
+		m_position.x = halfWidth;
+	}
 }

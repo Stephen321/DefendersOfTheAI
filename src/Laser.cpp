@@ -1,7 +1,7 @@
 #include "Laser.h"
 
-Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& direction)
-	: GameObject(Type::Laser, startPos, sf::Vector2f())
+Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& direction)
+	: GameObject(Type::Laser, startPos, worldSize)
 	, m_liveTimer(0.f)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
@@ -29,4 +29,17 @@ void Laser::update(float dt)
 		}
 	}
 	GameObject::update(dt);
+}
+
+void Laser::checkWorldBounds()
+{
+	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
+	if (m_position.x < -halfWidth)
+	{
+		m_position.x = m_worldSize.x - halfWidth;
+	}
+	else if (m_position.x > m_worldSize.x + halfWidth)
+	{
+		m_position.x = halfWidth;
+	}
 }

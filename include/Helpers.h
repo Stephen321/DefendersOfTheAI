@@ -54,4 +54,14 @@ namespace Helpers
 	{
 		return rand() % (max - min + 1) + min;
 	}
+
+
+	inline void limit(sf::Vector2f& v, float max)
+	{
+		if (Helpers::getLength(v) > max)
+		{
+			v = Helpers::normaliseCopy(v) * max;
+		}
+	}
+
 }
