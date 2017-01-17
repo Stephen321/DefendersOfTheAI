@@ -95,43 +95,41 @@ void Nest::getWanderTarget()
 	m_targetPos += WANDER_RADIUS * targetDir;
 
 
-	if (m_targetPos.y < 0.f)
+	if (m_targetPos.y <= m_sprite.getGlobalBounds().height * 0.5f)
 	{
-		m_targetPos += 1.5f * (abs(m_targetPos.y) + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, 1.f);
+		m_targetPos += 1.5f * (((m_targetPos.y < 0) ? abs(m_targetPos.y) : 0) + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, 1.f);
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
-		m_wanderOrientation = 0.f;
 	}
-	else if (m_targetPos.y > LOWEST_DISTANCE)
+	else if (m_targetPos.y > LOWEST_DISTANCE - m_sprite.getGlobalBounds().height * 0.5f)
 	{
 		m_targetPos += 1.5f * (m_targetPos.y - LOWEST_DISTANCE + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, -1.f);
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
-		m_wanderOrientation = 0.f;
 	}
+	bool wrappedEnd = false;
 	if (m_targetPos.x < 0.f)
 	{
 		m_targetPos.x = m_worldSize.x - abs(m_targetPos.x);
-		m_velocity.x = 0.f;
-		m_velocity.y = 0.f;
-		m_wanderOrientation = 0.f;
 	}
 	else if (m_targetPos.x > m_worldSize.x)
 	{
-		m_targetPos.x = m_worldSize.x - m_targetPos.x;
-		m_velocity.x = 0.f;
-		m_velocity.y = 0.f;
-		m_wanderOrientation = 0.f;
+		wrappedEnd = true;
+		m_targetPos.x = m_targetPos.x - m_worldSize.x;
 	}
 	testCircle2.setPosition(m_targetPos);
 	testCircle3.setPosition(m_targetPos);
 	m_dir = Helpers::normaliseCopy(m_targetPos - m_position); // direction might have changed if target did
-	////check is it better to wrap around to reach target
-	//float distanceWithWrap = m_position.x + abs(m_worldSize.x - m_targetPos.x);
-	//if (distanceWithWrap < m_targetPos.x - m_position.x)
-	//{
-	//	m_dir.x = -m_dir.x;
-	//}
+	//check is it better to wrap around to reach target
+	float distanceWithWrap = m_position.x + abs(m_worldSize.x - m_targetPos.x);
+	if (distanceWithWrap < m_targetPos.x - m_position.x)
+	{
+		m_dir = Helpers::normaliseCopy(sf::Vector2f(m_position.x - distanceWithWrap, m_targetPos.y) - m_position);
+	}
+	else if (wrappedEnd)
+	{
+		m_dir = Helpers::normaliseCopy(sf::Vector2f(m_targetPos.x + m_worldSize.x, m_targetPos.y) - m_position);
+	}
 }
 
 bool Nest::playerInRange() const

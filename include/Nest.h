@@ -21,7 +21,7 @@ private:
 	const float PLAYER_IN_RANGE = 400.f;
 	const float MIN_TARGET_DIST = 30.f;
 
-	const float ANGLE_CHANGE = 45.f;
+	const float ANGLE_CHANGE = 30.f;
 	const float WANDER_OFFSET = 150.f;
 	const float WANDER_RADIUS = 50.f;
 
