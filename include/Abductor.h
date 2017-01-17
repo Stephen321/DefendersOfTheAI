@@ -15,7 +15,6 @@ public:
 	void update(float dt);
 	float angle(const sf::Vector2f& v);
 	void setAcceleration(const sf::Vector2f& acceleration);
-	void checkBounds();
 	void move(float dt) override;
 	int getNeighbourCount() const;
 	void setYPosWave();
@@ -25,13 +24,14 @@ public:
 	void resetMaxVelocity();
 	void setMaxPatrolVelocity();
 
+	void checkWorldBounds() override;
+
 private:
 	const float PATROL_MAX_VEL_SCALE = 0.2f;
 	const float START_MAX_VEL;
 	sf::Vector2f m_acceleration;
 	std::vector<std::shared_ptr<Abductor>>& m_abductors;
 	float m_patrolWaveTimer;
-	const float LOWEST_DISTANCE;
 	const float NEIGHBOUR_RADIUS = 400.f;
 	const float DESIRED_SEPARATION = 200.f;
 

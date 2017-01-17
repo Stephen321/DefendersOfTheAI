@@ -30,6 +30,7 @@ void GameObject::update(float dt)
 		return;
 	}
 	move(dt);
+	checkWorldBounds();
 	m_sprite.setPosition(m_position);
 }
 
@@ -59,22 +60,6 @@ void GameObject::moveBy(float dx, float dy)
 	m_position.x += dx;
 	m_position.y += dy;
 	m_sprite.setPosition(m_position);
-}
-
-bool GameObject::teleport(float offset, int section, float width)
-{
-	bool teleported = false;
-	int location = (int)m_position.x / width; //forced integer division to get number between 0 and max sections
-	if (m_position.x < 0.f)
-	{
-		location--;
-	}
-	if (location == section)
-	{
-		teleported = true;
-		setPosition(sf::Vector2f(m_position.x + offset, m_position.y));
-	}
-	return teleported;
 }
 
 GameObject::Type GameObject::getType() const
@@ -124,4 +109,27 @@ sf::Vector2f GameObject::calculateLinearDrag()
 		linearDrag.y = m_dragCoefficent * -m_velocity.y;
 	}
 	return linearDrag;
+}
+
+void GameObject::checkWorldBounds()
+{
+	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
+	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
+	if (m_position.y < halfHeight || m_position.y > m_worldSize.y - halfHeight)
+	{
+		m_velocity.y = 0.f;
+	}
+	if (m_position.x < -halfWidth)
+	{
+		m_position.x = m_worldSize.x - halfWidth;
+	}
+	else if (m_position.x > m_worldSize.x + halfWidth)
+	{
+		m_position.x = halfWidth;
+	}
+}
+
+float GameObject::getWidth() const
+{
+	return m_sprite.getGlobalBounds().width;
 }

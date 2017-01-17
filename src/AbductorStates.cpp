@@ -22,7 +22,6 @@ void AFlockState::update(Abductor* abductor, float dt)
 	acceleration += coh;
 	abductor->setAcceleration(acceleration);
 	abductor->move(dt);
-	abductor->checkBounds();
 }
 
 void AFlockState::end(Abductor* abductor)
@@ -33,7 +32,7 @@ void AFlockState::end(Abductor* abductor)
 void APatrolState::start(Abductor* abductor)
 {
 	abductor->setMoving(true);
-	abductor->setDirection(sf::Vector2f((rand() % 2 == 0) ? -1.f : 1.f, 0.f));
+	abductor->setDirection(sf::Vector2f(-1, 0));// sf::Vector2f((rand() % 2 == 0) ? -1.f : 1.f, 0.f));
 	abductor->setAcceleration(abductor->getForceAmount() * abductor->getDirection());
 	abductor->setMaxPatrolVelocity();
 }
@@ -47,7 +46,6 @@ void APatrolState::update(Abductor* abductor, float dt)
 	}
 	abductor->move(dt);
 	abductor->setYPosWave();
-	abductor->checkBounds();
 }
 
 void APatrolState::end(Abductor * abductor)

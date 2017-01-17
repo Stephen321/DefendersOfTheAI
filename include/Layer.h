@@ -14,7 +14,6 @@ public:
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 private:
-	void teleport(int section, int direction, int sectionLocation);
 	virtual void positionSection(int section, int direction);
 
 	const int SECTIONS;
@@ -33,7 +32,5 @@ private:
 	sf::Vector2f m_lastPlayerPos;
 	float m_scrollMultiplier;
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
-	int m_teleportSection;
-	bool m_teleported;
 	bool m_scrollable;
 };

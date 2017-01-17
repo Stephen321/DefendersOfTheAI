@@ -6,7 +6,6 @@
 Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::vector<std::shared_ptr<Abductor>>& abductors)
 	: AI(Type::Abductor, startPos, worldSize)
 	, m_abductors(abductors)
-	, LOWEST_DISTANCE(worldSize.y * 0.65f)
 	, START_MAX_VEL(m_maxVelocity)
 {
 	m_velocity = sf::Vector2f(Helpers::randomNumberF(-2, 2), Helpers::randomNumberF(-2, 2)); // Allows for range of -2 -> 2
@@ -125,7 +124,12 @@ sf::Vector2f Abductor::seek(const sf::Vector2f& v)
 //are given by the three laws.
 void Abductor::update(float dt)
 {
+	if (m_active == false)
+	{
+		return;
+	}
 	m_fsm.update(dt);
+	checkWorldBounds();
 	m_sprite.setPosition(m_position);
 	m_sprite.setRotation(angle(m_velocity));
 }
@@ -135,7 +139,7 @@ void Abductor::setAcceleration(const sf::Vector2f & acceleration)
 	m_acceleration = acceleration;
 }
 
-void Abductor::checkBounds()
+void Abductor::checkWorldBounds()
 {
 	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
 	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
@@ -143,14 +147,13 @@ void Abductor::checkBounds()
 	{
 		m_velocity.y = -m_velocity.y * 0.9f;
 	}
-
-	if (m_position.x < -(m_worldSize.x / Constants::WORLD_SCREEN_SIZES) - halfWidth)
+	if (m_position.x < -halfWidth)
 	{
-		m_position.x = m_worldSize.x + (m_worldSize.x / Constants::WORLD_SCREEN_SIZES) + halfWidth;
+		m_position.x = m_worldSize.x - halfWidth;
 	}
-	else if (m_position.x > m_worldSize.x + (m_worldSize.x / Constants::WORLD_SCREEN_SIZES) + halfWidth)
+	else if (m_position.x > m_worldSize.x + halfWidth)
 	{
-		m_position.x = -(m_worldSize.x / Constants::WORLD_SCREEN_SIZES) - halfWidth;
+		m_position.x = halfWidth;
 	}
 }
 

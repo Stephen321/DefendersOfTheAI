@@ -4,7 +4,6 @@
 Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player)
 	: AI(Type::Nest, startPos, worldSize)
 	, m_targetPos(m_position)
-	, LOWEST_DISTANCE(worldSize.y * 0.65f)
 	, m_wanderOrientation(atan2(m_dir.y, m_dir.x))
 	, m_player(player)
 {
@@ -99,38 +98,35 @@ void Nest::getWanderTarget(float offsetScale)
 	m_dir = Helpers::normaliseCopy(m_targetPos - m_position); // direction might have changed if target did
 
 
-	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
-	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
-	if (m_targetPos.y < halfHeight)
+	if (m_targetPos.y < 0.f)
 	{
 		m_dir.y = -m_dir.y;
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 		getWanderTarget(0.5f);
 	}
-	else if (m_targetPos.y > LOWEST_DISTANCE - halfHeight)
+	else if (m_targetPos.y > LOWEST_DISTANCE)
 	{
 		m_dir.y = -m_dir.y;
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 		getWanderTarget(0.5f);
 	}
-	if (m_targetPos.x < -(m_worldSize.x / Constants::WORLD_SCREEN_SIZES) - halfWidth)
+	//TODOWRAP: make sure this goes to next screen and calc will make it go shortest distance
+	if (m_targetPos.x < 0.f)
 	{
 		m_dir.x = -m_dir.x;
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 		getWanderTarget(0.5f);
 	}
-	else if (m_targetPos.x > m_worldSize.x + (m_worldSize.x / Constants::WORLD_SCREEN_SIZES) + halfWidth)
+	else if (m_targetPos.x > m_worldSize.x)
 	{
 		m_dir.x = -m_dir.x;
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 		getWanderTarget(0.5f);
 	}
-
-
 }
 
 bool Nest::playerInRange() const
@@ -149,7 +145,7 @@ void Nest::fire()
 	if (m_reloadTimer < RELOAD_TIME)
 		return;
 	m_reloadTimer = 0.f;
-	m_missiles.push_back(Missile(sf::Vector2f(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f)), m_player->getPosition() + m_player->getVelocity()));
+	m_missiles.push_back(Missile(sf::Vector2f(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f)), m_worldSize, m_player->getPosition() + m_player->getVelocity()));
 }
 
 
@@ -172,42 +168,7 @@ void Nest::evade()
 	m_targetPos = m_player->getPosition() + (m_player->getVelocity() * prediction);
 	m_dir = Helpers::normaliseCopy(m_position - m_targetPos);
 
-	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
-	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
-	if (m_position.y < halfHeight)
-	{
-		m_velocity.y = 0.f;
-	}
-	else if (m_position.y > LOWEST_DISTANCE - halfHeight)
-	{
-		m_velocity.y = 0.f;
-	}
-	if (m_position.x < halfWidth)
-	{
-		m_velocity.x = 0.f;
-	}
-	else if (m_position.x > m_worldSize.x - halfWidth)
-	{
-		m_velocity.x = 0.f;
-	}
-
 	testCircle2.setPosition(m_targetPos);
-}
-
-//TODO: way to have this in Character superclass
-bool Nest::teleport(float offset, int section, float width)
-{
-	for (Missile& m : m_missiles)
-	{
-		m.teleport(offset, section, width);
-	}
-	bool teleported = GameObject::teleport(offset, section, width);
-	if (teleported)
-	{
-		m_targetPos = (sf::Vector2f(m_targetPos.x + offset, m_targetPos.y));
-	}
-	
-	return teleported;
 }
 
 void Nest::draw(sf::RenderTarget & target, sf::RenderStates states) const

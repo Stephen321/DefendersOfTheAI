@@ -25,10 +25,11 @@ public:
 	sf::Vector2f getVelocity() const;
 	void setVelocity(const sf::Vector2f& v);
 	void moveBy(float dx, float dy);
-	virtual bool teleport(float offset, int section, float width);
 	Type getType() const;
 	bool getActive() const;
 	virtual void move(float dt);
+	virtual void checkWorldBounds();
+	float getWidth() const;
 
 protected:
 	void setOrigin();

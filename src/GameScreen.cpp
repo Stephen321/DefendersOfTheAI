@@ -13,8 +13,16 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	sf::View view = window.getView();
 	sf::FloatRect bounds(0.f, 0.f, view.getSize().x, view.getSize().y);
+
 	
-	sf::Vector2f worldSize(bounds.width * Constants::WORLD_SCREEN_SIZES, bounds.height); 
+	sf::Vector2f worldSize(bounds.width * Constants::WORLD_SCREEN_SIZES, bounds.height);
+
+	sf::RenderTexture leftTexture;
+	leftTexture.create(bounds.width, bounds.height);
+	leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
+	sf::RenderTexture rightTexture;
+	rightTexture.create(bounds.width, bounds.height);
+	rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
 
 	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
 
@@ -102,15 +110,47 @@ int GameScreen::run(sf::RenderWindow &window)
 		window.setView(view);
 
 		window.clear(sf::Color(96, 23, 54));
+		leftTexture.clear();
+		rightTexture.clear();
+		//TODOWRAP: only draw section 0 and the last section
+
+
+		leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
+		rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
+		leftTexture.draw(background);
+		rightTexture.draw(background);
+		leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
+		rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
+		leftTexture.draw(background); //draw the surfaces
+		rightTexture.draw(background);
+
 		window.draw(background);
 		for (const std::shared_ptr<GameObject>& go : m_gameObjects)
 		{
-			window.draw(*go);
+			//if (go->getPosition().x - go->getWidth())
+
+			leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
+			rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
+			leftTexture.draw(*go);
+			rightTexture.draw(*go);
+			leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
+			rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
+			leftTexture.draw(*go);
+			rightTexture.draw(*go);
+			window.draw(*go); 
 		}
 
 		for (int i = 0; i < testAbductors.size(); i++)
 		{
 			testAbductors[i]->update(dt);
+			leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
+			rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
+			leftTexture.draw(*testAbductors[i]);
+			rightTexture.draw(*testAbductors[i]);
+			leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
+			rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
+			leftTexture.draw(*testAbductors[i]);
+			rightTexture.draw(*testAbductors[i]);
 			window.draw(*testAbductors[i]);
 		}
 
@@ -140,8 +180,27 @@ int GameScreen::run(sf::RenderWindow &window)
 			sf::Vertex(sf::Vector2f((float)worldSize.x,  (float)window.getSize().y), sf::Color::Yellow),
 			sf::Vertex(sf::Vector2f((float)worldSize.x,  (float)window.getSize().y - 350.f), sf::Color::Yellow)
 		};
+		leftTexture.draw(line, 16, sf::Lines);
+		rightTexture.draw(line, 16, sf::Lines);
 		window.draw(line, 16, sf::Lines);
+		leftTexture.draw(boundsRect);
+		rightTexture.draw(boundsRect);
 		window.draw(boundsRect);
+
+		if (player->getPosition().x <= bounds.width)
+		{
+			leftTexture.display();
+			sf::Sprite s(leftTexture.getTexture());
+			s.setPosition(-bounds.width, 0.f);
+			window.draw(s);
+		}
+		else if (player->getPosition().x >= worldSize.x - bounds.width)
+		{
+			rightTexture.display();
+			sf::Sprite s2(rightTexture.getTexture());
+			s2.setPosition(worldSize.x, 0.f);
+			window.draw(s2);
+		}
 
 		window.display();
 	}
