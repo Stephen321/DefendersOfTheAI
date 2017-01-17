@@ -1,7 +1,6 @@
 #include "Layer.h"
 
-Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections, const std::shared_ptr<GameObject> player, float scrollMultiplier,
-	const std::vector<std::shared_ptr<GameObject>> gameObjects)
+Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections, const std::shared_ptr<GameObject> player, float scrollMultiplier)
 	: SECTIONS(sections)
 	, m_sections(SECTIONS)
 	, m_lastPlayerPos(m_player->getPosition())
@@ -11,7 +10,6 @@ Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections,
 	, m_right(2)
 	, m_player(player)
 	, m_scrollMultiplier(scrollMultiplier)
-	, m_gameObjects(gameObjects)
 	, m_scrollable(m_scrollMultiplier != 0.f)
 {
 	for (int i = 0; i < SECTIONS; i++)

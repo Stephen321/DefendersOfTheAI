@@ -1,8 +1,9 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
+Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::vector<std::shared_ptr<GameObject>>& gameProjectiles)
 	: GameObject(Type::Player, startPos, worldSize)
 	, m_reloadTimer(0.f)
+	, m_gameProjectiles(gameProjectiles)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	m_sprite.setTexture(props.texture);
@@ -21,20 +22,7 @@ void Player::update(float dt)
 	{
 		m_reloadTimer += dt;
 	}
-	for (Laser& l : m_lasers)
-	{
-		l.update(dt);
-	}
 	GameObject::update(dt);
-}
-
-void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	GameObject::draw(target, states);
-	for (const Laser& l : m_lasers)
-	{
-		target.draw(l);
-	}
 }
 
 void Player::fire()
@@ -53,7 +41,7 @@ void Player::fire()
 		dir.x = 1.f;
 	}
 	dir.y = 0.f;
-	m_lasers.push_back(Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), m_worldSize, dir));
+	m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), m_worldSize, dir)));
 }
 
 void Player::checkInput()

@@ -6,7 +6,7 @@
 class Nest : public AI<Nest>
 {
 public:
-	Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player);
+	Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player, std::vector<std::shared_ptr<GameObject>>& gameProjecttiles);
 	void setTargetPos(const sf::Vector2f& target);
 	void update(float dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
@@ -29,9 +29,11 @@ private:
 	sf::Vector2f m_targetPos;
 
 	//missiles
+	const int MAX_MISSILES_ALIVE = 2;
+	int m_missilesAlive;
 	const float RELOAD_TIME = 0.8f;
 	float m_reloadTimer;
-	std::vector<Missile> m_missiles;
+	std::vector<std::shared_ptr<GameObject>>& m_gameProjectiles;
 
 	sf::CircleShape testCircle;
 	sf::CircleShape testCircle2;

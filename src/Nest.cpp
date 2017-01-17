@@ -1,11 +1,13 @@
 #include "Nest.h"
 
 
-Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player)
+Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player, std::vector<std::shared_ptr<GameObject>>& gameMissiles)
 	: AI(Type::Nest, startPos, worldSize)
+	, m_gameProjectiles(gameMissiles)
 	, m_targetPos(m_position)
 	, m_wanderOrientation(atan2(m_dir.y, m_dir.x))
 	, m_player(player)
+	, m_missilesAlive(0)
 {
 	m_fsm.init(this);
 	m_fsm.changeState(NWanderState::getInstance());
@@ -56,10 +58,6 @@ void Nest::update(float dt)
 	testCircle5.setPosition(m_position);
 
 	m_reloadTimer += dt;
-	for (Missile& m : m_missiles)
-	{
-		m.update(dt);
-	}
 	AI::update(dt);
 }
 
@@ -148,9 +146,14 @@ void Nest::fire()
 	if (m_reloadTimer < RELOAD_TIME)
 		return;
 	m_reloadTimer = 0.f;
-	m_missiles.push_back(Missile(sf::Vector2f(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f)), m_worldSize, m_player->getPosition() + m_player->getVelocity()));
+	if (m_missilesAlive < MAX_MISSILES_ALIVE)
+	{
+		m_missilesAlive++;
+		sf::Vector2f startPos(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f));
+		sf::Vector2f target(m_player->getPosition() + m_player->getVelocity());
+		m_gameProjectiles.push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, target, m_missilesAlive)));
+	}
 }
-
 
 void Nest::evade()
 {
@@ -176,10 +179,6 @@ void Nest::evade()
 
 void Nest::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	for (const Missile& m : m_missiles)
-	{
-		m.draw(target, states);
-	}
 	GameObject::draw(target, states);
 	target.draw(testCircle);
 	target.draw(testCircle2);

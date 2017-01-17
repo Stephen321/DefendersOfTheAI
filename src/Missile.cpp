@@ -1,12 +1,13 @@
 #include "Missile.h"
 
-Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& target)
+Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& target, int& ownerMissileCount)
 	: GameObject(Type::Missile, startPos, worldSize)
 	, m_liveTimer(0.f)
 	, m_finishedDropping(false)
 	, m_startY(startPos.y)
 	, m_target(target)
 	, m_angle(0.f)
+	, m_ownerMissileCount(ownerMissileCount)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	m_sprite.setTexture(props.texture);
@@ -32,6 +33,7 @@ void Missile::update(float dt)
 			if (m_liveTimer > TTL)
 			{
 				m_active = false;
+				m_ownerMissileCount--;
 			}
 		}
 		else
