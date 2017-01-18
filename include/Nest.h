@@ -32,10 +32,10 @@ private:
 
 	const float MAX_PREDICTON = 0.3f;
 
-	const int MAX_ABDUCTORS_PRODUCED = 1000;// 20;
+	const int MAX_ABDUCTORS_PRODUCED = 20;
 	int m_abductorsProduced;
-	const int TIME_TO_PRODUCE = 2;//10;
-	const int PRODUCE_TIME_OFFSET = 0;//5;
+	const int TIME_TO_PRODUCE = 10;
+	const int PRODUCE_TIME_OFFSET = 5;
 	float m_timeToProduceAbductor;
 	float m_produceAbductorTimer;
 	sf::Vector2f m_targetPos;

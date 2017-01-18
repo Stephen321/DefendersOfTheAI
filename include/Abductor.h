@@ -43,7 +43,7 @@ private:
 	float m_targetInZone;
 	const float ARRIVE_RADIUS = 400.f;
 	const float TARGET_RANGE = 25.f;
-	const float TIME_TO_TARGET = 0.005f;
+	const float TIME_TO_TARGET = 0.5f;
 	const float HIGHEST_DISTANCE;
 	bool m_reachedTarget;
 

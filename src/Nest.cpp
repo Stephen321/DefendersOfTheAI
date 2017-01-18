@@ -13,8 +13,6 @@ Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const st
 	, m_abductorsProduced(0)
 	, m_timeToProduceAbductor(TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET))
 {
-	//test
-	m_produceAbductorTimer = m_timeToProduceAbductor * 0.7;
 	m_fsm.init(this);
 	m_fsm.changeState(NWanderState::getInstance());
 }
@@ -157,9 +155,6 @@ void Nest::produceAbductors(float dt)
 			m_abductorsProduced++;
 			m_produceAbductorTimer = 0.f;
 			m_timeToProduceAbductor = TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET);
-
-			//test
-			m_abductorsProduced = 2500000;
 		}
 	}
 }
