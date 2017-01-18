@@ -139,3 +139,10 @@ float GameObject::getWidth() const
 {
 	return m_sprite.getGlobalBounds().width;
 }
+
+sf::FloatRect GameObject::getRect() const
+{
+	float width = m_sprite.getGlobalBounds().width;
+	float height = m_sprite.getGlobalBounds().height;
+	return sf::FloatRect(m_position.x - width * 0.5f, m_position.y - height * 0.5f, width, height);
+}

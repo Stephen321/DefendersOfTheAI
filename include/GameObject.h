@@ -31,6 +31,7 @@ public:
 	virtual void move(float dt);
 	virtual void checkWorldBounds();
 	float getWidth() const;
+	sf::FloatRect getRect() const;
 
 protected:
 	void setOrigin();

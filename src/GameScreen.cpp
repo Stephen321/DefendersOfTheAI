@@ -136,15 +136,31 @@ int GameScreen::run(sf::RenderWindow &window)
 				gameObject->update(dt); //TODO: another loop before .clear
 
 				//draw
+				bool intersects = false;
 				leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
 				rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
-				leftTexture.draw(*gameObject);
-				rightTexture.draw(*gameObject);
+				if (gameObject->getRect().intersects(getRectFromView(leftTexture.getView())))
+				{
+					leftTexture.draw(*gameObject);
+				}
+				if (gameObject->getRect().intersects(getRectFromView(rightTexture.getView())))
+				{
+					rightTexture.draw(*gameObject);
+				}
 				leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
 				rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
-				leftTexture.draw(*gameObject);
-				rightTexture.draw(*gameObject);
-				window.draw(*gameObject);
+				if (gameObject->getRect().intersects(getRectFromView(leftTexture.getView())))
+				{
+					leftTexture.draw(*gameObject);
+				}
+				if (gameObject->getRect().intersects(getRectFromView(rightTexture.getView())))
+				{
+					rightTexture.draw(*gameObject);
+				}
+				if (gameObject->getRect().intersects(getRectFromView(window.getView())))//bounds)) test test test 
+				{
+					window.draw(*gameObject);
+				}
 
 
 				//remove if not active
@@ -213,4 +229,12 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	//Never reaching this point normally, but just in case, exit the application
 	return (-1);
+}
+
+sf::FloatRect GameScreen::getRectFromView(const sf::View & view)
+{
+	return sf::FloatRect(view.getCenter().x - view.getSize().x * 0.5f,
+						 view.getCenter().y- view.getSize().y * 0.5f,
+						 view.getSize().x,
+						 view.getSize().y);
 }
