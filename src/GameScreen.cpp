@@ -99,7 +99,7 @@ int GameScreen::run(sf::RenderWindow &window)
 			dt = 0.f;
 
 		//update background
-		background.update(dt);
+		background.update(dt, bounds);// getRectFromView(window.getView())); //TODO: add back in after testing 
 
 		//update camera
 		view.setCenter(player->getPosition().x , view.getCenter().y);

@@ -30,9 +30,7 @@
 int main()
 {
 	srand(time(NULL));
-	//sf::RenderWindow window(sf::VideoMode(1920u, 1080u, 32), "Defenders Of The AI");
-	sf::RenderWindow window(sf::VideoMode(1320, 720u, 32), "Defenders Of The AI");
-
+	sf::RenderWindow window(sf::VideoMode(1280u, 720u, 32), "Defenders Of The AI");
 	std::vector<Screen*> Screens;
 	int screen = 1;
 	MenuScreen menuScreen;
