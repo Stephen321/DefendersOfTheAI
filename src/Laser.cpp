@@ -1,7 +1,7 @@
 #include "Laser.h"
 
-Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& direction, const sf::FloatRect& cameraBounds, float maxVelocityScale)
-	: GameObject(Type::Laser, startPos, worldSize, cameraBounds)
+Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& direction, float maxVelocityScale)
+	: GameObject(Type::Laser, startPos, worldSize)
 	, m_liveTimer(0.f)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);

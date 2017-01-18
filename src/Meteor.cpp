@@ -1,7 +1,7 @@
 #include "Meteor.h"
 
-Meteor::Meteor(const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds)
-	: GameObject(Type::Meteor, sf::Vector2f(), worldSize, cameraBounds)
+Meteor::Meteor(const sf::Vector2f& worldSize)
+	: GameObject(Type::Meteor, sf::Vector2f(), worldSize)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	m_sprite.setTexture(props.texture);
@@ -14,8 +14,6 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds)
 
 	setOrigin();
 
-	SCREEN_HEIGHT = worldSize.y;
-
 	int screenUnit = worldSize.x / 9 / 128;
 	m_radius = (rand() % 10 + 5) * screenUnit;
 	int max_radius = 15 * screenUnit;
@@ -26,6 +24,7 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds)
 		randDir.x *= -1;
 
 	m_dir = randDir;
+	m_dir.x = -1.f; //test
 	
 	m_colors[0] = sf::Color(222, 122, 145);
 	m_colors[1] = sf::Color(196, 55, 98);
@@ -38,7 +37,7 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds)
 
 void Meteor::generateShape(sf::Vector2f worldSize, int screenUnit)
 {
-	int xPos = rand() % (int)(worldSize.x);
+	int xPos = 100;// rand() % (int)(worldSize.x);
 	createConvexCircle(screenUnit, m_radius + (screenUnit * 0.5f), xPos, sf::Color(225, 155, 176));	//Rim Highlight
 	createConvexCircle(screenUnit, m_radius, xPos, sf::Color(196, 55, 98));							//Body		
 	createConvexCircle(screenUnit, m_radius * 0.75f, xPos, sf::Color(0, 0, 0, 150));					//Outer Shadow
@@ -51,8 +50,8 @@ void Meteor::createConvexCircle(int screenUnit, int radius, int xPos, sf::Color 
 	//calculate the paths for each circle
 	for (int i = 0; i < METEOR_SEGMENTS; i++)
 	{
-		float x = m_centre.x + radius * cos(2 * PI * i / METEOR_SEGMENTS);
-		float y = m_centre.y + radius * sin(2 * PI * i / METEOR_SEGMENTS);
+		float x = m_centre.x + radius * cos(2 * M_PI * i / METEOR_SEGMENTS);
+		float y = m_centre.y + radius * sin(2 * M_PI * i / METEOR_SEGMENTS);
 		circlePath.push_back(sf::Vector2f(x, y));
 	}
 
@@ -82,14 +81,16 @@ void Meteor::createConvexCircle(int screenUnit, int radius, int xPos, sf::Color 
 
 void Meteor::update(float dt)
 {	
+	m_velocity = m_dir * dt * 150.f;
+	float angularVelocity = dt * 100;
 	for (int i = 0; i < m_shapes.size(); i++)
 	{		
-		if (m_shapes[0].getPosition().y < SCREEN_HEIGHT - SCREEN_HEIGHT / 16)
+		if (m_shapes[0].getPosition().y < m_worldSize.y - m_radius)
 		{
-			m_shapes[i].move(sf::Vector2f(m_dir));
-			m_shapes[i].rotate(dt * 100);	
+			m_shapes[i].move(m_velocity);
+			m_shapes[i].rotate(angularVelocity);	
 
-			if (getRect().intersects(m_cameraBounds) && i >= METEOR_SEGMENTS && i < METEOR_SEGMENTS * 2)//the indices where the body of meteor was inserted
+			if (i >= METEOR_SEGMENTS && i < METEOR_SEGMENTS * 2)//the indices where the body of meteor was inserted
 			{				
 				float shapeRot = m_shapes[i].getRotation() + ((i - METEOR_SEGMENTS) * 45);
 				if (shapeRot > 360)
@@ -107,11 +108,13 @@ void Meteor::update(float dt)
 					m_shapes[i].setFillColor(m_colors[0]);				
 			}
 		}
-		else
-			m_active = false;
+		else 
+		{
+			//m_active = false;
+		}
+		checkWorldBounds();
+		m_position = m_shapes[0].getPosition();
 	}	
-
-	GameObject::update(dt);
 }
 
 void Meteor::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -148,4 +151,23 @@ sf::FloatRect Meteor::getRect() const
 	}
 
 	return sf::FloatRect(minX, minY, width, height);
+}
+
+void Meteor::checkWorldBounds()
+{
+	sf::FloatRect rect = getRect();
+	float halfWidth = rect.width * 0.5f;
+	float halfHeight = rect.height * 0.5f;
+	if (m_position.x < -halfWidth)
+	{
+		m_position.x = m_worldSize.x - halfWidth;
+		for (int i = 0; i < m_shapes.size(); i++)
+		{
+			m_shapes[i].setPosition(m_position);
+		}
+	}
+	else if (m_position.x > m_worldSize.x + halfWidth)
+	{
+		m_position.x = halfWidth;
+	}
 }

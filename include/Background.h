@@ -7,7 +7,7 @@ class Background : public sf::Drawable
 public:
 	Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void update(float dt, const const sf::FloatRect& cameraBounds);
+	void update(float dt, const sf::FloatRect& cameraBounds);
 	void calculateSurfacePoints(const sf::Vector2f& screenSize);
 	void createSurface(const sf::Vector2f& screenSize, int screenUnit);
 	std::vector<sf::Vector2i> getSurfacePath() const;

@@ -1,7 +1,7 @@
 #include "Missile.h"
 
-Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf::Vector2f& target, int& ownerMissileCount, const sf::FloatRect& cameraBounds)
-	: GameObject(Type::Missile, startPos, worldSize, cameraBounds)
+Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf::Vector2f& target, int& ownerMissileCount)
+	: GameObject(Type::Missile, startPos, worldSize)
 	, m_liveTimer(0.f)
 	, m_finishedDropping(false)
 	, m_startY(startPos.y)

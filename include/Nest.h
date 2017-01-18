@@ -9,7 +9,7 @@ class Nest : public AI<Nest>
 public:
 	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
 	Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player,
-		 GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors, const sf::FloatRect& cameraBounds);
+		 GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors);
 	void setTargetPos(const sf::Vector2f& target);
 	bool checkIfReachedTarget();
 	void getWanderTarget();

@@ -9,7 +9,7 @@ class Abductor : public AI<Abductor>
 public:
 	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
 	Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors,
-			 std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles, const sf::FloatRect& cameraBounds);
+			 std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles);
 
 	sf::Vector2f separation();
 	sf::Vector2f alignment();

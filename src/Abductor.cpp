@@ -4,8 +4,8 @@
 #include "Abductor.h"
 
 Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors, 
-				   std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles, const sf::FloatRect& cameraBounds)
-	: AI(Type::Abductor, startPos, worldSize, cameraBounds)
+				   std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles)
+	: AI(Type::Abductor, startPos, worldSize)
 	, m_gameAbductors(gameAbductors)
 	, m_gameProjectiles(gameProjectiles)
 	, m_player(player)
@@ -44,7 +44,7 @@ void Abductor::fire(float dt)
 	if (Helpers::getLength(vectorBetween) < PLAYER_LASER_RANGE)
 	{
 		m_reloadTimer = 0.f;
-		m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), m_cameraBounds, LASER_VEL_SCALE)));
+		m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), LASER_VEL_SCALE)));
 	}
 }
 

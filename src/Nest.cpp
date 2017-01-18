@@ -2,8 +2,8 @@
 
 
 Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player,
-		   GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors, const sf::FloatRect& cameraBounds)
-	: AI(Type::Nest, startPos, worldSize, cameraBounds)
+		   GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors)
+	: AI(Type::Nest, startPos, worldSize)
 	, m_gameProjectiles(gameProjectiles)
 	, m_gameAbductors(gameAbductors)
 	, m_targetPos(m_position)
@@ -100,7 +100,7 @@ void Nest::fire(float dt)
 		m_reloadTimer = 0.f;
 		m_missilesAlive++;
 		sf::Vector2f startPos(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f));
-		m_gameProjectiles.push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, m_playerPos, m_missilesAlive, m_cameraBounds)));
+		m_gameProjectiles.push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, m_playerPos, m_missilesAlive)));
 	}
 }
 
@@ -148,7 +148,7 @@ void Nest::produceAbductors(float dt)
 		{
 			//new abductor
 			sf::Vector2f startPos(m_position.x, m_position.y + offset);
-			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors, m_player, m_gameProjectiles, m_cameraBounds)));
+			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors, m_player, m_gameProjectiles)));
 			m_gameAbductors.back()->setVelocity(sf::Vector2f(m_velocity.x, 0.f));
 			m_abductorsProduced++;
 			m_produceAbductorTimer = 0.f;

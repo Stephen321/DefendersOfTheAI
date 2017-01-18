@@ -33,13 +33,14 @@ int GameScreen::run(sf::RenderWindow &window)
 	gameObjectsMap[Constants::MISC_KEY] = GameObjectPtrVector();
 
 	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f),
-															 worldSize, gameObjectsMap[Constants::PROJECTILE_KEY], bounds));
+															 worldSize, gameObjectsMap[Constants::PROJECTILE_KEY]));
 	gameObjectsMap[Constants::MISC_KEY].push_back(player);
 	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f),
-												  worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY], bounds)));
+												  worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
 	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
-	
+
+	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize)));
 	Background background(bounds, player);
 
 	//debug
@@ -133,8 +134,9 @@ int GameScreen::run(sf::RenderWindow &window)
 				//update 
 				gameObject->update(dt); //TODO: another loop before .clear
 
-				//draw
+										//draw
 				bool intersects = false;
+
 				leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
 				rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
 				if (gameObject->getRect().intersects(getRectFromView(leftTexture.getView())))
@@ -145,6 +147,7 @@ int GameScreen::run(sf::RenderWindow &window)
 				{
 					rightTexture.draw(*gameObject);
 				}
+
 				leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
 				rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
 				if (gameObject->getRect().intersects(getRectFromView(leftTexture.getView())))
@@ -155,10 +158,28 @@ int GameScreen::run(sf::RenderWindow &window)
 				{
 					rightTexture.draw(*gameObject);
 				}
-				if (gameObject->getRect().intersects(bounds)) //test test test 
-				{
+
+
+				
+				//if (gameObject->getRect().intersects(getRectFromView(window.getView())))//bounds)) test test test 
+				//{
 					window.draw(*gameObject);
-				}
+				//}
+				//if (player->getPosition().x < bounds.width)
+				//{
+					sf::View view2(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height));
+					view2.zoom(zoom);
+					window.setView(view2);
+				//}
+				//else if (player->getPosition().x > worldSize.x - bounds.width)
+				//{
+					//window.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
+				//}
+				//if (gameObject->getRect().intersects(getRectFromView(leftTexture.getView())))
+				//{
+					window.draw(*gameObject);
+				//}
+					window.setView(view);
 
 
 				//remove if not active
@@ -176,9 +197,7 @@ int GameScreen::run(sf::RenderWindow &window)
 				}
 			}
 		}	
-		if (rand() % 7 == 0)
-			gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, bounds)));
-		//debug
+
 		if (zoomed) {
 			view.zoom(zoom);
 			zoomed = false;

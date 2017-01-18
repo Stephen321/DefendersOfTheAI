@@ -19,7 +19,7 @@ public:
 		Abductor,
 		Astronaut
 	};
-	GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds);
+	GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void update(float dt);
 	sf::Vector2f getPosition() const;
@@ -50,5 +50,4 @@ protected:
 	float m_forceAmount;
 	float m_dragCoefficent;
 	float m_maxVelocity;
-	const sf::FloatRect& m_cameraBounds;
 };
