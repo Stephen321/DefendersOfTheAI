@@ -1,12 +1,15 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameProjectiles)
-	: GameObject(Type::Player, startPos, worldSize)
+Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameProjectiles, const sf::FloatRect& cameraBounds)
+	: GameObject(Type::Player, startPos, worldSize, cameraBounds
+)
 	, m_reloadTimer(0.f)
 	, m_gameProjectiles(gameProjectiles)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
+	props.texture.setSmooth(true);
 	m_sprite.setTexture(props.texture);
+	//m_sprite.setScale(sf::Vector2f(0.5,0.5));
 	m_forceAmount = props.forceAmount;
 	m_dragCoefficent = props.dragCoefficent;
 	m_maxVelocity = props.maxVelocity;
@@ -41,7 +44,7 @@ void Player::fire()
 		dir.x = 1.f;
 	}
 	dir.y = 0.f;
-	m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), m_worldSize, dir)));
+	m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), m_worldSize, dir, m_cameraBounds)));
 }
 
 void Player::checkInput()

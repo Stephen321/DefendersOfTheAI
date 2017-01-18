@@ -1,7 +1,7 @@
 #include "Laser.h"
 
-Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& direction)
-	: GameObject(Type::Laser, startPos, worldSize)
+Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& direction, const sf::FloatRect& cameraBounds, float maxVelocityScale)
+	: GameObject(Type::Laser, startPos, worldSize, cameraBounds)
 	, m_liveTimer(0.f)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
@@ -9,6 +9,10 @@ Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const 
 	m_forceAmount = props.forceAmount;
 	m_dragCoefficent = props.dragCoefficent;
 	m_maxVelocity = props.maxVelocity;
+	if (maxVelocityScale != 0.f)
+	{
+		m_maxVelocity *= maxVelocityScale;
+	}
 
 	m_dir = direction;
 	m_position += ((m_sprite.getGlobalBounds().width * 0.5f) * m_dir);
@@ -27,8 +31,9 @@ void Laser::update(float dt)
 		{
 			m_active = false;
 		}
+		m_sprite.setRotation(atan2(m_dir.y, m_dir.x) * (180.f / M_PI));
+		GameObject::update(dt);
 	}
-	GameObject::update(dt);
 }
 
 void Laser::checkWorldBounds()

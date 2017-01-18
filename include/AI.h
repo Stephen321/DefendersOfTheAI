@@ -8,8 +8,8 @@ template<typename T>
 class AI : public GameObject
 {
 public:
-	AI(GameObject::Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
-		: GameObject(type, startPos, worldSize)
+	AI(GameObject::Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds)
+		: GameObject(type, startPos, worldSize, cameraBounds)
 		, LOWEST_DISTANCE(worldSize.y * 0.6f)
 	{
 		GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);

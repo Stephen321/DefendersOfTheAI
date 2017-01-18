@@ -8,7 +8,7 @@ class Player : public GameObject
 {
 public:
 	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
-	Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameProjecttiles);
+	Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameProjecttiles, const sf::FloatRect& cameraBounds);
 	void update(float dt) override;
 
 private:

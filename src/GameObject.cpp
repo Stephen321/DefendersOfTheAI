@@ -1,6 +1,6 @@
 #include "GameObject.h"
 
-GameObject::GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
+GameObject::GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds)
 	: m_worldSize(worldSize)
 	, m_moving(false)
 	, m_type(type)
@@ -10,6 +10,7 @@ GameObject::GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector
 	, m_maxVelocity(0.f)
 	, m_dir()
 	, m_active(true)
+	, m_cameraBounds(cameraBounds)
 {
 }
 
@@ -20,7 +21,10 @@ void GameObject::setOrigin()
 
 void GameObject::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(m_sprite);
+	if (getRect().intersects(m_cameraBounds))
+	{
+		target.draw(m_sprite);
+	}	
 }
 
 void GameObject::update(float dt)
@@ -138,4 +142,11 @@ void GameObject::checkWorldBounds()
 float GameObject::getWidth() const
 {
 	return m_sprite.getGlobalBounds().width;
+}
+
+sf::FloatRect GameObject::getRect() const
+{
+	float width = m_sprite.getGlobalBounds().width;
+	float height = m_sprite.getGlobalBounds().height;
+	return sf::FloatRect(m_position.x - width * 0.5f, m_position.y - height * 0.5f, width, height);
 }

@@ -1,7 +1,7 @@
 #include "Meteor.h"
 
-Meteor::Meteor(const sf::Vector2f& worldSize)
-	: GameObject(Type::Meteor, sf::Vector2f(), sf::Vector2f())
+Meteor::Meteor(const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds)
+	: GameObject(Type::Meteor, sf::Vector2f(), worldSize, cameraBounds)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	m_sprite.setTexture(props.texture);
@@ -87,10 +87,10 @@ void Meteor::update(float dt)
 		if (m_shapes[0].getPosition().y < SCREEN_HEIGHT - SCREEN_HEIGHT / 16)
 		{
 			m_shapes[i].move(sf::Vector2f(m_dir));
-			m_shapes[i].rotate(dt * 100);
-			
-			if (i >= METEOR_SEGMENTS && i < METEOR_SEGMENTS * 2) //the indices where the body of meteor was inserted
-			{
+			m_shapes[i].rotate(dt * 100);	
+
+			if (getRect().intersects(m_cameraBounds) && i >= METEOR_SEGMENTS && i < METEOR_SEGMENTS * 2)//the indices where the body of meteor was inserted
+			{				
 				float shapeRot = m_shapes[i].getRotation() + ((i - METEOR_SEGMENTS) * 45);
 				if (shapeRot > 360)
 					shapeRot -= 360;
@@ -117,7 +117,35 @@ void Meteor::update(float dt)
 void Meteor::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (int i = 0; i < m_shapes.size(); i++)
-	{		
-		target.draw(m_shapes[i]);		
+	{
+		target.draw(m_shapes[i]);	
 	}
+}
+
+sf::FloatRect Meteor::getRect() const
+{
+	int minX = INT_MAX;
+	int minY = INT_MAX;
+	int maxX = 0;
+	int maxY = 0;
+	int width = 0; 
+	int height = 0;
+	const int pointCount = m_shapes[0].getPointCount();
+
+	for (int i = 0; i < m_shapes.size() * 0.25f; i++)
+	{
+		width = m_shapes[i].getPoint(1).x - m_shapes[i].getPoint(0).x;
+		height = m_shapes[i].getPoint(1).y - m_shapes[i].getPoint(0).y;
+
+		if (m_shapes[i].getPosition().x < minX)
+			minX = m_shapes[i].getPosition().x;
+
+		if (m_shapes[i].getPosition().y < minY)
+			minY = m_shapes[i].getPosition().y;
+		
+		minX -= width * 0.5;
+		minY -= height * 0.5;	
+	}
+
+	return sf::FloatRect(minX, minY, width, height);
 }

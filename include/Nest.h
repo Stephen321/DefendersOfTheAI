@@ -9,9 +9,8 @@ class Nest : public AI<Nest>
 public:
 	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
 	Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player,
-		 GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors);
+		 GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors, const sf::FloatRect& cameraBounds);
 	void setTargetPos(const sf::Vector2f& target);
-	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	bool checkIfReachedTarget();
 	void getWanderTarget();
 	bool playerInRange() const;
@@ -33,14 +32,15 @@ private:
 
 	const float MAX_PREDICTON = 0.3f;
 
-	const int MAX_ABDUCTORS_PRODUCED = 20;
+	const int MAX_ABDUCTORS_PRODUCED = 1000;// 20;
 	int m_abductorsProduced;
-	const int TIME_TO_PRODUCE = 10;
-	const int PRODUCE_TIME_OFFSET = 5;
+	const int TIME_TO_PRODUCE = 2;//10;
+	const int PRODUCE_TIME_OFFSET = 0;//5;
 	float m_timeToProduceAbductor;
 	float m_produceAbductorTimer;
 	sf::Vector2f m_targetPos;
 	sf::Vector2f m_playerPos;
+	GameObjectPtrVector& m_gameAbductors;
 
 	//missiles
 	const int MAX_MISSILES_ALIVE = 2;
@@ -48,5 +48,4 @@ private:
 	const float RELOAD_TIME = 2.5f;
 	float m_reloadTimer;
 	GameObjectPtrVector& m_gameProjectiles;
-	GameObjectPtrVector& m_gameAbductors;
 };

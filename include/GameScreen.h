@@ -12,4 +12,6 @@ class GameScreen : public Screen
 {
 public:
 	int run(sf::RenderWindow &window) override;
+private: 
+	sf::FloatRect getRectFromView(const sf::View& view);
 };

@@ -16,9 +16,10 @@ public:
 		Laser,
 		Missile,
 		Meteor,
-		Abductor
+		Abductor,
+		Astronaut
 	};
-	GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize);
+	GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual void update(float dt);
 	sf::Vector2f getPosition() const;
@@ -31,6 +32,7 @@ public:
 	virtual void move(float dt);
 	virtual void checkWorldBounds();
 	float getWidth() const;
+	virtual sf::FloatRect getRect() const;
 
 protected:
 	void setOrigin();
@@ -48,4 +50,5 @@ protected:
 	float m_forceAmount;
 	float m_dragCoefficent;
 	float m_maxVelocity;
+	const sf::FloatRect& m_cameraBounds;
 };

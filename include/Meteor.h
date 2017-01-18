@@ -5,9 +5,10 @@
 class Meteor : public GameObject
 {
 public:
-	Meteor(const sf::Vector2f& worldSize);
+	Meteor(const sf::Vector2f& worldSize, const sf::FloatRect& cameraBounds);
 	void update(float dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+	virtual sf::FloatRect getRect() const override;
 private:
 	void generateShape(sf::Vector2f worldSize, int);
 	void createConvexCircle(int, int, int, sf::Color);
