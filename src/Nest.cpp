@@ -1,13 +1,17 @@
 #include "Nest.h"
 
 
-Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player, std::vector<std::shared_ptr<GameObject>>& gameMissiles)
+Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player,
+		   GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors)
 	: AI(Type::Nest, startPos, worldSize)
-	, m_gameProjectiles(gameMissiles)
+	, m_gameProjectiles(gameProjectiles)
+	, m_gameAbductors(gameAbductors)
 	, m_targetPos(m_position)
 	, m_wanderOrientation(atan2(m_dir.y, m_dir.x))
 	, m_player(player)
 	, m_missilesAlive(0)
+	, m_abductorsProduced(0)
+	, m_timeToProduceAbductor(TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET))
 {
 	m_fsm.init(this);
 	m_fsm.changeState(NWanderState::getInstance());
@@ -105,6 +109,11 @@ void Nest::setPlayerPos()
 	m_playerPos = m_player->getPosition();
 }
 
+void Nest::setProduceTimer(float value)
+{
+	m_produceAbductorTimer = value;
+}
+
 void Nest::evade()
 {
 	sf::Vector2f vectorBetween = m_player->getPosition() - m_position;
@@ -123,6 +132,28 @@ void Nest::evade()
 
 	m_targetPos = m_player->getPosition() + (m_player->getVelocity() * prediction);
 	m_dir = Helpers::normaliseCopy(m_position - m_targetPos);
+}
+
+void Nest::produceAbductors(float dt)
+{
+	if (m_abductorsProduced < MAX_ABDUCTORS_PRODUCED)
+	{
+		m_produceAbductorTimer += dt;
+		float offset = m_sprite.getGlobalBounds().height * 1.5f;
+		if (LOWEST_DISTANCE - m_position.y <= m_sprite.getGlobalBounds().height * 2.f) //is there isnt room to spawn an abductor below
+		{
+			offset = -offset; //then spawn above
+		}
+		if (m_produceAbductorTimer > m_timeToProduceAbductor)
+		{
+			//new abductor
+			sf::Vector2f startPos(m_position.x, m_position.y + offset);
+			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors)));
+			m_abductorsProduced++;
+			m_produceAbductorTimer = 0.f;
+			m_timeToProduceAbductor = TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET);
+		}
+	}
 }
 
 void Nest::draw(sf::RenderTarget & target, sf::RenderStates states) const

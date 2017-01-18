@@ -2,6 +2,7 @@
 
 void NWanderState::start(Nest* nest)
 {
+	nest->setProduceTimer(0.f);
 	nest->setMoving(true);
 }
 
@@ -18,6 +19,7 @@ void NWanderState::update(Nest* nest, float dt)
 		nest->changeState(NEvadeState::getInstance());
 	}
 	nest->fire(dt);
+	nest->produceAbductors(dt);
 }
 
 void NWanderState::end(Nest* nest)
@@ -40,6 +42,7 @@ void NEvadeState::update(Nest* nest, float dt)
 	{
 		nest->changeState(NWanderState::getInstance());
 	}
+	nest->produceAbductors(dt);
 	nest->fire(dt);
 }
 

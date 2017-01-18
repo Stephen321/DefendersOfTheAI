@@ -3,16 +3,27 @@
 #include "SFML/Graphics.hpp"
 #include "Abductor.h"
 
-Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::vector<std::shared_ptr<Abductor>>& abductors)
+Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors)
 	: AI(Type::Abductor, startPos, worldSize)
-	, m_abductors(abductors)
+	, m_gameAbductors(gameAbductors)
 	, START_MAX_VEL(m_maxVelocity)
+	, m_patrolWaveTimer(0.f)
+	, m_reachedPatrolY(false)
 {
+	//y = L/2 + cos(x / WL) * (L/2 - H)
+	//y - L/2 = cos(X / WL) * (L/2 - H)
+	//(y - L/2) / (L/2 - H) = cos(x / WL)
+	//acos((y - L/2) / (L/2 - H)) = x / WL
+	//x = acos((y - L/2) / (L/2 - H)) / WL
 	m_velocity = sf::Vector2f(Helpers::randomNumberF(-2, 2), Helpers::randomNumberF(-2, 2)); // Allows for range of -2 -> 2
 	m_fsm.init(this);
 	m_fsm.changeState(APatrolState::getInstance());
 }
 
+void Abductor::setReachedPatrolY(bool value)
+{
+	m_reachedPatrolY = value;
+}
 // Function that checks and modifies the distance
 // of a Abductor if it breaks the law of separation.
 sf::Vector2f Abductor::separation()
@@ -20,14 +31,14 @@ sf::Vector2f Abductor::separation()
 	sf::Vector2f steer(0, 0);
 	int count = 0;
 	// For every Abductor in the system, check if it's too close
-	for (int i = 0; i < m_abductors.size(); i++)
+	for (int i = 0; i < m_gameAbductors.size(); i++)
 	{
 		// Calculate distance from current Abductor to Abductor we're looking at
-		float d = Helpers::getLength(m_position - m_abductors[i]->getPosition());
+		float d = Helpers::getLength(m_position - m_gameAbductors[i]->getPosition());
 		// If this is a fellow Abductor and it's too close, move away from it
 		if (d > 0 && d < DESIRED_SEPARATION)
 		{
-			sf::Vector2f diff = m_position - m_abductors[i]->getPosition();
+			sf::Vector2f diff = m_position - m_gameAbductors[i]->getPosition();
 			Helpers::normalise(diff);
 			diff /= d;      // Weight by distance. Further away doesnt influence as much
 			steer += diff;
@@ -55,12 +66,12 @@ sf::Vector2f Abductor::alignment()
 {
 	sf::Vector2f sum(0, 0);	
 	int count = 0;
-	for (int i = 0; i < m_abductors.size(); i++)
+	for (int i = 0; i < m_gameAbductors.size(); i++)
 	{
-		float d = Helpers::getLength(m_position - m_abductors[i]->getPosition());
+		float d = Helpers::getLength(m_position - m_gameAbductors[i]->getPosition());
 		if (d > 0 && d < NEIGHBOUR_RADIUS)
 		{
-			sum += m_abductors[i]->getVelocity();
+			sum += m_gameAbductors[i]->getVelocity();
 			count++;
 		}
 	}
@@ -87,12 +98,12 @@ sf::Vector2f Abductor::cohesion()
 {
 	sf::Vector2f sum(0, 0);	
 	int count = 0;
-	for (int i = 0; i < m_abductors.size(); i++)
+	for (int i = 0; i < m_gameAbductors.size(); i++)
 	{
-		float d = Helpers::getLength(m_position - m_abductors[i]->getPosition());
+		float d = Helpers::getLength(m_position - m_gameAbductors[i]->getPosition());
 		if (d > 0 && d < NEIGHBOUR_RADIUS)
 		{
-			sum += m_abductors[i]->getPosition();
+			sum += m_gameAbductors[i]->getPosition();
 			count++;
 		}
 	}
@@ -131,7 +142,6 @@ void Abductor::update(float dt)
 	m_fsm.update(dt);
 	checkWorldBounds();
 	m_sprite.setPosition(m_position);
-	m_sprite.setRotation(angle(m_velocity));
 }
 
 void Abductor::setAcceleration(const sf::Vector2f & acceleration)
@@ -157,8 +167,14 @@ void Abductor::checkWorldBounds()
 	}
 }
 
+float Abductor::getWaveY()
+{
+	return LOWEST_DISTANCE * 0.5f + (float)cos(m_patrolWaveTimer / PATROL_WAVE_LENGTH) * (LOWEST_DISTANCE * 0.5f - m_sprite.getGlobalBounds().height);
+}
+
 void Abductor::move(float dt)
 {
+	m_patrolWaveTimer += dt * PATROL_TIMER_SCALE;
 	m_velocity += m_acceleration  * dt; //v = u + at
 	Helpers::limit(m_velocity, m_maxVelocity);
 	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
@@ -167,10 +183,10 @@ void Abductor::move(float dt)
 int Abductor::getNeighbourCount() const
 {
 	int count = 0;
-	for (int i = 0; i < m_abductors.size(); i++)
+	for (int i = 0; i < m_gameAbductors.size(); i++)
 	{
-		float d = Helpers::getLength(m_position - m_abductors[i]->getPosition());
-		if (this != m_abductors[i].get() && d < NEIGHBOUR_RADIUS)
+		float d = Helpers::getLength(m_position - m_gameAbductors[i]->getPosition());
+		if (this != m_gameAbductors[i].get() && d < NEIGHBOUR_RADIUS)
 		{
 			count++;
 		}
@@ -178,10 +194,25 @@ int Abductor::getNeighbourCount() const
 	return count;
 }
 
-void Abductor::setYPosWave()
+void Abductor::setYPosToWave()
 {
-	m_position.y = LOWEST_DISTANCE * 0.5f + (float)cos(m_position.x / (LOWEST_DISTANCE * 0.25f)) * (LOWEST_DISTANCE * 0.5f - m_sprite.getGlobalBounds().height);
-	//TODO: change velocity .x to match
+	if (m_reachedPatrolY)
+	{
+		m_position.y = getWaveY();
+	}
+	else
+	{
+		sf::Vector2f vectorBetween = sf::Vector2f(m_position.x, getWaveY()) - m_position;
+		if (Helpers::getLength(vectorBetween) < MATCHED_Y_THRESHOLD)
+		{
+			m_reachedPatrolY = true;
+		}
+		else
+		{
+			m_dir = Helpers::normaliseCopy(vectorBetween); //set dir to move to where we should be along the wave
+			m_velocity = m_maxVelocity * m_dir;
+		}
+	}
 }
 
 float Abductor::getForceAmount() const
@@ -207,13 +238,4 @@ void Abductor::resetMaxVelocity()
 void Abductor::setMaxPatrolVelocity()
 {
 	m_maxVelocity = START_MAX_VEL * PATROL_MAX_VEL_SCALE;
-}
-
-// Calculates the angle for the velocity of a Abductor which allows the visual 
-// image to rotate in the direction that it is going in.
-float Abductor::angle(const sf::Vector2f& v)
-{
-	// From the definition of the dot product
-	float angle = (float)(atan2(v.x, -v.y) * 180.f / M_PI);
-	return angle;
 }

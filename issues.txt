@@ -5,3 +5,6 @@ nest sometimes moves out the top of the map
 flock is not seperating correctly
 better way to do leftTextue andr ightTexutre (culling)
 only half of ai visible at wrap around points
+instead of passing actual vector ref to nests etc, pass ref to a manager which will do it for you
+why is it so laggy
+abductor patrol only use max speed correctly on x axis

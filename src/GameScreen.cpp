@@ -5,8 +5,8 @@
 
 int GameScreen::run(sf::RenderWindow &window)
 {
-	typedef std::vector<std::shared_ptr<GameObject>> GameObjectVector;
-	typedef std::unordered_map<std::string, GameObjectVector> GameObjectMap;
+	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
+	typedef std::unordered_map<std::string, GameObjectPtrVector> GameObjectMap;
 	GameLoader gameLoader("assets/");
 	sf::Event Event;
 	bool Running = true;
@@ -27,14 +27,16 @@ int GameScreen::run(sf::RenderWindow &window)
 	rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
 
 	GameObjectMap gameObjectsMap; //TODO: instead of 4 vectors?
-	gameObjectsMap[Constants::ABDUCTOR_KEY] = GameObjectVector();
-	gameObjectsMap[Constants::MUTANT_KEY] = GameObjectVector();
-	gameObjectsMap[Constants::PROJECTILE_KEY] = GameObjectVector();
-	gameObjectsMap[Constants::MISC_KEY] = GameObjectVector();
+	gameObjectsMap[Constants::ABDUCTOR_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::MUTANT_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::PROJECTILE_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::MISC_KEY] = GameObjectPtrVector();
 
-	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f), worldSize, gameObjectsMap[Constants::PROJECTILE_KEY]));
+	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f),
+															 worldSize, gameObjectsMap[Constants::PROJECTILE_KEY]));
 	gameObjectsMap[Constants::MISC_KEY].push_back(player);
-	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
+	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f),
+												  worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
 	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
 
@@ -126,8 +128,8 @@ int GameScreen::run(sf::RenderWindow &window)
 
 		for (GameObjectMap::iterator it = gameObjectsMap.begin(); it != gameObjectsMap.end(); ++it)
 		{
-			GameObjectVector& v = it->second;
-			for (GameObjectVector::iterator itV = v.begin(); itV != v.end();)
+			GameObjectPtrVector& v = it->second;
+			for (GameObjectPtrVector::iterator itV = v.begin(); itV != v.end();)
 			{				
 				std::shared_ptr<GameObject>& gameObject = (*itV);
 				//update 

@@ -2,19 +2,24 @@
 #include "AI.h"
 #include "NestStates.h"
 #include "Missile.h"
+#include "Abductor.h"
 
 class Nest : public AI<Nest>
 {
 public:
-	Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player, std::vector<std::shared_ptr<GameObject>>& gameProjecttiles);
+	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
+	Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player,
+		 GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors);
 	void setTargetPos(const sf::Vector2f& target);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	bool checkIfReachedTarget();
 	void getWanderTarget();
 	bool playerInRange() const;
 	void evade();
+	void produceAbductors(float dt);
 	void fire(float dt);
 	void setPlayerPos();
+	void setProduceTimer(float value);
 private:
 	const std::shared_ptr<GameObject> m_player;
 	float m_wanderOrientation;
@@ -27,6 +32,13 @@ private:
 	const float WANDER_RADIUS = 50.f;
 
 	const float MAX_PREDICTON = 0.3f;
+
+	const int MAX_ABDUCTORS_PRODUCED = 20;
+	int m_abductorsProduced;
+	const int TIME_TO_PRODUCE = 10;
+	const int PRODUCE_TIME_OFFSET = 5;
+	float m_timeToProduceAbductor;
+	float m_produceAbductorTimer;
 	sf::Vector2f m_targetPos;
 	sf::Vector2f m_playerPos;
 
@@ -35,5 +47,6 @@ private:
 	int m_missilesAlive;
 	const float RELOAD_TIME = 2.5f;
 	float m_reloadTimer;
-	std::vector<std::shared_ptr<GameObject>>& m_gameProjectiles;
+	GameObjectPtrVector& m_gameProjectiles;
+	GameObjectPtrVector& m_gameAbductors;
 };

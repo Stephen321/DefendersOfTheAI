@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::vector<std::shared_ptr<GameObject>>& gameProjectiles)
+Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameProjectiles)
 	: GameObject(Type::Player, startPos, worldSize)
 	, m_reloadTimer(0.f)
 	, m_gameProjectiles(gameProjectiles)
