@@ -17,14 +17,17 @@ Meteor::Meteor(const sf::Vector2f& worldSize)
 	SCREEN_HEIGHT = worldSize.y;
 
 	int screenUnit = worldSize.x / 9 / 128;
-	sf::Vector2f randDir = sf::Vector2f(rand() % screenUnit * 0.025f + screenUnit * 0.025f, rand() % screenUnit * 0.025f + screenUnit * 0.025f);
+	m_radius = (rand() % 10 + 5) * screenUnit;
+	int max_radius = 15 * screenUnit;
+
+	sf::Vector2f randDir = sf::Vector2f(rand() % screenUnit * 0.25f + screenUnit * 0.1f , rand() % screenUnit * 0.25f + screenUnit * 0.25f * max_radius / m_radius);
 
 	if (rand() % 2 == 0)
 		randDir.x *= -1;
 
 	m_dir = randDir;
 	
-	m_radius = (rand() % 10 + 5) * screenUnit;
+	
 	generateShape(worldSize, screenUnit);
 }
 
