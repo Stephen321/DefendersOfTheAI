@@ -25,6 +25,9 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::RenderTexture rightTexture;
 	rightTexture.create(bounds.width, bounds.height);
 	rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
+	sf::RenderTexture preTeleportTexture;
+	preTeleportTexture.create(bounds.width, bounds.height);
+	preTeleportTexture.setView(sf::View());
 
 	GameObjectMap gameObjectsMap; //TODO: instead of 4 vectors?
 	gameObjectsMap[Constants::ABDUCTOR_KEY] = GameObjectPtrVector();
@@ -111,6 +114,7 @@ int GameScreen::run(sf::RenderWindow &window)
 		window.clear(sf::Color(96, 23, 54));
 		leftTexture.clear();
 		rightTexture.clear();
+		preTeleportTexture.clear(sf::Color::Transparent);
 		//TODOWRAP: only draw section 0 and the last section
 
 		//draw background
@@ -161,25 +165,26 @@ int GameScreen::run(sf::RenderWindow &window)
 
 
 				
-				//if (gameObject->getRect().intersects(getRectFromView(window.getView())))//bounds)) test test test 
-				//{
+				if (gameObject->getRect().intersects(getRectFromView(window.getView())))//bounds)) test test test 
+				{
 					window.draw(*gameObject);
-				//}
-				//if (player->getPosition().x < bounds.width)
+				}
+				if (player->getPosition().x < bounds.width)
+				{
+					preTeleportTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
+				}
+				else if (player->getPosition().x > worldSize.x - bounds.width)
+				{
+					preTeleportTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
+				}
+				else
+				{
+					preTeleportTexture.setView(sf::View());;
+				}
+				//if (gameObject->getRect().intersects(getRectFromView(preTeleportTexture.getView())))
 				//{
-					sf::View view2(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height));
-					view2.zoom(zoom);
-					window.setView(view2);
+					preTeleportTexture.draw(*gameObject);
 				//}
-				//else if (player->getPosition().x > worldSize.x - bounds.width)
-				//{
-					//window.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
-				//}
-				//if (gameObject->getRect().intersects(getRectFromView(leftTexture.getView())))
-				//{
-					window.draw(*gameObject);
-				//}
-					window.setView(view);
 
 
 				//remove if not active
@@ -239,6 +244,20 @@ int GameScreen::run(sf::RenderWindow &window)
 			sf::Sprite s2(rightTexture.getTexture());
 			s2.setPosition(worldSize.x, 0.f);
 			window.draw(s2);
+		}
+		if (player->getPosition().x <= bounds.width)
+		{
+			preTeleportTexture.display();
+			sf::Sprite s(preTeleportTexture.getTexture());
+			s.setPosition(0.f, 0.f);
+			window.draw(s);
+		}
+		else if(player->getPosition().x >= worldSize.x - bounds.width)
+		{
+			preTeleportTexture.display();
+			sf::Sprite s(preTeleportTexture.getTexture());
+			s.setPosition(worldSize.x - bounds.width, 0.f);
+			window.draw(s);
 		}
 
 		window.display();
