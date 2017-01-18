@@ -1,7 +1,7 @@
 #include "Meteor.h"
 
-Meteor::Meteor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
-	: GameObject(Type::Meteor, startPos, sf::Vector2f())
+Meteor::Meteor(const sf::Vector2f& worldSize)
+	: GameObject(Type::Meteor, sf::Vector2f(), sf::Vector2f())
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	m_sprite.setTexture(props.texture);
@@ -16,13 +16,14 @@ Meteor::Meteor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
 
 	SCREEN_HEIGHT = worldSize.y;
 
-	sf::Vector2f randDir = sf::Vector2f(rand() % 5 + 5, rand() % 6 + 2);
+	int screenUnit = worldSize.x / 9 / 128;
+	sf::Vector2f randDir = sf::Vector2f(rand() % screenUnit * 0.025f + screenUnit * 0.025f, rand() % screenUnit * 0.025f + screenUnit * 0.025f);
 
 	if (rand() % 2 == 0)
 		randDir.x *= -1;
 
 	m_dir = randDir;
-	int screenUnit = worldSize.x / 9 / 128;
+	
 	m_radius = (rand() % 10 + 5) * screenUnit;
 	generateShape(worldSize, screenUnit);
 }
@@ -38,6 +39,7 @@ void Meteor::generateShape(sf::Vector2f worldSize, int screenUnit)
 
 void Meteor::createConvexCircle(int screenUnit, int radius, int xPos, sf::Color col)
 {
+	xPos = 0;
 	std::vector<sf::Vector2f> circlePath;
 	//calculate the paths for each circle
 	for (int i = 0; i < METEOR_SEGMENTS; i++)
@@ -79,7 +81,7 @@ void Meteor::update(float dt)
 			m_shapes[i].rotate(dt * 100);
 		}
 		else
-			m_alive = false;
+			m_active = false;
 	}	
 
 	GameObject::update(dt);

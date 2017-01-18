@@ -5,7 +5,7 @@
 class Meteor : public GameObject
 {
 public:
-	Meteor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize);
+	Meteor(const sf::Vector2f& worldSize);
 	void update(float dt) override;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	bool getAlive() const;
