@@ -74,49 +74,55 @@ bool GameObject::getActive() const
 
 void GameObject::move(float dt)
 {
-	sf::Vector2f linearDrag;
-	float force = (m_moving) ? m_forceAmount : 0.f;
-	sf::Vector2f acceleration;
-	if (m_moving == false)
-	{
-		acceleration = calculateLinearDrag();
-
-		if (m_velocity.x <= MIN_VEL)
-		{
-			m_velocity.x = 0.f;
-		}
-		if (m_velocity.y <= MIN_VEL)
-		{
-			m_velocity.y = 0.f;
-		}
-	}
-	acceleration += (force * m_dir); //a = F/m
+	sf::Vector2f acceleration = calculateAcceleration();
+	
 	m_velocity += acceleration * dt; //v = u + at
 	Helpers::limit(m_velocity, m_maxVelocity);
 
 	m_position += m_velocity * dt + (0.5f * (acceleration * (dt * dt))); // s = ut + 0.5at^2
 }
 
-sf::Vector2f GameObject::calculateLinearDrag()
+//TODO: is this function still necessary for abductors flocking?
+sf::Vector2f GameObject::calculateAcceleration()
 {
-	sf::Vector2f linearDrag;
+	sf::Vector2f acceleration;
+
+	if (m_moving == false)
+	{
+		if (abs(m_velocity.x) <= MIN_VEL && m_velocity.x != 0.f)
+		{
+			m_velocity.x = 0.f;
+		}
+		if (abs(m_velocity.y) <= MIN_VEL && m_velocity.y != 0.f)
+		{
+			m_velocity.y = 0.f;
+		}
+	}
 	if (abs(m_velocity.x) > MIN_VEL)
 	{
-		linearDrag.x = m_dragCoefficent * -m_velocity.x;
+		acceleration.x = m_dragCoefficent * -m_velocity.x;
 	}
 	if (abs(m_velocity.y) > MIN_VEL)
 	{
-		linearDrag.y = m_dragCoefficent * -m_velocity.y;
+		acceleration.y = m_dragCoefficent * -m_velocity.y;
 	}
-	return linearDrag;
+	float force = (m_moving) ? m_forceAmount : 0.f;
+	acceleration += (force * m_dir); //a = F/m
+	return acceleration;
 }
 
 void GameObject::checkWorldBounds()
 {
 	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
 	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
-	if (m_position.y < halfHeight || m_position.y > m_worldSize.y - halfHeight)
+	if (m_position.y < halfHeight)
 	{
+		m_position.y = halfHeight;
+		m_velocity.y = 0.f;
+	}		
+	else if (m_position.y > m_worldSize.y - halfHeight)
+	{
+		m_position.y = m_worldSize.y - halfHeight;
 		m_velocity.y = 0.f;
 	}
 	if (m_position.x < -halfWidth)

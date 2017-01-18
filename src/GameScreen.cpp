@@ -5,6 +5,8 @@
 
 int GameScreen::run(sf::RenderWindow &window)
 {
+	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
+	typedef std::unordered_map<std::string, GameObjectPtrVector> GameObjectMap;
 	GameLoader gameLoader("assets/");
 	sf::Event Event;
 	bool Running = true;
@@ -24,22 +26,21 @@ int GameScreen::run(sf::RenderWindow &window)
 	rightTexture.create(bounds.width, bounds.height);
 	rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
 
-	std::vector<std::shared_ptr<GameObject>> m_gameObjects;
+	GameObjectMap gameObjectsMap; //TODO: instead of 4 vectors?
+	gameObjectsMap[Constants::ABDUCTOR_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::MUTANT_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::PROJECTILE_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::MISC_KEY] = GameObjectPtrVector();
 
-	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f), worldSize));
-	m_gameObjects.push_back(player);
-	m_gameObjects.push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f), worldSize, player)));
+	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f),
+															 worldSize, gameObjectsMap[Constants::PROJECTILE_KEY]));
+	gameObjectsMap[Constants::MISC_KEY].push_back(player);
+	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f),
+												  worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
+	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
-	
-	std::vector<std::shared_ptr<Abductor>> testAbductors;
-	sf::Vector2f testStart(100, 300);
-	for (int i = 0; i < 1; i++)
-	{
-		testAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(testStart, worldSize, testAbductors)));
-	}
 
-	Background background(bounds, player, m_gameObjects);
-
+	Background background(bounds, player);
 
 	//debug
 	bool pause = false;
@@ -78,7 +79,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 			if (Event.type == sf::Event::MouseButtonReleased)
 			{
-				testAbductors[rand() % testAbductors.size()]->setVelocity(sf::Vector2f(Helpers::randomNumberF(-0.03, 0.03f), Helpers::randomNumberF(-0.03, 0.03f)));
+				//testAbductors[rand() % testAbductors.size()]->setVelocity(sf::Vector2f(Helpers::randomNumberF(-0.03, 0.03f), Helpers::randomNumberF(-0.03, 0.03f)));
 				if (Event.mouseButton.button == sf::Mouse::Button::Right)
 					view.reset(sf::FloatRect(0.f, 0.f, (float)window.getSize().x, (float)window.getSize().y));
 			}
@@ -92,16 +93,15 @@ int GameScreen::run(sf::RenderWindow &window)
 			}
 		}
 
+		//get dt
 		float dt = frameClock.restart().asSeconds();
 		if (dt > 0.3f || pause)//debug test for moving window/losing focus
 			dt = 0.f;
 
-		for (std::shared_ptr<GameObject>& go : m_gameObjects)
-		{
-			go->update(dt);
-		}
+		//update background
 		background.update(dt);
 
+		//update camera
 		view.setCenter(player->getPosition().x , view.getCenter().y);
 		bounds.left = view.getCenter().x - (bounds.width * 0.5f);
 		bounds.top = view.getCenter().y - (bounds.height * 0.5f);
@@ -114,7 +114,7 @@ int GameScreen::run(sf::RenderWindow &window)
 		rightTexture.clear();
 		//TODOWRAP: only draw section 0 and the last section
 
-
+		//draw background
 		leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
 		rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
 		leftTexture.draw(background);
@@ -125,33 +125,42 @@ int GameScreen::run(sf::RenderWindow &window)
 		rightTexture.draw(background);
 
 		window.draw(background);
-		for (const std::shared_ptr<GameObject>& go : m_gameObjects)
-		{
-			//if (go->getPosition().x - go->getWidth())
 
-			leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
-			rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
-			leftTexture.draw(*go);
-			rightTexture.draw(*go);
-			leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
-			rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
-			leftTexture.draw(*go);
-			rightTexture.draw(*go);
-			window.draw(*go); 
-		}
-
-		for (int i = 0; i < testAbductors.size(); i++)
+		for (GameObjectMap::iterator it = gameObjectsMap.begin(); it != gameObjectsMap.end(); ++it)
 		{
-			testAbductors[i]->update(dt);
-			leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
-			rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
-			leftTexture.draw(*testAbductors[i]);
-			rightTexture.draw(*testAbductors[i]);
-			leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
-			rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
-			leftTexture.draw(*testAbductors[i]);
-			rightTexture.draw(*testAbductors[i]);
-			window.draw(*testAbductors[i]);
+			GameObjectPtrVector& v = it->second;
+			for (GameObjectPtrVector::iterator itV = v.begin(); itV != v.end();)
+			{				
+				std::shared_ptr<GameObject>& gameObject = (*itV);
+				//update 
+				gameObject->update(dt); //TODO: another loop before .clear
+
+				//draw
+				leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
+				rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
+				leftTexture.draw(*gameObject);
+				rightTexture.draw(*gameObject);
+				leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
+				rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
+				leftTexture.draw(*gameObject);
+				rightTexture.draw(*gameObject);
+				window.draw(*gameObject);
+
+
+				//remove if not active
+				if ((*itV)->getActive() == false)
+				{
+					itV = v.erase(itV);
+					if (v.empty())
+					{
+						break;
+					}
+				}
+				else
+				{
+					++itV;
+				}
+			}
 		}
 
 
@@ -187,15 +196,12 @@ int GameScreen::run(sf::RenderWindow &window)
 		rightTexture.draw(boundsRect);
 		window.draw(boundsRect);
 
-		if (player->getPosition().x <= bounds.width)
+		if (player->getPosition().x <= bounds.width || player->getPosition().x >= worldSize.x - bounds.width)
 		{
 			leftTexture.display();
 			sf::Sprite s(leftTexture.getTexture());
 			s.setPosition(-bounds.width, 0.f);
 			window.draw(s);
-		}
-		else if (player->getPosition().x >= worldSize.x - bounds.width)
-		{
 			rightTexture.display();
 			sf::Sprite s2(rightTexture.getTexture());
 			s2.setPosition(worldSize.x, 0.f);

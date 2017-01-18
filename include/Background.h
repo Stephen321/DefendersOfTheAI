@@ -4,7 +4,7 @@
 class Background : public sf::Drawable
 {
 public:
-	Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player, const std::vector<std::shared_ptr<GameObject>>& gameObjects);
+	Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 private:

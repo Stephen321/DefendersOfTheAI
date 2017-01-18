@@ -1,43 +1,20 @@
 #include "Nest.h"
 
 
-Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player)
+Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player,
+		   GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors)
 	: AI(Type::Nest, startPos, worldSize)
+	, m_gameProjectiles(gameProjectiles)
+	, m_gameAbductors(gameAbductors)
 	, m_targetPos(m_position)
 	, m_wanderOrientation(atan2(m_dir.y, m_dir.x))
 	, m_player(player)
+	, m_missilesAlive(0)
+	, m_abductorsProduced(0)
+	, m_timeToProduceAbductor(TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET))
 {
 	m_fsm.init(this);
 	m_fsm.changeState(NWanderState::getInstance());
-
-
-	testCircle.setOutlineColor(sf::Color::Green);
-	testCircle.setFillColor(sf::Color::Transparent);
-	testCircle.setOutlineThickness(2.f);
-	testCircle.setPosition(m_targetPos);
-	testCircle.setRadius(WANDER_RADIUS);
-	testCircle.setOrigin(testCircle.getRadius(), testCircle.getRadius());
-
-	testCircle2.setFillColor(sf::Color(0, 0, 0, 255));
-	testCircle2.setPosition(m_targetPos);
-	testCircle2.setRadius(5.f);
-	testCircle2.setOrigin(testCircle2.getRadius(), testCircle2.getRadius());
-
-	testCircle3.setFillColor(sf::Color(0, 120, 0, 128));
-	testCircle3.setPosition(m_targetPos);
-	testCircle3.setRadius(MIN_TARGET_DIST);
-	testCircle3.setOrigin(testCircle3.getRadius(), testCircle3.getRadius());
-
-
-	testCircle4.setFillColor(sf::Color(255, 255, 255, 128));
-	testCircle4.setPosition(m_position);
-	testCircle4.setRadius(5.f);
-	testCircle4.setOrigin(testCircle4.getRadius(), testCircle4.getRadius());
-
-	testCircle5.setFillColor(sf::Color(200, 200, 200, 50));
-	testCircle5.setPosition(m_position);
-	testCircle5.setRadius(PLAYER_IN_RANGE);
-	testCircle5.setOrigin(testCircle5.getRadius(), testCircle5.getRadius());
 }
 
 void Nest::setTargetPos(const sf::Vector2f & target)
@@ -45,22 +22,6 @@ void Nest::setTargetPos(const sf::Vector2f & target)
 	m_velocity.x = 0.f;
 	m_velocity.y = 0.f;
 	m_targetPos = target;
-
-
-	testCircle.setPosition(m_targetPos);
-}
-
-void Nest::update(float dt)
-{
-	testCircle4.setPosition(m_position);
-	testCircle5.setPosition(m_position);
-
-	m_reloadTimer += dt;
-	for (Missile& m : m_missiles)
-	{
-		m.update(dt);
-	}
-	AI::update(dt);
 }
 
 bool Nest::checkIfReachedTarget()
@@ -73,66 +34,54 @@ bool Nest::checkIfReachedTarget()
 	return reachedTarget;
 }
 
-void Nest::getWanderTarget(float offsetScale)
+void Nest::getWanderTarget()
 {
 	float change = (rand() % 2 == 0) ? ANGLE_CHANGE : -ANGLE_CHANGE;
 	change = change * (M_PI / 180.f);
 	m_wanderOrientation += change;
 
 	float currentOrientation = atan2(m_dir.y, m_dir.x);
-	//std::cout << "currentOrientation: " << currentOrientation << std::endl;
 
 	float targetOrientation = m_wanderOrientation + currentOrientation;
 
-	m_targetPos = m_position + (offsetScale * WANDER_OFFSET * m_dir);
-	testCircle.setPosition(m_targetPos);
+	m_targetPos = m_position + (WANDER_OFFSET * m_dir);
 
 	sf::Vector2f targetDir;
 	targetDir.x = cos(targetOrientation);
 	targetDir.y = sin(targetOrientation);
-	//std::cout << "targetOrientation: " << targetOrientation << std::endl;
 
 	m_targetPos += WANDER_RADIUS * targetDir;
-	testCircle2.setPosition(m_targetPos);
-	testCircle3.setPosition(m_targetPos);
-	m_dir = Helpers::normaliseCopy(m_targetPos - m_position); // direction might have changed if target did
 
 
-	if (m_targetPos.y < 0.f)
+	if (m_targetPos.y <= m_sprite.getGlobalBounds().height * 0.5f)
 	{
-		m_dir.y = -m_dir.y;
+		m_targetPos += 1.5f * (((m_targetPos.y < 0) ? abs(m_targetPos.y) : 0) + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, 1.f);
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
-		getWanderTarget(0.5f);
 	}
-	else if (m_targetPos.y > LOWEST_DISTANCE)
+	else if (m_targetPos.y > LOWEST_DISTANCE - m_sprite.getGlobalBounds().height * 0.5f)
 	{
-		m_dir.y = -m_dir.y;
+		m_targetPos += 1.5f * (m_targetPos.y - LOWEST_DISTANCE + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, -1.f);
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
-		getWanderTarget(0.5f);
 	}
-	//TODOWRAP: make sure this goes to next screen and calc will make it go shortest distance
+	m_dir = Helpers::normaliseCopy(m_targetPos - m_position);
 	if (m_targetPos.x < 0.f)
 	{
-		m_dir.x = -m_dir.x;
-		m_velocity.x = 0.f;
-		m_velocity.y = 0.f;
-		getWanderTarget(0.5f);
+		m_dir = Helpers::normaliseCopy(m_targetPos - m_position);
+		m_targetPos.x = m_worldSize.x - abs(m_targetPos.x);
 	}
 	else if (m_targetPos.x > m_worldSize.x)
 	{
-		m_dir.x = -m_dir.x;
-		m_velocity.x = 0.f;
-		m_velocity.y = 0.f;
-		getWanderTarget(0.5f);
+		m_dir = Helpers::normaliseCopy(m_targetPos - m_position);
+		m_targetPos.x = m_targetPos.x - m_worldSize.x;
 	}
 }
 
 bool Nest::playerInRange() const
 {
 	bool inRange = false;
-	if (Helpers::getLength(m_player->getPosition() - m_position) <= PLAYER_IN_RANGE)
+	if (Helpers::getLength(m_player->getPosition() - m_position) <= PLAYER_EVADE_RANGE)
 	{
 		inRange = true;
 	}
@@ -140,14 +89,30 @@ bool Nest::playerInRange() const
 }
 
 
-void Nest::fire()
+void Nest::fire(float dt)
 {
+	m_reloadTimer += dt;
 	if (m_reloadTimer < RELOAD_TIME)
 		return;
-	m_reloadTimer = 0.f;
-	m_missiles.push_back(Missile(sf::Vector2f(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f)), m_worldSize, m_player->getPosition() + m_player->getVelocity()));
+	if ((Helpers::getLength(m_player->getPosition() - m_position)) < PLAYER_MISSILE_RANGE
+		&& m_missilesAlive < MAX_MISSILES_ALIVE)
+	{
+		m_reloadTimer = 0.f;
+		m_missilesAlive++;
+		sf::Vector2f startPos(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f));
+		m_gameProjectiles.push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, m_playerPos, m_missilesAlive)));
+	}
 }
 
+void Nest::setPlayerPos()
+{
+	m_playerPos = m_player->getPosition();
+}
+
+void Nest::setProduceTimer(float value)
+{
+	m_produceAbductorTimer = value;
+}
 
 void Nest::evade()
 {
@@ -167,20 +132,31 @@ void Nest::evade()
 
 	m_targetPos = m_player->getPosition() + (m_player->getVelocity() * prediction);
 	m_dir = Helpers::normaliseCopy(m_position - m_targetPos);
+}
 
-	testCircle2.setPosition(m_targetPos);
+void Nest::produceAbductors(float dt)
+{
+	if (m_abductorsProduced < MAX_ABDUCTORS_PRODUCED)
+	{
+		m_produceAbductorTimer += dt;
+		float offset = m_sprite.getGlobalBounds().height * 1.5f;
+		if (LOWEST_DISTANCE - m_position.y <= m_sprite.getGlobalBounds().height * 2.f) //is there isnt room to spawn an abductor below
+		{
+			offset = -offset; //then spawn above
+		}
+		if (m_produceAbductorTimer > m_timeToProduceAbductor)
+		{
+			//new abductor
+			sf::Vector2f startPos(m_position.x, m_position.y + offset);
+			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors)));
+			m_abductorsProduced++;
+			m_produceAbductorTimer = 0.f;
+			m_timeToProduceAbductor = TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET);
+		}
+	}
 }
 
 void Nest::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	for (const Missile& m : m_missiles)
-	{
-		m.draw(target, states);
-	}
 	GameObject::draw(target, states);
-	target.draw(testCircle);
-	target.draw(testCircle2);
-	target.draw(testCircle3);
-	target.draw(testCircle4);
-	target.draw(testCircle5);
 }

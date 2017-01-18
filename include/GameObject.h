@@ -33,7 +33,7 @@ public:
 
 protected:
 	void setOrigin();
-	sf::Vector2f calculateLinearDrag();
+	sf::Vector2f calculateAcceleration();
 
 	sf::Vector2f m_worldSize;
 	bool m_active;

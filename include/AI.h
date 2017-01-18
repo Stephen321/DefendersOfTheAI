@@ -17,7 +17,7 @@ public:
 		m_forceAmount = props.forceAmount;
 		m_dragCoefficent = props.dragCoefficent;
 		m_maxVelocity = props.maxVelocity;
-		m_dir.x = 1.f;
+		m_dir.x = (rand() % 2 == 0) ? 1 : -1;
 		setOrigin();
 	}
 
@@ -38,6 +38,17 @@ public:
 	void setMoving(bool moving)
 	{
 		m_moving = moving;
+	}
+
+	void checkWorldBounds() override
+	{
+		GameObject::checkWorldBounds();
+		float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
+		if (m_position.y > LOWEST_DISTANCE - halfHeight)
+		{
+			m_position.y = LOWEST_DISTANCE - halfHeight;
+			m_velocity.y = 0.f;
+		}
 	}
 protected:
 	const float LOWEST_DISTANCE;
