@@ -105,62 +105,7 @@ void Background::createSurface(const sf::Vector2f& screenSize, int screenUnit)
 		convex.setPoint(2, sf::Vector2f(pointCoords[i + 1].x, pointCoords[i + 1].y));							//bottom right
 		convex.setPoint(3, sf::Vector2f(pointCoords[i].x, pointCoords[i].y));									//bottom left
 		convex.setFillColor(sf::Color(225, 155, 176));	//set the rim highlight colour
-		m_surfaceRimShapes.push_back(convex);
-	}
-
-	//add shapes onto the end to accomodate teleportation edges
-	int width = 0;
-	int copiedShapes = 0;
-	for (int i = 0; i < m_surfaceShapes.size(); i++)
-	{
-		sf::ConvexShape convex = m_surfaceShapes[i];
-		convex.setPosition(sf::Vector2f(convex.getPosition().x + screenSize.x * 9, convex.getPosition().y));
 		m_surfaceShapes.push_back(convex);
-
-		convex = m_surfaceRimShapes[i];
-		convex.setPosition(sf::Vector2f(convex.getPosition().x + screenSize.x * 9, convex.getPosition().y));
-		m_surfaceRimShapes.push_back(convex);
-		copiedShapes++;
-
-		width += convex.getPoint(1).x - convex.getPoint(0).x;
-		if (width > screenSize.x * 0.5f)
-			break;
-	}
-
-	//add shapes onto the start to accomodate teleportation edges
-	width = 0;
-	for (int i = m_surfaceShapes.size() - (1 + copiedShapes); i >= 0; i--)
-	{
-		sf::ConvexShape convex = m_surfaceShapes[i];
-		int shapeWidth = convex.getPoint(1).x - convex.getPoint(0).x;
-
-		convex.setPoint(0, sf::Vector2f(-(shapeWidth + width),
-			m_surfaceShapes[i].getPoint(0).y));
-		convex.setPoint(1, sf::Vector2f(-width,
-			m_surfaceShapes[i].getPoint(1).y));
-		convex.setPoint(2, sf::Vector2f(-width,
-			m_surfaceShapes[i].getPoint(2).y));
-		convex.setPoint(3, sf::Vector2f(-(shapeWidth + width),
-			m_surfaceShapes[i].getPoint(3).y));
-
-		m_surfaceShapes.push_front(convex);
-
-		convex = m_surfaceRimShapes[i];
-		convex.setPoint(0, sf::Vector2f(-(shapeWidth + width),
-			m_surfaceRimShapes[i].getPoint(0).y));
-		convex.setPoint(1, sf::Vector2f(-width,
-			m_surfaceRimShapes[i].getPoint(1).y));
-		convex.setPoint(2, sf::Vector2f(-width,
-			m_surfaceRimShapes[i].getPoint(2).y));
-		convex.setPoint(3, sf::Vector2f(-(shapeWidth + width),
-			m_surfaceRimShapes[i].getPoint(3).y));
-
-		m_surfaceRimShapes.push_front(convex);
-		i++;
-
-		width += shapeWidth;
-		if (width > screenSize.x * 0.5f)
-			break;
 	}
 }
 
@@ -174,11 +119,6 @@ void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	for (int i = 0; i < m_surfaceShapes.size(); i++)
 	{
 		target.draw(m_surfaceShapes[i]);
-	}
-
-	for (int i = 0; i < m_surfaceRimShapes.size(); i++)
-	{
-		target.draw(m_surfaceRimShapes[i]);
 	}
 }
 
