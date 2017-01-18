@@ -22,14 +22,20 @@
 		"missile": {
 			"texture_path": "missile.png",
 			"force": 800,
-			"drag_coefficent": 10,
-			"max_velocity": 1600
+			"drag_coefficent": 0.9,
+			"max_velocity": 800
 		},
 		"meteor": {
 			"texture_path": "meteor.png",
 			"force": 800,
 			"drag_coefficent": 0,
 			"max_velocity": 100
+		},
+		"abductor": {
+			"texture_path": "ai/abductor.png",
+			"force": 100,
+			"drag_coefficent": 0.9,
+			"max_velocity": 500
 		}
 	}
 }

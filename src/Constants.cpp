@@ -1,0 +1,10 @@
+#include "Constants.h"
+
+namespace Constants
+{
+	const int WORLD_SCREEN_SIZES = 9;
+	const std::string ABDUCTOR_KEY = "abductors";
+	const std::string MUTANT_KEY = "mutants";
+	const std::string PROJECTILE_KEY = "projectiles";
+	const std::string MISC_KEY = "misc";
+}

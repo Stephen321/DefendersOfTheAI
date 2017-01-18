@@ -1,14 +1,12 @@
 #pragma once
-
 #include "Layer.h"
 
 class Background : public sf::Drawable
 {
 public:
-	Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player, const std::vector<std::shared_ptr<GameObject>>& gameObjects);
+	Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void update(float dt);
 private:
-	const int LAYERS = 1;
 	std::vector<std::unique_ptr<Layer>> m_layers;
 };

@@ -1,8 +1,9 @@
 #include "Player.h"
 
-Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
+Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameProjectiles)
 	: GameObject(Type::Player, startPos, worldSize)
 	, m_reloadTimer(0.f)
+	, m_gameProjectiles(gameProjectiles)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	m_sprite.setTexture(props.texture);
@@ -17,38 +18,11 @@ Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
 void Player::update(float dt)
 {
 	checkInput();
-	if (m_position.y - (m_sprite.getGlobalBounds().height * 0.5f) < 0) //TODO: override GameObject::checkWorldBounds()
-	{
-		m_position.y = m_sprite.getGlobalBounds().height * 0.5f;
-		m_velocity.y = 0;
-	}
 	if (m_reloadTimer < RELOAD_TIME)
 	{
 		m_reloadTimer += dt;
 	}
-	for (Laser& l : m_lasers)
-	{
-		l.update(dt);
-	}
 	GameObject::update(dt);
-}
-
-void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	GameObject::draw(target, states);
-	for (const Laser& l : m_lasers)
-	{
-		target.draw(l);
-	}
-}
-
-void Player::teleport(float offset, int section, float width)
-{
-	for (Laser& l : m_lasers)
-	{
-		l.teleport(offset, section, width);
-	}
-	GameObject::teleport(offset, section, width);
 }
 
 void Player::fire()
@@ -67,7 +41,7 @@ void Player::fire()
 		dir.x = 1.f;
 	}
 	dir.y = 0.f;
-	m_lasers.push_back(Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), dir));
+	m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position + ((m_sprite.getGlobalBounds().width * 0.5f) * dir), m_worldSize, dir)));
 }
 
 void Player::checkInput()

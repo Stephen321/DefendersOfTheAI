@@ -13,7 +13,7 @@ public:
 		return state;
 	}
 	void start(Nest*) override;
-	void update(Nest*) override;
+	void update(Nest*, float) override;
 	void end(Nest*) override;
 };
 
@@ -28,7 +28,7 @@ public:
 		return state;
 	}
 	void start(Nest*) override;
-	void update(Nest*) override;
+	void update(Nest*, float) override;
 	void end(Nest*) override;
 };
 #include "Nest.h"
