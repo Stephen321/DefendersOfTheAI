@@ -148,15 +148,11 @@ void Nest::produceAbductors(float dt)
 		{
 			//new abductor
 			sf::Vector2f startPos(m_position.x, m_position.y + offset);
-			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors)));
+			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors, m_player, m_gameProjectiles)));
+			m_gameAbductors.back()->setVelocity(sf::Vector2f(m_velocity.x, 0.f));
 			m_abductorsProduced++;
 			m_produceAbductorTimer = 0.f;
 			m_timeToProduceAbductor = TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET);
 		}
 	}
-}
-
-void Nest::draw(sf::RenderTarget & target, sf::RenderStates states) const
-{
-	GameObject::draw(target, states);
 }

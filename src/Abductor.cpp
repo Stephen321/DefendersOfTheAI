@@ -3,9 +3,12 @@
 #include "SFML/Graphics.hpp"
 #include "Abductor.h"
 
-Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors)
+Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors, 
+				   std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles)
 	: AI(Type::Abductor, startPos, worldSize)
 	, m_gameAbductors(gameAbductors)
+	, m_gameProjectiles(gameProjectiles)
+	, m_player(player)
 	, START_MAX_VEL(m_maxVelocity)
 	, m_patrolWaveTimer(0.f)
 	, m_reachedPatrolY(false)
@@ -15,15 +18,36 @@ Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, 
 	//(y - L/2) / (L/2 - H) = cos(x / WL)
 	//acos((y - L/2) / (L/2 - H)) = x / WL
 	//x = acos((y - L/2) / (L/2 - H)) / WL
-	m_velocity = sf::Vector2f(Helpers::randomNumberF(-2, 2), Helpers::randomNumberF(-2, 2)); // Allows for range of -2 -> 2
+	//m_velocity = sf::Vector2f(Helpers::randomNumberF(-2, 2), Helpers::randomNumberF(-2, 2)); // Allows for range of -2 -> 2
 	m_fsm.init(this);
-	m_fsm.changeState(APatrolState::getInstance());
+	int neighbourCount = getNeighbourCount();
+	if (neighbourCount == 0)
+	{
+		m_fsm.changeState(APatrolState::getInstance());
+	}
+	else
+	{
+		m_fsm.changeState(AFlockState::getInstance());
+	}
 }
 
 void Abductor::setReachedPatrolY(bool value)
 {
 	m_reachedPatrolY = value;
 }
+void Abductor::fire(float dt)
+{
+	m_reloadTimer += dt;
+	if (m_reloadTimer < RELOAD_TIME)
+		return;
+	sf::Vector2f vectorBetween = m_player->getPosition() - m_position;
+	if (Helpers::getLength(vectorBetween) < PLAYER_LASER_RANGE)
+	{
+		m_reloadTimer = 0.f;
+		m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), LASER_VEL_SCALE)));
+	}
+}
+
 // Function that checks and modifies the distance
 // of a Abductor if it breaks the law of separation.
 sf::Vector2f Abductor::separation()
@@ -153,8 +177,14 @@ void Abductor::checkWorldBounds()
 {
 	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
 	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
-	if (m_position.y < halfHeight || m_position.y > LOWEST_DISTANCE - halfHeight)
+	if (m_position.y < halfHeight)
 	{
+		m_position.y = halfHeight;
+		m_velocity.y = -m_velocity.y * 0.9f;
+	}
+	else if (m_position.y > LOWEST_DISTANCE - halfHeight)
+	{
+		m_position.y = LOWEST_DISTANCE - halfHeight;
 		m_velocity.y = -m_velocity.y * 0.9f;
 	}
 	if (m_position.x < -halfWidth)
@@ -202,7 +232,7 @@ void Abductor::setYPosToWave()
 	}
 	else
 	{
-		sf::Vector2f vectorBetween = sf::Vector2f(m_position.x, getWaveY()) - m_position;
+		sf::Vector2f vectorBetween = sf::Vector2f(m_position.x + m_velocity.x, getWaveY()) - m_position;
 		if (Helpers::getLength(vectorBetween) < MATCHED_Y_THRESHOLD)
 		{
 			m_reachedPatrolY = true;
@@ -210,7 +240,7 @@ void Abductor::setYPosToWave()
 		else
 		{
 			m_dir = Helpers::normaliseCopy(vectorBetween); //set dir to move to where we should be along the wave
-			m_velocity = m_maxVelocity * m_dir;
+			m_velocity = m_maxVelocity * m_dir; //TODO: fix that quick jump
 		}
 	}
 }

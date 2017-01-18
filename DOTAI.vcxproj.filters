@@ -55,6 +55,12 @@
     <ClCompile Include="src\Constants.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Astronaut.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AstronautStates.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Background.h">
@@ -130,6 +136,12 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Constants.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Astronaut.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AstronautStates.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

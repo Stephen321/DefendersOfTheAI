@@ -163,6 +163,8 @@
     <ClInclude Include="include\Abductor.h" />
     <ClInclude Include="include\AbductorStates.h" />
     <ClInclude Include="include\AI.h" />
+    <ClInclude Include="include\Astronaut.h" />
+    <ClInclude Include="include\AstronautStates.h" />
     <ClInclude Include="include\Background.h" />
     <ClInclude Include="include\Constants.h" />
     <ClInclude Include="include\FSM.h" />
@@ -189,6 +191,8 @@
   <ItemGroup>
     <ClCompile Include="src\Abductor.cpp" />
     <ClCompile Include="src\AbductorStates.cpp" />
+    <ClCompile Include="src\Astronaut.cpp" />
+    <ClCompile Include="src\AstronautStates.cpp" />
     <ClCompile Include="src\Constants.cpp" />
     <ClCompile Include="src\Missile.cpp" />
     <ClCompile Include="src\Nest.cpp">
