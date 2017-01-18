@@ -2,7 +2,7 @@
 #include <iostream>
 
 //TODO: good to use shared_ptr here?
-Background::Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player, const std::vector<std::shared_ptr<GameObject>>& gameObjects)
+Background::Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player)
 {
 	m_layers.push_back(std::make_unique<Layer>(Layer("assets/sprites/enviroment/stars", bounds, 3, player, 0.8f)));
 	m_layers.push_back(std::make_unique<Layer>(Layer("assets/sprites/enviroment/mountains", bounds, 7, player, 0.2222222f)));
@@ -118,12 +118,18 @@ void Background::draw(sf::RenderTarget & target, sf::RenderStates states) const
 
 	for (int i = 0; i < m_surfaceShapes.size(); i++)
 	{
-		target.draw(m_surfaceShapes[i]);
+		sf::FloatRect rect = m_surfaceShapes[i].getGlobalBounds();
+		//if draw only rects within the camera bounds or at either end camera width of the world
+		if (rect.intersects(m_cameraBounds) || rect.left < m_cameraBounds.width || rect.left > m_cameraBounds.width * (Constants::WORLD_SCREEN_SIZES - 1))
+		{
+			target.draw(m_surfaceShapes[i]);
+		}
 	}
 }
 
-void Background::update(float dt)
+void Background::update(float dt, const sf::FloatRect& cameraBounds)
 {
+	m_cameraBounds = cameraBounds;
 	for (std::unique_ptr<Layer>& layer : m_layers)
 	{
 		layer->update(dt);
