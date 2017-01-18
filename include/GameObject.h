@@ -32,6 +32,7 @@ public:
 	virtual void checkWorldBounds();
 	float getWidth() const;
 	sf::FloatRect getRect() const;
+	void setDirection(const sf::Vector2f& dir);
 
 protected:
 	void setOrigin();

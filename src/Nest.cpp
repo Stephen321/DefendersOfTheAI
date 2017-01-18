@@ -13,6 +13,8 @@ Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const st
 	, m_abductorsProduced(0)
 	, m_timeToProduceAbductor(TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET))
 {
+	//test
+	m_produceAbductorTimer = m_timeToProduceAbductor * 0.7;
 	m_fsm.init(this);
 	m_fsm.changeState(NWanderState::getInstance());
 }
@@ -150,9 +152,14 @@ void Nest::produceAbductors(float dt)
 			sf::Vector2f startPos(m_position.x, m_position.y + offset);
 			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors, m_player, m_gameProjectiles)));
 			m_gameAbductors.back()->setVelocity(sf::Vector2f(m_velocity.x, 0.f));
+			//update direction to move in the same x and a random y dir
+			m_gameAbductors.back()->setDirection(sf::Vector2f((m_velocity.x > 0.f) ? 1.f : -1.f, 1.f));
 			m_abductorsProduced++;
 			m_produceAbductorTimer = 0.f;
 			m_timeToProduceAbductor = TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET);
+
+			//test
+			m_abductorsProduced = 2500000;
 		}
 	}
 }

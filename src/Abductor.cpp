@@ -9,32 +9,27 @@ Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, 
 	, m_gameAbductors(gameAbductors)
 	, m_gameProjectiles(gameProjectiles)
 	, m_player(player)
-	, START_MAX_VEL(m_maxVelocity)
-	, m_patrolWaveTimer(0.f)
-	, m_reachedPatrolY(false)
+	, HIGHEST_DISTANCE(worldSize.y * 0.35f)
+	, m_reachedTarget(false)
 {
-	//y = L/2 + cos(x / WL) * (L/2 - H)
-	//y - L/2 = cos(X / WL) * (L/2 - H)
-	//(y - L/2) / (L/2 - H) = cos(x / WL)
-	//acos((y - L/2) / (L/2 - H)) = x / WL
-	//x = acos((y - L/2) / (L/2 - H)) / WL
-	//m_velocity = sf::Vector2f(Helpers::randomNumberF(-2, 2), Helpers::randomNumberF(-2, 2)); // Allows for range of -2 -> 2
 	m_fsm.init(this);
+	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
+	m_targetInZone = Helpers::randomNumberF(HIGHEST_DISTANCE + halfHeight, LOWEST_DISTANCE - halfHeight); // where in the target zone we should go
+	if (m_targetInZone < m_position.y) //if target is above the player then no need to move up to reach it
+	{
+		m_targetInZone = m_position.y;
+	}
 	int neighbourCount = getNeighbourCount();
 	if (neighbourCount == 0)
 	{
-		m_fsm.changeState(APatrolState::getInstance());
+		m_fsm.changeState(ADropState::getInstance());
 	}
 	else
 	{
-		m_fsm.changeState(AFlockState::getInstance());
+		m_fsm.changeState(ADropState::getInstance());
 	}
 }
 
-void Abductor::setReachedPatrolY(bool value)
-{
-	m_reachedPatrolY = value;
-}
 void Abductor::fire(float dt)
 {
 	m_reloadTimer += dt;
@@ -69,6 +64,18 @@ sf::Vector2f Abductor::separation()
 			count++;
 		}
 	}
+	//check if player is nearby
+	float d = Helpers::getLength(m_position - m_player->getPosition());
+	// If this is a fellow Abductor and it's too close, move away from it
+	if (d < PLAYER_DESIRED_SEPARATION)
+	{
+		sf::Vector2f diff = m_position - m_player->getPosition();
+		Helpers::normalise(diff);
+		diff /= d * PLAYER_SEPERATION_FORCE_SCALE;      
+		steer += diff;
+		count++;
+	}
+
 	// Adds average difference of m_position to m_acceleration
 	if (count > 0)
 		steer /= (float)count;
@@ -155,19 +162,6 @@ sf::Vector2f Abductor::seek(const sf::Vector2f& v)
 	return steer;
 }
 
-//Update modifies velocity, m_position, and resets m_acceleration with values that
-//are given by the three laws.
-void Abductor::update(float dt)
-{
-	if (m_active == false)
-	{
-		return;
-	}
-	m_fsm.update(dt);
-	checkWorldBounds();
-	m_sprite.setPosition(m_position);
-}
-
 void Abductor::setAcceleration(const sf::Vector2f & acceleration)
 {
 	m_acceleration = acceleration;
@@ -177,9 +171,9 @@ void Abductor::checkWorldBounds()
 {
 	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
 	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
-	if (m_position.y < halfHeight)
+	if (m_position.y < HIGHEST_DISTANCE + halfHeight)
 	{
-		m_position.y = halfHeight;
+		m_position.y = HIGHEST_DISTANCE + halfHeight;
 		m_velocity.y = -m_velocity.y * 0.9f;
 	}
 	else if (m_position.y > LOWEST_DISTANCE - halfHeight)
@@ -197,17 +191,13 @@ void Abductor::checkWorldBounds()
 	}
 }
 
-float Abductor::getWaveY()
-{
-	return LOWEST_DISTANCE * 0.5f + (float)cos(m_patrolWaveTimer / PATROL_WAVE_LENGTH) * (LOWEST_DISTANCE * 0.5f - m_sprite.getGlobalBounds().height);
-}
-
 void Abductor::move(float dt)
 {
-	m_patrolWaveTimer += dt * PATROL_TIMER_SCALE;
 	m_velocity += m_acceleration  * dt; //v = u + at
 	Helpers::limit(m_velocity, m_maxVelocity);
 	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
+
+	m_sprite.setPosition(m_position);
 }
 
 int Abductor::getNeighbourCount() const
@@ -222,27 +212,6 @@ int Abductor::getNeighbourCount() const
 		}
 	}
 	return count;
-}
-
-void Abductor::setYPosToWave()
-{
-	if (m_reachedPatrolY)
-	{
-		m_position.y = getWaveY();
-	}
-	else
-	{
-		sf::Vector2f vectorBetween = sf::Vector2f(m_position.x + m_velocity.x, getWaveY()) - m_position;
-		if (Helpers::getLength(vectorBetween) < MATCHED_Y_THRESHOLD)
-		{
-			m_reachedPatrolY = true;
-		}
-		else
-		{
-			m_dir = Helpers::normaliseCopy(vectorBetween); //set dir to move to where we should be along the wave
-			m_velocity = m_maxVelocity * m_dir; //TODO: fix that quick jump
-		}
-	}
 }
 
 float Abductor::getForceAmount() const
@@ -260,12 +229,44 @@ sf::Vector2f Abductor::getDirection() const
 	return m_dir;
 }
 
-void Abductor::resetMaxVelocity()
+void Abductor::updateDropAcceleration()
 {
-	m_maxVelocity = START_MAX_VEL;
+	//add on the patrol accel
+	sf::Vector2f vectorBetween = sf::Vector2f(m_position.x, m_targetInZone) - m_position;
+	float distance = Helpers::getLength(vectorBetween);
+
+
+	if (abs(m_targetInZone - m_position.y) < TARGET_RANGE)
+	{
+		m_velocity.y = 0.f;
+		m_reachedTarget = true;
+		return;
+	}
+
+	float targetSpeed;
+
+	if (distance > ARRIVE_RADIUS)
+	{
+		targetSpeed = m_maxVelocity;
+	}
+	else
+	{
+		targetSpeed = m_maxVelocity * distance / ARRIVE_RADIUS;
+	}
+	
+	sf::Vector2f targetVelocity = Helpers::normaliseCopy(vectorBetween) * targetSpeed;
+	m_acceleration = targetVelocity - m_velocity;
+	m_acceleration /= TIME_TO_TARGET;
+	Helpers::limit(m_acceleration, m_forceAmount);
 }
 
-void Abductor::setMaxPatrolVelocity()
+void Abductor::updatePatrolAcceleration()
 {
-	m_maxVelocity = START_MAX_VEL * PATROL_MAX_VEL_SCALE;
+	m_acceleration = getForceAmount() * m_dir;
+	m_acceleration += separation();
+}
+
+bool Abductor::reachedTarget() const
+{
+	return m_reachedTarget;
 }
