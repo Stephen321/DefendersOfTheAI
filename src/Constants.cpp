@@ -7,4 +7,5 @@ namespace Constants
 	const std::string MUTANT_KEY = "mutants";
 	const std::string PROJECTILE_KEY = "projectiles";
 	const std::string MISC_KEY = "misc";
+	const std::string ASTRONAUT_KEY = "astronaut";
 }

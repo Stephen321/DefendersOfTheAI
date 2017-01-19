@@ -32,7 +32,9 @@ public:
 	virtual void move(float dt);
 	virtual void checkWorldBounds();
 	float getWidth() const;
+	void setDirection(const sf::Vector2f& dir);
 	virtual sf::FloatRect getRect() const;
+	float getHeight() const;
 
 protected:
 	void setOrigin();

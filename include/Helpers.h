@@ -1,5 +1,5 @@
 #pragma once
-
+#include <vector>
 #include "SFML\Graphics.hpp"
 
 namespace Helpers
@@ -63,5 +63,48 @@ namespace Helpers
 			v = Helpers::normaliseCopy(v) * max;
 		}
 	}
+	template<typename T, typename Comparer1, typename Comparer2 = Comparer1>
+	inline int binarySearch(const std::vector<T>& v, const T& target, Comparer1 equals, Comparer2 lessThanEquals)
+	{
+		int low = 0;
+		int high = v.size();
+		while (low <= high)
+		{
+			int mid = low + (high - low) / 2;
+			if (mid == low)
+				return (mid < low) ? mid : low;
+			if (equals(v[mid], target))
+				return mid;
+			else if (lessThanEquals(v[mid], target)) // less than
+				low = mid + 1;
+			else
+				high = mid - 1;
+		}
+		return -1; //not found
+	}
 
+	inline sf::Vector2f getVectorBetweenWrap(const sf::Vector2f& worldSize, const sf::Vector2f& position, const sf::Vector2f& target)
+	{
+		sf::Vector2f vectorBetween = target - position;
+		float distanceToTarget = Helpers::getLength(vectorBetween);
+
+		float leftrWrapDistanceToTarget = position.x + (worldSize.x - target.x);
+		float rightWrapDistanceToTarget = target.x + (worldSize.x - position.x);
+
+		//TODO: tidy this up
+		if (leftrWrapDistanceToTarget < distanceToTarget)
+		{//better to wrap aroud to reach target offscreen left
+			vectorBetween = sf::Vector2f(position.x - leftrWrapDistanceToTarget, target.y) - position;
+			return  vectorBetween;
+		}
+		else if (rightWrapDistanceToTarget < distanceToTarget)
+		{
+			vectorBetween = sf::Vector2f(position.x + rightWrapDistanceToTarget, target.y) - position;
+			return  vectorBetween;
+		}
+		else
+		{
+			return vectorBetween;
+		}
+	}
 }
