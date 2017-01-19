@@ -28,13 +28,20 @@ public:
 	bool reachedTarget() const;
 
 	void checkWorldBounds() override;
-	float getAbductionRange() const;
 	bool getAbducting() const;
 	void setAbducting(bool value);
 	void setAbductingVictim(const std::shared_ptr<Astronaut>& abductionVictim);
 	void updateAbduction(float dt);
+	void checkAbductionBounds();
+	bool checkIfVictim(const std::shared_ptr<GameObject>& astroObject);
+
+	//testing
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 private:
+	//test
+	sf::CircleShape abTargetC;
+
 	//lasers
 	const std::shared_ptr<GameObject> m_player;
 	const float LASER_VEL_SCALE = 0.4f; //abductor lasers travel slower than players so the player gets a chance to avoid them
@@ -45,24 +52,30 @@ private:
 	GameObjectPtrVector& m_gameProjectiles;
 	GameObjectPtrVector& m_gameAbductors;
 
-	const float ABDUCTION_RANGE = 700.f;
+	const float ABDUCTION_X_DIFF = 20.f;
+	const float ABDUCTION_RANGE;
 	bool m_abducting;
 	std::shared_ptr<Astronaut> m_abductionVictim;
+	sf::Vector2f m_abductionTargetPos;
+	bool m_reachedAbductionTarget;
+	sf::Vector2f m_abductionOffset;
+	const float ASCEND_SCALE = 0.1f;
 
+	const float MAX_PREDICTION = 0.1f; //seek to predicted position
 	sf::Vector2f m_acceleration;
 	float m_targetInZone;
-	const float ARRIVE_RADIUS = 400.f;
-	const float TARGET_RANGE = 25.f;
+	const float ARRIVE_RADIUS = 200.f;
+	const float TARGET_RANGE = 15.f;
 	const float TIME_TO_TARGET = 0.5f;
 	const float HIGHEST_DISTANCE;
 	bool m_reachedTarget;
 
-	const float NEIGHBOUR_RADIUS = 400.f;
-	const float DESIRED_SEPARATION = 70.f;
-	const float PLAYER_DESIRED_SEPARATION = 100.f;
-	const float PLAYER_SEPERATION_FORCE_SCALE = 0.25f;
+	const float NEIGHBOUR_RADIUS = 250.f;
+	const float DESIRED_SEPARATION = 50.f;
+	const float PLAYER_DESIRED_SEPARATION = 70.f;
+	const float PLAYER_SEPERATION_FORCE_SCALE = 0.35f;
 
-	const float SEPERATION_WEIGHT = 5.f;
-	const float ALIGNMENT_WEIGHT = 1.5f; 
-	const float COHESION_WEIGHT= 1.5f;
+	const float SEPERATION_WEIGHT = 6.f;
+	const float ALIGNMENT_WEIGHT = 1.1f; 
+	const float COHESION_WEIGHT= 1.2f;
 };

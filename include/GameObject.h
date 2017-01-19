@@ -34,6 +34,7 @@ public:
 	float getWidth() const;
 	void setDirection(const sf::Vector2f& dir);
 	virtual sf::FloatRect getRect() const;
+	float getHeight() const;
 
 protected:
 	void setOrigin();

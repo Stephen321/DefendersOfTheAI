@@ -92,6 +92,7 @@ void AAbductingState::update(Abductor* abductor, float dt)
 	//abductor->setAcceleration(sf::Vector2f(0, -1.f) * abductor->getForceAmount());
 	abductor->updateAbduction(dt);
 	abductor->move(dt);
+	abductor->checkAbductionBounds();
 }
 
 void AAbductingState::end(Abductor * abductor)

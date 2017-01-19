@@ -152,3 +152,8 @@ void GameObject::setDirection(const sf::Vector2f & dir)
 	m_dir = dir;
 	Helpers::normalise(m_dir);
 }
+
+float GameObject::getHeight() const
+{
+	return m_sprite.getGlobalBounds().height;
+}

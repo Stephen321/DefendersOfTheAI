@@ -10,9 +10,12 @@ Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, 
 	, m_gameProjectiles(gameProjectiles)
 	, m_player(player)
 	, HIGHEST_DISTANCE(worldSize.y * 0.35f)
+	, ABDUCTION_RANGE(worldSize.y * 0.55f) //lowest astronaut is worldSie.y * 0.9
 	, m_reachedTarget(false)
 	, m_abducting(false)
 	, m_abductionVictim(nullptr)
+	, m_reachedAbductionTarget(false)
+	, m_abductionOffset(sf::Vector2f(0.f, -100))
 
 {
 	m_fsm.init(this);
@@ -31,6 +34,13 @@ Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, 
 	{
 		m_fsm.changeState(ADropState::getInstance());
 	}
+
+
+	//testing
+	abTargetC = sf::CircleShape(5);
+	abTargetC.setOrigin(5, 5);
+	abTargetC.setPosition(0, -100);
+	abTargetC.setFillColor(sf::Color::Red);
 }
 
 void Abductor::fire(float dt)
@@ -38,7 +48,7 @@ void Abductor::fire(float dt)
 	m_reloadTimer += dt;
 	if (m_reloadTimer < RELOAD_TIME)
 		return;
-	sf::Vector2f vectorBetween = m_player->getPosition() - m_position;
+	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_player->getPosition());
 	if (Helpers::getLength(vectorBetween) < PLAYER_LASER_RANGE)
 	{
 		m_reloadTimer = 0.f;
@@ -68,15 +78,18 @@ sf::Vector2f Abductor::separation()
 		}
 	}
 	//check if player is nearby
-	float d = Helpers::getLength(m_position - m_player->getPosition());
-	// If this is a fellow Abductor and it's too close, move away from it
-	if (d < PLAYER_DESIRED_SEPARATION)
+	if (m_player->getPosition().y > HIGHEST_DISTANCE - m_player->getHeight())
 	{
-		sf::Vector2f diff = m_position - m_player->getPosition();
-		Helpers::normalise(diff);
-		diff /= d * PLAYER_SEPERATION_FORCE_SCALE;      
-		steer += diff;
-		count++;
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_player->getPosition(), m_position));
+		// If this is a fellow Abductor and it's too close, move away from it
+		if (d < PLAYER_DESIRED_SEPARATION)
+		{
+			sf::Vector2f diff = Helpers::getVectorBetweenWrap(m_worldSize, m_player->getPosition(), m_position);
+			Helpers::normalise(diff);
+			diff /= d * PLAYER_SEPERATION_FORCE_SCALE;
+			steer += diff;
+			count++;
+		}
 	}
 
 	// Adds average difference of m_position to m_acceleration
@@ -180,7 +193,7 @@ void Abductor::checkWorldBounds()
 		m_velocity.y = -m_velocity.y * 0.9f;
 	}
 	else if (m_position.y > LOWEST_DISTANCE - halfHeight)
-	{
+	{ 
 		m_position.y = LOWEST_DISTANCE - halfHeight;
 		m_velocity.y = -m_velocity.y * 0.9f;
 	}
@@ -192,11 +205,6 @@ void Abductor::checkWorldBounds()
 	{
 		m_position.x = halfWidth;
 	}
-}
-
-float Abductor::getAbductionRange() const
-{
-	return ABDUCTION_RANGE;
 }
 
 bool Abductor::getAbducting() const
@@ -212,26 +220,117 @@ void Abductor::setAbducting(bool value)
 void Abductor::setAbductingVictim(const std::shared_ptr<Astronaut>& abductionVictim)
 {
 	m_abductionVictim = abductionVictim;
+	m_abductionTargetPos = m_abductionVictim->getPosition();
+	m_abductionTargetPos += m_abductionOffset;
 }
 
 void Abductor::updateAbduction(float dt)
 {
-	static bool testBool = true;
 	//if not above victim move there
 	//now above target so stop victim moving
 	//start ascending with victim locking beneath you on its y
 	//reach top of screen 
 	//astro checks world bounds and sets active to false
 	//turn self into mutant
-	if (testBool)
+	if (m_reachedAbductionTarget == false)
 	{
-		testBool = false;
-		m_position = m_abductionVictim->getPosition();
-		m_position.x += 20.f;
-		m_position.y += -150.f;
+		//update target pos
+		m_abductionTargetPos = m_abductionVictim->getPosition();
+		m_abductionTargetPos += m_abductionOffset;
+
+		float distance = Helpers::getLength(m_abductionTargetPos);
+		float speed = Helpers::getLength(m_velocity);
+		float prediction;
+		if (speed <= distance / MAX_PREDICTION)
+		{
+			prediction = MAX_PREDICTION;
+		}
+		else
+		{
+			prediction = distance / speed;
+		}
+
+		m_abductionTargetPos.x += m_abductionVictim->getVelocity().x * prediction;
+		abTargetC.setPosition(m_abductionTargetPos);
+
+		sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_abductionTargetPos);
+		float d = Helpers::getLength(vectorBetween);
+
+
+		if (d < 30.f)
+		{
+			m_velocity.y = 0.f;
+			m_reachedAbductionTarget = true;
+			m_abductionVictim->setBeingAbducted(true); //caught victim so abduct!
+		}
+
+		float targetSpeed;
+
+		if (d > ARRIVE_RADIUS)
+		{
+			targetSpeed = m_maxVelocity;
+		}
+		else
+		{
+			targetSpeed = m_maxVelocity * distance / 400.f;
+		}
+
+		sf::Vector2f targetVelocity = Helpers::normaliseCopy(vectorBetween) * targetSpeed;
+		if (abs(m_velocity.x) > MIN_VEL)
+		{
+			m_acceleration.x = m_dragCoefficent * -m_velocity.x;
+		}
+		if (abs(m_velocity.y) > MIN_VEL)
+		{
+			m_acceleration.y = m_dragCoefficent * -m_velocity.y;
+		}
+		m_acceleration += targetVelocity - m_velocity;
+		m_acceleration /= 6.f;
+		Helpers::limit(m_acceleration, m_forceAmount);
 	}
-	m_velocity = sf::Vector2f(0, -m_maxVelocity * 0.1);
-	m_abductionVictim->setPosition(m_position + sf::Vector2f(0.f, 150.f));
+	else //above victim
+	{
+		m_velocity = sf::Vector2f(0, -m_maxVelocity * ASCEND_SCALE); //ascend
+		m_abductionVictim->setTarget(sf::Vector2f(m_position.x, m_position.y + getHeight()));
+	}
+}
+
+void Abductor::checkAbductionBounds()
+{
+	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
+	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
+	if (m_position.y < m_abductionOffset.y - m_abductionVictim->getHeight())
+	{
+		m_position.y = m_abductionOffset.y - m_abductionVictim->getHeight();
+		m_velocity.y = 0.f;
+		//TODO: successful abduction
+	}
+	else if (m_position.y > m_abductionVictim->getPosition().y - m_abductionVictim->getHeight())
+	{
+		m_position.y = m_abductionVictim->getPosition().y - m_abductionVictim->getHeight();
+		m_velocity.y = 0;
+	}
+	if (m_position.x < -halfWidth)
+	{
+		m_position.x = m_worldSize.x - halfWidth;
+	}
+	else if (m_position.x > m_worldSize.x + halfWidth)
+	{
+		m_position.x = halfWidth;
+	}
+}
+
+bool Abductor::checkIfVictim(const std::shared_ptr<GameObject>& astroObject)
+{
+	return (Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_position, astroObject->getPosition())) < ABDUCTION_RANGE &&
+			Helpers::getVectorBetweenWrap(m_worldSize, m_position, astroObject->getPosition()).x < ABDUCTION_X_DIFF &&
+			m_abducting == false);
+}
+
+void Abductor::draw(sf::RenderTarget & target, sf::RenderStates states) const
+{
+	target.draw(abTargetC);
+	AI::draw(target, states);
 }
 
 void Abductor::move(float dt)

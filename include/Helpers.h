@@ -83,4 +83,28 @@ namespace Helpers
 		return -1; //not found
 	}
 
+	inline sf::Vector2f getVectorBetweenWrap(const sf::Vector2f& worldSize, const sf::Vector2f& position, const sf::Vector2f& target)
+	{
+		sf::Vector2f vectorBetween = target - position;
+		float distanceToTarget = Helpers::getLength(vectorBetween);
+
+		float leftrWrapDistanceToTarget = position.x + (worldSize.x - target.x);
+		float rightWrapDistanceToTarget = target.x + (worldSize.x - position.x);
+
+		//TODO: tidy this up
+		if (leftrWrapDistanceToTarget < distanceToTarget)
+		{//better to wrap aroud to reach target offscreen left
+			vectorBetween = sf::Vector2f(position.x - leftrWrapDistanceToTarget, target.y) - position;
+			return  vectorBetween;
+		}
+		else if (rightWrapDistanceToTarget < distanceToTarget)
+		{
+			vectorBetween = sf::Vector2f(position.x + rightWrapDistanceToTarget, target.y) - position;
+			return  vectorBetween;
+		}
+		else
+		{
+			return vectorBetween;
+		}
+	}
 }

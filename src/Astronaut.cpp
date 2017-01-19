@@ -4,26 +4,16 @@
 Astronaut::Astronaut(float startX, const sf::Vector2f& worldSize, const std::vector<sf::Vector2i>& surfacePathPoints)
 	: AI(Type::Astronaut, sf::Vector2f(), worldSize)
 	, m_surfacePathPoints(surfacePathPoints)
-	, m_angle(0.f)
 	, m_beingAbducted(false)
+	, m_beingChased(false)
 {
-	m_fsm.init(this);
-	m_fsm.changeState(0);//TODO: put astronaut states in here
-
-	m_dir = sf::Vector2f((rand() % 2 == 0) ? -1.f : 1.f, 0);
+	m_dir = sf::Vector2f(-1, 0);// (rand() % 2 == 0) ? -1.f : 1.f, 0);
 	m_moving = true;
 	m_position = sf::Vector2f(startX, getYAtX(startX));
-}
 
-void Astronaut::update(float dt)
-{
-	if (m_beingAbducted == false)
-	{
-		m_sprite.setRotation(m_angle);
-		AI::update(dt);
-		m_position.y = getYAtX(m_position.x);
-	}
-	//else abductor is controlling us
+	m_fsm.init(this);
+	m_fsm.changeState(AsWanderState::getInstance());//TODO: put astronaut states in here
+
 }
 
 void Astronaut::checkWorldBounds()
@@ -34,13 +24,13 @@ void Astronaut::checkWorldBounds()
 	{
 		m_active = false;
 	}
-	if (m_position.x < 0.f)
+	if (m_position.x < 1.f)
 	{
-		m_position.x = m_worldSize.x;
+		m_position.x = m_worldSize.x - 1.f;
 	}
 	else if (m_position.x > m_worldSize.x)
 	{
-		m_position.x = 0.f;
+		m_position.x = 1.f;
 	}
 }
 
@@ -49,9 +39,24 @@ void Astronaut::setBeingAbducted(bool value)
 	m_beingAbducted = value;
 }
 
-bool Astronaut::getBeingAbductd() const
+void Astronaut::setBeingChased(bool value)
+{
+	m_beingChased = value;
+}
+
+bool Astronaut::getBeingAbducted() const
 {
 	return m_beingAbducted;
+}
+
+bool Astronaut::getBeingChased() const
+{
+	return m_beingChased;
+}
+
+void Astronaut::setTarget(const sf::Vector2f & target)
+{
+	m_targetPos = target;
 }
 
 float Astronaut::getYAtX(float x)
@@ -75,6 +80,60 @@ float Astronaut::getYAtX(float x)
 		return y;
 	}
 	return 0.f;
+}
+
+void Astronaut::setAbductor(const std::shared_ptr<GameObject>& abductor)
+{
+	m_abductor = abductor;
+}
+
+const std::shared_ptr<GameObject>& Astronaut::getAbductor() const
+{
+	return m_abductor;
+}
+
+void Astronaut::seekAbductionPos()
+{
+	sf::Vector2f vectorBetween = m_targetPos - m_position;
+	float distance = Helpers::getLength(vectorBetween);
+
+
+	if (Helpers::getLength(m_targetPos - m_position) < TARGET_RANGE)
+	{
+		m_velocity.x = 0.f;
+		m_velocity.y = 0.f;
+	}
+
+	float targetSpeed;
+
+	if (distance > ARRIVE_RADIUS)
+	{
+		targetSpeed = m_maxVelocity;
+	}
+	else
+	{
+		targetSpeed = m_maxVelocity * distance / ARRIVE_RADIUS;
+	}
+
+	sf::Vector2f targetVelocity = Helpers::normaliseCopy(vectorBetween) * targetSpeed;
+	m_acceleration = targetVelocity - m_velocity;
+	m_acceleration /= TIME_TO_TARGET;
+	Helpers::limit(m_acceleration, m_forceAmount);
+}
+
+
+void Astronaut::move(float dt)
+{
+	m_velocity += m_acceleration  * dt; //v = u + at
+	Helpers::limit(m_velocity, m_maxVelocity);
+	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
+
+	m_sprite.setPosition(m_position);
+}
+
+void Astronaut::updateAcceleration()
+{
+	m_acceleration = m_dir * m_forceAmount;
 }
 
 //void Astronaut::setAngleAtX()

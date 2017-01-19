@@ -41,12 +41,6 @@ int GameScreen::run(sf::RenderWindow &window)
 	gameObjectsMap[Constants::MISC_KEY].push_back(player);
 	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f),
 		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
-	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(200.f, worldSize.y * 0.1f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
-	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(400.f, worldSize.y * 0.1f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
-	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(500.f, worldSize.y * 0.1f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
 	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
 
@@ -55,12 +49,12 @@ int GameScreen::run(sf::RenderWindow &window)
 	Background background(bounds, player);
 
 	float testing = 0;
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		if (testing > worldSize.x)
 			break;
 		gameObjectsMap[Constants::ASTRONAUT_KEY].push_back(std::shared_ptr<Astronaut>(new Astronaut(testing, worldSize, background.getSurfacePath())));
-		testing += 300.f;
+		testing += 600.f;
 	}
 
 	//debug
@@ -163,15 +157,15 @@ int GameScreen::run(sf::RenderWindow &window)
 					{
 						std::shared_ptr<GameObject> astroGameObject = (*astroIt);
 						std::shared_ptr<Abductor> abductor = std::static_pointer_cast<Abductor>(gameObject);
-						if (Helpers::getLength(astroGameObject->getPosition() - abductor->getPosition()) < abductor->getAbductionRange() && //put the range part in abductor :TODO
-							abductor->getAbducting() == false)
+						if (abductor->checkIfVictim(astroGameObject)) //if it can be made a abductor
 						{
 							std::shared_ptr<Astronaut> astronaut = std::static_pointer_cast<Astronaut>(astroGameObject);
-							if (astronaut->getBeingAbductd() == false)
+							if (astronaut->getBeingAbducted() == false && astronaut->getBeingChased() == false) //if can be made victim
 							{
-								astronaut->setBeingAbducted(true);
 								abductor->setAbducting(true);
 								abductor->setAbductingVictim(astronaut);
+								astronaut->setBeingChased(true);
+								astronaut->setAbductor(abductor);
 							}
 						}
 						

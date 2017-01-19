@@ -19,6 +19,7 @@ public:
 	void fire(float dt);
 	void setPlayerPos();
 	void setProduceTimer(float value);
+	void checkWorldBounds() override;
 private:
 	const std::shared_ptr<GameObject> m_player;
 	float m_wanderOrientation;
@@ -32,10 +33,12 @@ private:
 
 	const float MAX_PREDICTON = 0.3f;
 
-	const int MAX_ABDUCTORS_PRODUCED = 20;
+	const float OFFSET_Y;
+
+	const int MAX_ABDUCTORS_PRODUCED = 10000;//test 20;
 	int m_abductorsProduced;
-	const int TIME_TO_PRODUCE = 10;
-	const int PRODUCE_TIME_OFFSET = 5;
+	const int TIME_TO_PRODUCE = 2;//test 10;
+	const int PRODUCE_TIME_OFFSET = 0;//test 5;
 	float m_timeToProduceAbductor;
 	float m_produceAbductorTimer;
 	sf::Vector2f m_targetPos;
