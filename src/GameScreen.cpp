@@ -45,7 +45,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize)));
 	Background background(bounds, player);
-	Radar radar(background.getSurfacePath());
+	Radar radar(background.getSurfacePath(), worldSize);
 
 	//debug
 	bool pause = false;
@@ -104,8 +104,7 @@ int GameScreen::run(sf::RenderWindow &window)
 			dt = 0.f;
 
 		//update background
-		background.update(dt, bounds);// getRectFromView(window.getView())); //TODO: add back in after testing 
-		radar.update(-1 /*add player dir -1, 0 or 1 here*/, player->getPosition(), bounds);
+		background.update(dt, bounds);// getRectFromView(window.getView())); //TODO: add back in after testing
 
 		//update camera
 		view.setCenter(player->getPosition().x , view.getCenter().y);
@@ -131,6 +130,8 @@ int GameScreen::run(sf::RenderWindow &window)
 
 		window.draw(background);
 
+		std::vector<std::pair<GameObject::Type, sf::Vector2f>>  radarEntities;
+
 		for (GameObjectMap::iterator it = gameObjectsMap.begin(); it != gameObjectsMap.end(); ++it)
 		{
 			GameObjectPtrVector& v = it->second;
@@ -139,6 +140,10 @@ int GameScreen::run(sf::RenderWindow &window)
 				std::shared_ptr<GameObject>& gameObject = (*itV);
 				//update 
 				gameObject->update(dt); //TODO: another loop before .clear
+				std::pair<GameObject::Type, sf::Vector2f> entity;
+				entity.first = gameObject->getType();
+				entity.second = gameObject->getPosition();
+				radarEntities.push_back(entity);
 
 										//draw
 				bool intersects = false;
@@ -204,6 +209,8 @@ int GameScreen::run(sf::RenderWindow &window)
 				}
 			}
 		}	
+
+		radar.update(player->getPosition(), bounds, radarEntities);
 
 		if (zoomed) {
 			view.zoom(zoom);

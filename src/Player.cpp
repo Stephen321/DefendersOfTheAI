@@ -52,11 +52,13 @@ void Player::checkInput()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
 	{
 		m_dir.x = -1.f;
+		m_sprite.setScale(1.f, 1.f);
 		m_moving = true;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
 	{
 		m_dir.x = 1.f;
+		m_sprite.setScale(-1.f, 1.f);
 		m_moving = true;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
