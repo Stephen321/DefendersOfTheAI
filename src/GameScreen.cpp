@@ -45,6 +45,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize)));
 	Background background(bounds, player);
+	Radar radar(background.getSurfacePath());
 
 	//debug
 	bool pause = false;
@@ -104,6 +105,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 		//update background
 		background.update(dt, bounds);// getRectFromView(window.getView())); //TODO: add back in after testing 
+		radar.update(-1 /*add player dir -1, 0 or 1 here*/, player->getPosition(), bounds);
 
 		//update camera
 		view.setCenter(player->getPosition().x , view.getCenter().y);
@@ -259,6 +261,9 @@ int GameScreen::run(sf::RenderWindow &window)
 			s.setPosition(worldSize.x - bounds.width, 0.f);
 			window.draw(s);
 		}
+
+
+		window.draw(radar);
 
 		window.display();
 	}

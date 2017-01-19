@@ -6,6 +6,7 @@
 #include "Background.h"
 #include "GameLoader.h"
 #include "Meteor.h"
+#include "Radar.h"
 
 
 class GameScreen : public Screen

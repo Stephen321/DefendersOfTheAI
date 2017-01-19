@@ -64,10 +64,13 @@ void Meteor::createConvexCircle(int screenUnit, int radius, int xPos, sf::Color 
 
 		for (int j = 0; j < convex.getPointCount() - 1; j++)
 		{
-			convex.setPoint(j, circlePath[i + j]);
-
-			if (i + j == circlePath.size())	//last point in the circle, must join up with first point		
+			if (i + j == circlePath.size())	//last point in the circle, must join up with first point	
+			{
 				convex.setPoint(j, circlePath[0]);
+				break;
+			}				
+
+			convex.setPoint(j, circlePath[i + j]);			
 		}
 
 		convex.setPoint((convex.getPointCount() - 1), m_centre);
