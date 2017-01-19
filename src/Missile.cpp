@@ -28,24 +28,7 @@ void Missile::update(float dt)
 	{
 		if (m_finishedDropping)
 		{
-			sf::Vector2f vectorBetween = m_target - m_position;
-			float distanceToTarget = Helpers::getLength(vectorBetween);
-			m_dir = Helpers::normaliseCopy(vectorBetween);
-
-			float leftrWrapDistanceToTarget = m_position.x + (m_worldSize.x - m_target.x);
-			float rightWrapDistanceToTarget = m_target.x + (m_worldSize.x - m_position.x);			
-
-			//TODO: tidy this up
-			if (leftrWrapDistanceToTarget < distanceToTarget)
-			{//better to wrap aroud to reach target offscreen left
-				vectorBetween = sf::Vector2f(m_position.x - leftrWrapDistanceToTarget, m_target.y) - m_position;
-				m_dir = Helpers::normaliseCopy(vectorBetween);
-			}
-			else if (rightWrapDistanceToTarget < distanceToTarget)
-			{
-				vectorBetween = sf::Vector2f(m_position.x + rightWrapDistanceToTarget, m_target.y) - m_position;
-				m_dir = Helpers::normaliseCopy(vectorBetween);
-			}
+			m_dir = Helpers::normaliseCopy(Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_target));
 
 			m_liveTimer += dt;
 			if (m_liveTimer > TTL)

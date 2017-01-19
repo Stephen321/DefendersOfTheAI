@@ -10,7 +10,7 @@ class AI : public GameObject
 public:
 	AI(GameObject::Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
 		: GameObject(type, startPos, worldSize)
-		, LOWEST_DISTANCE(worldSize.y * 0.6f)
+		, LOWEST_DISTANCE(worldSize.y * 0.65f)
 	{
 		GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 		m_sprite.setTexture(props.texture);
@@ -38,17 +38,6 @@ public:
 	void setMoving(bool moving)
 	{
 		m_moving = moving;
-	}
-
-	void checkWorldBounds() override
-	{
-		GameObject::checkWorldBounds();
-		float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
-		if (m_position.y > LOWEST_DISTANCE - halfHeight)
-		{
-			m_position.y = LOWEST_DISTANCE - halfHeight;
-			m_velocity.y = 0.f;
-		}
 	}
 protected:
 	const float LOWEST_DISTANCE;
