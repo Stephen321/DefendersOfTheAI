@@ -8,9 +8,8 @@ void AsWanderState::start(Astronaut* astronaut)
 
 void AsWanderState::update(Astronaut* astronaut, float dt)
 {
-
-	astronaut->setPosition(sf::Vector2f(astronaut->getPosition().x, astronaut->getYAtX(astronaut->getPosition().x)));
 	astronaut->checkWorldBounds();
+	astronaut->setPosition(sf::Vector2f(astronaut->getPosition().x, astronaut->getYAtX(astronaut->getPosition().x)));
 	if (astronaut->getBeingChased())
 	{
 		astronaut->changeState(AsFleeState::getInstance());
@@ -39,6 +38,7 @@ void AsFleeState::start(Astronaut* astronaut)
 
 void AsFleeState::update(Astronaut* astronaut, float dt)
 {
+	astronaut->checkWorldBounds();
 	astronaut->setPosition(sf::Vector2f(astronaut->getPosition().x, astronaut->getYAtX(astronaut->getPosition().x)));
 	int fleeDir;
 	if (astronaut->getAbductor()->getPosition().x > astronaut->getPosition().x)
@@ -55,7 +55,6 @@ void AsFleeState::update(Astronaut* astronaut, float dt)
 	{
 		astronaut->changeState(AsAbductState::getInstance());
 	}
-	astronaut->checkWorldBounds();
 }
 
 void AsFleeState::end(Astronaut * astronaut)
@@ -66,6 +65,7 @@ void AsFleeState::end(Astronaut * astronaut)
 void AsAbductState::start(Astronaut* astronaut)
 {
 	astronaut->setBeingChased(false);
+	astronaut->setVelocity(sf::Vector2f(0.f, astronaut->getVelocity().x));
 }
 
 void AsAbductState::update(Astronaut* astronaut, float dt)

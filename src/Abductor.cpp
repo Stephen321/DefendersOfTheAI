@@ -37,10 +37,10 @@ Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, 
 
 
 	//testing
-	abTargetC = sf::CircleShape(5);
-	abTargetC.setOrigin(5, 5);
-	abTargetC.setPosition(0, -100);
-	abTargetC.setFillColor(sf::Color::Red);
+	m_beamRect = sf::RectangleShape(sf::Vector2f(BEAM_SIZE, BEAM_SIZE));
+	m_beamRect.setOrigin(0.f, m_beamRect.getSize().y * 0.5f);
+	m_beamRect.setPosition(-m_position);
+	m_beamRect.setFillColor(sf::Color(200, 0, 0, 40));
 }
 
 void Abductor::fire(float dt)
@@ -123,7 +123,7 @@ sf::Vector2f Abductor::alignment()
 		}
 	}
 	// If there are Abductors close enough for alignment...
-	if (count > 0)
+	if (count > 0 && m_abducting == false)
 	{
 		sum /= (float)count;// Divide sum by the number of close Abductors (average of velocity)
 		Helpers::normalise(sum);	   		// Turn sum into a unit vector, and
@@ -154,7 +154,7 @@ sf::Vector2f Abductor::cohesion()
 			count++;
 		}
 	}
-	if (count > 0)
+	if (count > 0 && m_abducting == false)
 	{
 		sum /= (float)count;
 		return seek(sum) * COHESION_WEIGHT;
@@ -251,13 +251,12 @@ void Abductor::updateAbduction(float dt)
 		}
 
 		m_abductionTargetPos.x += m_abductionVictim->getVelocity().x * prediction;
-		abTargetC.setPosition(m_abductionTargetPos);
 
 		sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_abductionTargetPos);
 		float d = Helpers::getLength(vectorBetween);
 
 
-		if (d < 30.f)
+		if (d < ABDUCT_SEEK_RANGE)
 		{
 			m_velocity.y = 0.f;
 			m_reachedAbductionTarget = true;
@@ -266,13 +265,13 @@ void Abductor::updateAbduction(float dt)
 
 		float targetSpeed;
 
-		if (d > ARRIVE_RADIUS)
+		if (d > ABDUCT_ARRIVE_RADIUS)
 		{
 			targetSpeed = m_maxVelocity;
 		}
 		else
 		{
-			targetSpeed = m_maxVelocity * distance / 400.f;
+			targetSpeed = m_maxVelocity * distance / ABDUCT_ARRIVE_RADIUS;
 		}
 
 		sf::Vector2f targetVelocity = Helpers::normaliseCopy(vectorBetween) * targetSpeed;
@@ -284,15 +283,22 @@ void Abductor::updateAbduction(float dt)
 		{
 			m_acceleration.y = m_dragCoefficent * -m_velocity.y;
 		}
-		m_acceleration += targetVelocity - m_velocity;
-		m_acceleration /= 6.f;
+		m_acceleration += targetVelocity - m_velocity; 
+		m_acceleration /= ABDUCT_TIME_TO_ARRIVE;
 		Helpers::limit(m_acceleration, m_forceAmount);
 	}
 	else //above victim
 	{
+		m_beamRect.setFillColor(sf::Color(255, 0, 0, 200));
 		m_velocity = sf::Vector2f(0, -m_maxVelocity * ASCEND_SCALE); //ascend
 		m_abductionVictim->setTarget(sf::Vector2f(m_position.x, m_position.y + getHeight()));
 	}
+	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_abductionVictim->getPosition());
+	sf::Vector2f dir = Helpers::normaliseCopy(vectorBetween);
+	float d = Helpers::getLength(vectorBetween);
+	m_beamRect.setPosition(m_position);
+	m_beamRect.setSize(sf::Vector2f(d, m_beamRect.getSize().y));
+	m_beamRect.setRotation(atan2(dir.y, dir.x) * (180.f / M_PI));
 }
 
 void Abductor::checkAbductionBounds()
@@ -329,7 +335,7 @@ bool Abductor::checkIfVictim(const std::shared_ptr<GameObject>& astroObject)
 
 void Abductor::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
-	target.draw(abTargetC);
+	target.draw(m_beamRect);
 	AI::draw(target, states);
 }
 

@@ -24,13 +24,13 @@ void Astronaut::checkWorldBounds()
 	{
 		m_active = false;
 	}
-	if (m_position.x < 1.f)
+	if (m_position.x < 0.f)
 	{
-		m_position.x = m_worldSize.x - 1.f;
+		m_position.x = m_worldSize.x;
 	}
 	else if (m_position.x > m_worldSize.x)
 	{
-		m_position.x = 1.f;
+		m_position.x = 0.f;
 	}
 }
 
@@ -61,7 +61,7 @@ void Astronaut::setTarget(const sf::Vector2f & target)
 
 float Astronaut::getYAtX(float x)
 {
-	if (x < m_surfacePathPoints.back().x && x >= 0.f )
+	if (x <= m_surfacePathPoints.back().x && x >= 0.f )
 	{
 		int index = Helpers::binarySearch(m_surfacePathPoints, sf::Vector2i(x, 0), 
 		[](const sf::Vector2i& v1, const sf::Vector2i& v2) -> bool { //equals

@@ -40,7 +40,7 @@ public:
 
 private:
 	//test
-	sf::CircleShape abTargetC;
+	sf::RectangleShape m_beamRect;
 
 	//lasers
 	const std::shared_ptr<GameObject> m_player;
@@ -51,7 +51,10 @@ private:
 
 	GameObjectPtrVector& m_gameProjectiles;
 	GameObjectPtrVector& m_gameAbductors;
-
+	const float ABDUCT_TIME_TO_ARRIVE = 0.9f;
+	const float ABDUCT_ARRIVE_RADIUS = 400.f;
+	const float ABDUCT_SEEK_RANGE = 30.f;
+	const int BEAM_SIZE = 5;
 	const float ABDUCTION_X_DIFF = 20.f;
 	const float ABDUCTION_RANGE;
 	bool m_abducting;
