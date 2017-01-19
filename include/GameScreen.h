@@ -7,7 +7,6 @@
 #include "GameLoader.h"
 #include "Meteor.h"
 
-
 class GameScreen : public Screen
 {
 public:

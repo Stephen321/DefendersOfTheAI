@@ -47,8 +47,8 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Meteor.cpp">
-	  <Filter>src</Filter>
-	</ClCompile>
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\Abductor.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -133,7 +133,7 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Meteor.h">
-	  <Filter>include</Filter>
+      <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Abductor.h">
       <Filter>include</Filter>

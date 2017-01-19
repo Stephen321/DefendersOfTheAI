@@ -42,8 +42,7 @@ int GameScreen::run(sf::RenderWindow &window)
 												  worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
 	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
-
-	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize)));
+	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128)));
 	Background background(bounds, player);
 
 	//debug
@@ -202,7 +201,7 @@ int GameScreen::run(sf::RenderWindow &window)
 				}
 			}
 		}	
-
+			
 		if (zoomed) {
 			view.zoom(zoom);
 			zoomed = false;

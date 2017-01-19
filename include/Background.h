@@ -1,6 +1,5 @@
 #pragma once
 #include "Layer.h"
-#include <deque>
 
 class Background : public sf::Drawable
 {
