@@ -157,3 +157,24 @@ float GameObject::getHeight() const
 {
 	return m_sprite.getGlobalBounds().height;
 }
+
+void GameObject::setActive(bool value)
+{
+	m_active = value;
+}
+
+bool GameObject::collision(const std::shared_ptr<GameObject>& collidor)
+{
+	bool collided = false;
+	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, collidor->getPosition(), m_position);
+	float distance = Helpers::getLength(vectorBetween);
+	if (distance < collidor->getHeight() + getHeight())
+	{ //collision 
+		collided = true;
+		if (collidor->getType() == Type::Meteor)
+		{
+			m_active = false;
+		}
+	}
+	return collided;
+}

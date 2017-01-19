@@ -134,6 +134,7 @@ void Nest::evade()
 
 	m_targetPos = m_player->getPosition() + (m_player->getVelocity() * prediction);
 	m_dir = Helpers::normaliseCopy(Helpers::getVectorBetweenWrap(m_worldSize, m_targetPos, m_position));
+
 }
 
 void Nest::produceAbductors(float dt)

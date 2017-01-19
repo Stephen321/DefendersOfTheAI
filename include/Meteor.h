@@ -10,6 +10,7 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	virtual sf::FloatRect getRect() const override;
 	void checkWorldBounds() override;
+	float getHeight() const override;
 private:
 	void generateShape(sf::Vector2f worldSize, int);
 	void createConvexCircle(int, int, int, sf::Color);

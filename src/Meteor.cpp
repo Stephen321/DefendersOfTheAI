@@ -9,7 +9,10 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const int radius)
 	m_forceAmount = props.forceAmount;
 	m_dragCoefficent = props.dragCoefficent;
 	m_maxVelocity = props.maxVelocity;
-	m_position += ((m_sprite.getGlobalBounds().width * 0.5f) * m_dir);
+
+	m_dir = sf::Vector2f(Helpers::randomNumberF(-0.5f, 0.5f), Helpers::randomNumberF(0.5f, 1.f));
+	Helpers::normalise(m_dir);
+
 	m_velocity = m_dir * m_maxVelocity;
 	m_moving = true;
 
@@ -18,13 +21,7 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const int radius)
 	const int screenUnit = worldSize.x / 9 / 128;
 	int max_radius = 15 * screenUnit;
 
-	sf::Vector2f randDir = sf::Vector2f(2.f/*rand() % screenUnit * 0.25f + screenUnit * 0.1f*/, 2.f);//rand() % screenUnit * 0.25f + screenUnit * 0.1f * max_radius / m_radius);
 
-	if (rand() % 2 == 0)
-		//randDir.x *= -1;
-
-	m_dir = randDir;
-	//m_dir.x *= -1.f; //test
 	
 	m_colors[0] = sf::Color(222, 122, 145);
 	m_colors[1] = sf::Color(196, 55, 98);
@@ -33,6 +30,7 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const int radius)
 	m_colors[4] = sf::Color(36, 4, 13);
 
 	generateShape(worldSize, screenUnit);
+	m_position = m_shapes[0].getPosition();
 }
 
 void Meteor::generateShape(sf::Vector2f worldSize, int screenUnit)
@@ -111,8 +109,8 @@ void Meteor::update(float dt)
 			}
 		}
 		else 
-		{
-			m_active = false;
+		{//test
+			//m_active = false;
 		}
 		checkWorldBounds();
 		m_position = m_shapes[0].getPosition();
@@ -171,4 +169,9 @@ void Meteor::checkWorldBounds()
 			m_shapes[i].move(sf::Vector2f());
 		}
 	}
+}
+
+float Meteor::getHeight() const
+{
+	return m_radius - 30.f;
 }

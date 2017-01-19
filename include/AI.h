@@ -34,11 +34,37 @@ public:
 	{
 		m_fsm.changeState(state);
 	}
-	
+
 	void setMoving(bool moving)
 	{
 		m_moving = moving;
 	}
+
+	virtual bool collision(const std::shared_ptr<GameObject>& collidor) override
+	{
+	/*	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, collidor->getPosition(), m_position);
+		float distance = Helpers::getLength(vectorBetween);
+
+		if (collidor->getType() == Type::Meteor)
+		{
+			if (distance - collidor->getHeight() < 200.f )
+			{
+				sf::Vector2f repulsion = Helpers::normaliseCopy(vectorBetween);
+				repulsion /= (distance - collidor->getHeight());
+				repulsion *= m_maxVelocity;
+				repulsion -= m_velocity;
+				Helpers::limit(repulsion, m_forceAmount);
+				m_repulsionForce = repulsion * .f;
+			}
+			else
+			{
+				m_repulsionForce.x = 0.f;
+				m_repulsionForce.y = 0.f;
+			}
+		}*/
+		return GameObject::collision(collidor);
+	}
+
 protected:
 	const float LOWEST_DISTANCE;
 	FSM<T> m_fsm;

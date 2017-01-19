@@ -9,4 +9,5 @@ namespace Constants
 	extern const std::string PROJECTILE_KEY;
 	extern const std::string MISC_KEY;
 	extern const std::string ASTRONAUT_KEY;
+	extern const std::string OBSTACLES_KEY;
 }

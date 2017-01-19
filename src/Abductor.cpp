@@ -87,7 +87,7 @@ sf::Vector2f Abductor::separation()
 			sf::Vector2f diff = Helpers::getVectorBetweenWrap(m_worldSize, m_player->getPosition(), m_position);
 			Helpers::normalise(diff);
 			diff /= d * PLAYER_SEPERATION_FORCE_SCALE;
-			steer += diff;
+			steer += diff * PLAYER_FORCE_SCALER;
 			count++;
 		}
 	}

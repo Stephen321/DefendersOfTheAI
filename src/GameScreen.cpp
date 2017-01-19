@@ -43,11 +43,11 @@ int GameScreen::run(sf::RenderWindow &window)
 		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
 	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
-	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128))); //todo: 128???
+	gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128))); //todo: 128???
 	Background background(bounds, player);
 
 	float testing = 0;
-	for (int i = 0; i < 200; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		if (testing > worldSize.x)
 			break;
@@ -144,10 +144,12 @@ int GameScreen::run(sf::RenderWindow &window)
 			for (GameObjectPtrVector::iterator itV = v.begin(); itV != v.end();)
 			{				
 				std::shared_ptr<GameObject>& gameObject = (*itV);
+				GameObject::Type type = gameObject->getType();
 				//update 
 				gameObject->update(dt); //TODO: another loop before .clear
 
-				if (gameObject->getType() == GameObject::Type::Abductor)
+				//make abdbuctors abductor
+				if (type == GameObject::Type::Abductor)
 				{//loop through all astronauts
 					GameObjectPtrVector::iterator begin = gameObjectsMap[Constants::ASTRONAUT_KEY].begin();
 					GameObjectPtrVector::iterator end = gameObjectsMap[Constants::ASTRONAUT_KEY].end();
@@ -167,6 +169,17 @@ int GameScreen::run(sf::RenderWindow &window)
 							}
 						}
 						
+					}
+				} //check for collision with meteor - AI (not astronaut)
+				if (type != GameObject::Type::Meteor && type != GameObject::Type::Astronaut
+					&& type != GameObject::Type::Player)
+				{
+					GameObjectPtrVector::iterator begin = gameObjectsMap[Constants::OBSTACLES_KEY].begin();
+					GameObjectPtrVector::iterator end = gameObjectsMap[Constants::OBSTACLES_KEY].end();
+					for (GameObjectPtrVector::iterator obstacleIT = begin; obstacleIT != end; ++obstacleIT)
+					{
+						std::shared_ptr<GameObject> obstacle = (*obstacleIT);
+						gameObject->collision(obstacle);
 					}
 				}
 

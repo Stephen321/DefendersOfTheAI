@@ -75,8 +75,9 @@ private:
 
 	const float NEIGHBOUR_RADIUS = 250.f;
 	const float DESIRED_SEPARATION = 50.f;
-	const float PLAYER_DESIRED_SEPARATION = 70.f;
-	const float PLAYER_SEPERATION_FORCE_SCALE = 0.35f;
+	const float PLAYER_DESIRED_SEPARATION = 100.f;
+	const float PLAYER_SEPERATION_FORCE_SCALE = 0.15f;
+	const float PLAYER_FORCE_SCALER = 1.5f;
 
 	const float SEPERATION_WEIGHT = 6.f;
 	const float ALIGNMENT_WEIGHT = 1.1f; 

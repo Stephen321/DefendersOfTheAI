@@ -8,4 +8,5 @@ namespace Constants
 	const std::string PROJECTILE_KEY = "projectiles";
 	const std::string MISC_KEY = "misc";
 	const std::string ASTRONAUT_KEY = "astronaut";
+	const std::string OBSTACLES_KEY = "obstacles";
 }
