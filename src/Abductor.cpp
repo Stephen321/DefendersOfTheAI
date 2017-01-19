@@ -3,14 +3,17 @@
 #include "SFML/Graphics.hpp"
 #include "Abductor.h"
 
-Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors, 
-				   std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles)
+Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors,
+	std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles)
 	: AI(Type::Abductor, startPos, worldSize)
 	, m_gameAbductors(gameAbductors)
 	, m_gameProjectiles(gameProjectiles)
 	, m_player(player)
 	, HIGHEST_DISTANCE(worldSize.y * 0.35f)
 	, m_reachedTarget(false)
+	, m_abducting(false)
+	, m_abductionVictim(nullptr)
+
 {
 	m_fsm.init(this);
 	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
@@ -189,6 +192,46 @@ void Abductor::checkWorldBounds()
 	{
 		m_position.x = halfWidth;
 	}
+}
+
+float Abductor::getAbductionRange() const
+{
+	return ABDUCTION_RANGE;
+}
+
+bool Abductor::getAbducting() const
+{
+	return m_abducting;
+}
+
+void Abductor::setAbducting(bool value)
+{
+	m_abducting = value;
+}
+
+void Abductor::setAbductingVictim(const std::shared_ptr<Astronaut>& abductionVictim)
+{
+	m_abductionVictim = abductionVictim;
+}
+
+void Abductor::updateAbduction(float dt)
+{
+	static bool testBool = true;
+	//if not above victim move there
+	//now above target so stop victim moving
+	//start ascending with victim locking beneath you on its y
+	//reach top of screen 
+	//astro checks world bounds and sets active to false
+	//turn self into mutant
+	if (testBool)
+	{
+		testBool = false;
+		m_position = m_abductionVictim->getPosition();
+		m_position.x += 20.f;
+		m_position.y += -150.f;
+	}
+	m_velocity = sf::Vector2f(0, -m_maxVelocity * 0.1);
+	m_abductionVictim->setPosition(m_position + sf::Vector2f(0.f, 150.f));
 }
 
 void Abductor::move(float dt)

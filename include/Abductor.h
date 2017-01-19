@@ -3,6 +3,7 @@
 #include "AI.h"
 #include "AbductorStates.h"
 #include "Laser.h"
+#include "Astronaut.h"
 
 class Abductor : public AI<Abductor>
 {
@@ -27,6 +28,11 @@ public:
 	bool reachedTarget() const;
 
 	void checkWorldBounds() override;
+	float getAbductionRange() const;
+	bool getAbducting() const;
+	void setAbducting(bool value);
+	void setAbductingVictim(const std::shared_ptr<Astronaut>& abductionVictim);
+	void updateAbduction(float dt);
 
 private:
 	//lasers
@@ -38,6 +44,10 @@ private:
 
 	GameObjectPtrVector& m_gameProjectiles;
 	GameObjectPtrVector& m_gameAbductors;
+
+	const float ABDUCTION_RANGE = 700.f;
+	bool m_abducting;
+	std::shared_ptr<Astronaut> m_abductionVictim;
 
 	sf::Vector2f m_acceleration;
 	float m_targetInZone;

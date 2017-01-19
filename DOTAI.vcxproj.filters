@@ -46,6 +46,9 @@
     <ClCompile Include="src\Missile.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Meteor.cpp">
+	  <Filter>src</Filter>
+	</ClCompile>
     <ClCompile Include="src\Abductor.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="include\Missile.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Meteor.h">
+	  <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Abductor.h">
       <Filter>include</Filter>

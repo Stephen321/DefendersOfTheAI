@@ -1,5 +1,5 @@
 #pragma once
-
+#include <vector>
 #include "SFML\Graphics.hpp"
 
 namespace Helpers
@@ -62,6 +62,25 @@ namespace Helpers
 		{
 			v = Helpers::normaliseCopy(v) * max;
 		}
+	}
+	template<typename T, typename Comparer1, typename Comparer2 = Comparer1>
+	inline int binarySearch(const std::vector<T>& v, const T& target, Comparer1 equals, Comparer2 lessThanEquals)
+	{
+		int low = 0;
+		int high = v.size();
+		while (low <= high)
+		{
+			int mid = low + (high - low) / 2;
+			if (mid == low)
+				return (mid < low) ? mid : low;
+			if (equals(v[mid], target))
+				return mid;
+			else if (lessThanEquals(v[mid], target)) // less than
+				low = mid + 1;
+			else
+				high = mid - 1;
+		}
+		return -1; //not found
 	}
 
 }

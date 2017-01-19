@@ -15,6 +15,7 @@ public:
 		Nest,
 		Laser,
 		Missile,
+		Meteor,
 		Abductor,
 		Astronaut
 	};
@@ -31,8 +32,8 @@ public:
 	virtual void move(float dt);
 	virtual void checkWorldBounds();
 	float getWidth() const;
-	sf::FloatRect getRect() const;
 	void setDirection(const sf::Vector2f& dir);
+	virtual sf::FloatRect getRect() const;
 
 protected:
 	void setOrigin();

@@ -25,11 +25,23 @@
 			"drag_coefficent": 0.9,
 			"max_velocity": 800
 		},
+		"meteor": {
+			"texture_path": "meteor.png",
+			"force": 800,
+			"drag_coefficent": 0,
+			"max_velocity": 100
+		},
 		"abductor": {
 			"texture_path": "ai/abductor.png",
 			"force": 100,
 			"drag_coefficent": 0.3,
 			"max_velocity": 300
+		},
+		"astronaut": {
+			"texture_path": "ai/astronaut.png",
+			"force": 100,
+			"drag_coefficent": 0.8,
+			"max_velocity": 400
 		}
 	}
 }

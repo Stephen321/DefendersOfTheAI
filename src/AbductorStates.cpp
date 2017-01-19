@@ -23,6 +23,10 @@ void AFlockState::update(Abductor* abductor, float dt)
 	abductor->move(dt);
 	abductor->checkWorldBounds();
 	abductor->fire(dt);
+	if (abductor->getAbducting())
+	{
+		abductor->changeState(AAbductingState::getInstance());
+	}
 }
 
 void AFlockState::end(Abductor* abductor)
@@ -64,10 +68,32 @@ void APatrolState::update(Abductor* abductor, float dt)
 		abductor->changeState(AFlockState::getInstance());
 	}
 	abductor->updatePatrolAcceleration();
-	abductor->move(dt);
 	abductor->checkWorldBounds();
+	if (abductor->getAbducting())
+	{
+		abductor->changeState(AAbductingState::getInstance());
+	}
 }
 
 void APatrolState::end(Abductor * abductor)
+{
+}
+
+
+//-----------------------------------------------------------------------------
+void AAbductingState::start(Abductor* abductor)
+{
+	abductor->setMoving(true);
+}
+
+void AAbductingState::update(Abductor* abductor, float dt)
+{
+	//TODO: arrive to target , accelerate up
+	//abductor->setAcceleration(sf::Vector2f(0, -1.f) * abductor->getForceAmount());
+	abductor->updateAbduction(dt);
+	abductor->move(dt);
+}
+
+void AAbductingState::end(Abductor * abductor)
 {
 }

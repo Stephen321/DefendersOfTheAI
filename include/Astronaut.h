@@ -6,8 +6,15 @@
 class Astronaut : public AI<Astronaut>
 {
 public:
-	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
-	Astronaut(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& surfacePathPoints);
+	Astronaut(float startX, const sf::Vector2f& worldSize, const std::vector<sf::Vector2i>& surfacePathPoints);
+	void update(float dt) override;
+	void checkWorldBounds() override;
+	void setBeingAbducted(bool value);
+	bool getBeingAbductd() const;
 private:
-	GameObjectPtrVector& m_surfacePathPoints;
+	bool m_beingAbducted; //todo: state for this?
+	float getYAtX(float x);
+	std::vector<sf::Vector2i> m_surfacePathPoints;
+	const float SURFACE_RIM_THICKNESS = 5.f;
+	float m_angle;
 };
