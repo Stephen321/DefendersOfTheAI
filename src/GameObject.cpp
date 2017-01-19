@@ -113,6 +113,7 @@ sf::Vector2f GameObject::calculateAcceleration()
 
 void GameObject::checkWorldBounds()
 {
+	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
 	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
 	if (m_position.y < halfHeight)
 	{
@@ -124,13 +125,13 @@ void GameObject::checkWorldBounds()
 		m_position.y = m_worldSize.y - halfHeight;
 		m_velocity.y = 0.f;
 	}
-	if (m_position.x < 0.f)
+	if (m_position.x < -halfWidth)
 	{
-		m_position.x = m_worldSize.x;
+		m_position.x = m_worldSize.x - halfWidth;
 	}
-	else if (m_position.x > m_worldSize.x)
+	else if (m_position.x > m_worldSize.x + halfWidth)
 	{
-		m_position.x = 0.f;
+		m_position.x = halfWidth;
 	}
 }
 
