@@ -75,7 +75,7 @@ float Astronaut::getYAtX(float x)
 		if (pointBefore.x != x && index + 1 < m_surfacePathPoints.size())
 			pointAfter = m_surfacePathPoints[index + 1];
 		sf::Vector2i vectorBetween = pointAfter - pointBefore;
-		float y = (pointBefore + (sf::Vector2i)(Helpers::normaliseCopy((sf::Vector2f)vectorBetween) * (x - pointBefore.x))).y;
+		float y = (float)(pointBefore + (sf::Vector2i)(Helpers::normaliseCopy((sf::Vector2f)vectorBetween) * (x - pointBefore.x))).y;
 		y -= m_sprite.getGlobalBounds().height * 0.5f + SURFACE_RIM_THICKNESS;
 		return y;
 	}

@@ -12,7 +12,7 @@ Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::sha
 	, OFFSET_Y(worldSize.y * 0.3f)
 	, m_timeToProduceAbductor(TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET))
 {
-	m_dir = sf::Vector2f((rand() % 2 == 0) ? -1.f : 1.f, 0);
+	m_dir = sf::Vector2f((rand() % 2 == 0) ? -1.f : 1.f, 0.f);
 	m_fsm.init(this);
 	m_fsm.changeState(NWanderState::getInstance());
 	m_healthBar.setYOffset(-(m_sprite.getGlobalBounds().height * 0.5f + HEALTH_Y_OFFSET));

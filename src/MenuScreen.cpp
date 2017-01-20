@@ -7,6 +7,15 @@ int MenuScreen::run(sf::RenderWindow &window)
 	sf::Clock frameClock;
 	int menu = 0;
 
+	sf::View view = window.getView();
+	sf::FloatRect bounds(0.f, 0.f, view.getSize().x, view.getSize().y);
+
+	sf::Texture startTexture;
+	startTexture.loadFromFile("assets/sprites/start.png");
+	sf::Sprite start(startTexture);
+	start.setPosition(0.f, 0.f);
+	start.setScale(bounds.width / start.getLocalBounds().width, bounds.height / start.getLocalBounds().height);
+
 	while (Running)
 	{
 		float dt = frameClock.restart().asSeconds();
@@ -18,7 +27,7 @@ int MenuScreen::run(sf::RenderWindow &window)
 				return (-1);
 			}
 
-			if (Event.type == sf::Event::KeyReleased && Event.key.code == sf::Keyboard::Space) 
+			if (Event.type == sf::Event::KeyReleased && Event.key.code == sf::Keyboard::Space)
 			{
 				std::cout << "Going to screen: " << 1 << std::endl;
 				return (1);
@@ -26,7 +35,7 @@ int MenuScreen::run(sf::RenderWindow &window)
 		}
 
 		window.clear();
-
+		window.draw(start);
 		window.display();
 	}
 

@@ -29,10 +29,10 @@
 //////////////////////////////////////////////////////////// 
 int main()
 {
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 	sf::RenderWindow window(sf::VideoMode(1280u, 720u, 32), "Defenders Of The AI");
 	std::vector<Screen*> Screens;
-	int screen = 1;
+	int screen = 0;
 	MenuScreen menuScreen;
 	Screens.push_back(&menuScreen);
 	GameScreen gameScreen;

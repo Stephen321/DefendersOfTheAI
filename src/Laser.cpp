@@ -33,7 +33,7 @@ void Laser::update(float dt)
 		{
 			m_active = false;
 		}
-		m_sprite.setRotation(atan2(m_dir.y, m_dir.x) * (180.f / M_PI));
+		m_sprite.setRotation((float)atan2(m_dir.y, m_dir.x) * (180.f / M_PI));
 		GameObject::update(dt);
 	}
 }

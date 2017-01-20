@@ -39,7 +39,7 @@ private:
 	int m_abductorsProduced;
 	const int TIME_TO_PRODUCE =  6;
 	const int PRODUCE_TIME_OFFSET = 3;
-	float m_timeToProduceAbductor;
+	int m_timeToProduceAbductor;
 	float m_produceAbductorTimer;
 	sf::Vector2f m_targetPos;
 	sf::Vector2f m_playerPos;

@@ -18,7 +18,7 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const int radius)
 
 	setOrigin();
 
-	const int screenUnit = worldSize.x / 9 / 128;
+	const int screenUnit = (int)worldSize.x / 9 / 128;
 	int max_radius = 15 * screenUnit;
 
 
@@ -35,7 +35,7 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const int radius)
 
 void Meteor::generateShape(sf::Vector2f worldSize, int screenUnit)
 {
-	int xPos = worldSize.x - 200;// rand() % (int)(worldSize.x);
+	int xPos = (int)worldSize.x - 200;// rand() % (int)(worldSize.x);
 	createConvexCircle(screenUnit, m_radius, xPos, sf::Color(225, 155, 176));	//Rim Highlight
 	createConvexCircle(screenUnit, m_radius - (screenUnit * 0.5f), xPos, sf::Color(196, 55, 98));							//Body		
 	createConvexCircle(screenUnit, m_radius * 0.75f, xPos, sf::Color(0, 0, 0, 150));					//Outer Shadow
@@ -48,8 +48,8 @@ void Meteor::createConvexCircle(int screenUnit, int radius, int xPos, sf::Color 
 	//calculate the paths for each circle
 	for (int i = 0; i < METEOR_FACES; i++)
 	{
-		float x = m_centre.x + radius * cos(2 * M_PI * i / METEOR_FACES);
-		float y = m_centre.y + radius * sin(2 * M_PI * i / METEOR_FACES);
+		float x = (float)(m_centre.x + radius * cos(2 * M_PI * i / METEOR_FACES));
+		float y = (float)(m_centre.y + radius * sin(2 * M_PI * i / METEOR_FACES));
 		circlePath.push_back(sf::Vector2f(x, y));
 	}
 
@@ -137,7 +137,7 @@ sf::FloatRect Meteor::getRect() const
 	int minY = INT_MAX;
 	int maxX = 0;
 	int maxY = 0;
-	int diameter = m_radius * 2 - 30.f;
+	int diameter = m_radius * 2.f - 30.f;
 
 	for (int i = 0; i < m_shapes.size() * 0.25f; i++)
 	{
