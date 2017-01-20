@@ -5,49 +5,57 @@
 			"texture_path": "player/square.png",
 			"force": 800,
 			"drag_coefficent": 0.9,
-			"max_velocity": 600
+			"max_velocity": 600,
+			"max_health" : 250
 		},
 		"nest": {
 			"texture_path": "ai/square.png",
 			"force": 1500,
 			"drag_coefficent": 0.9,
-			"max_velocity": 200
+			"max_velocity": 200,
+			"max_health" : 300
 		},
 		"laser": {
 			"texture_path": "laser.png",
 			"force": 0,
 			"drag_coefficent": 0,
-			"max_velocity": 1400
+			"max_velocity": 1400,
+			"max_health" : 0
 		},
 		"missile": {
 			"texture_path": "missile.png",
 			"force": 800,
 			"drag_coefficent": 0.9,
-			"max_velocity": 600
+			"max_velocity": 600,
+			"max_health" : 0
 		},
 		"meteor": {
 			"texture_path": "meteor.png",
 			"force": 800,
 			"drag_coefficent": 0,
-			"max_velocity": 100
+			"max_velocity": 100,
+			"max_health" : 0
 		},
 		"abductor": {
 			"texture_path": "ai/abductor.png",
 			"force": 100,
 			"drag_coefficent": 0.3,
-			"max_velocity": 150
+			"max_velocity": 150,
+			"max_health" : 75
 		},
 		"astronaut": {
 			"texture_path": "ai/astronaut.png",
 			"force": 100,
 			"drag_coefficent": 0.8,
-			"max_velocity": 100
+			"max_velocity": 100,
+			"max_health" : 100
 		},
 		"mutant": {
 			"texture_path": "ai/mutant.png",
 			"force": 200,
 			"drag_coefficent": 0.95,
-			"max_velocity": 250
+			"max_velocity": 250,
+			"max_health" : 150
 		}
 	}
 }

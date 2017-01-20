@@ -47,4 +47,6 @@ private:
 	const float SEPERATION_WEIGHT = 6.f;
 	const float SWARM_WEIGHT = 1.f;
 	const float SEEK_WEIGHT = 1.f;
+
+	const float DAMAGE = 10.f;
 };

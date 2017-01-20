@@ -11,6 +11,9 @@ Mutant::Mutant(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std:
 {
 	m_fsm.init(this);
 	m_fsm.changeState(MSwarmState::getInstance());
+	m_healthBar.setYOffset(-(m_sprite.getGlobalBounds().height * 0.5f + HEALTH_Y_OFFSET));
+	m_healthBar.setXSize(m_sprite.getGlobalBounds().width);
+	m_healthBar.setYSize(m_sprite.getGlobalBounds().height * 0.2f);
 }
 
 void Mutant::fire(float dt)
@@ -22,7 +25,7 @@ void Mutant::fire(float dt)
 	if (Helpers::getLength(vectorBetween) < PLAYER_LASER_RANGE)
 	{
 		m_reloadTimer = 0.f;
-		m_gameObjectsRef.at(Constants::PROJECTILE_KEY).push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), LASER_VEL_SCALE)));
+		m_gameObjectsRef.at(Constants::PROJECTILE_KEY).push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), DAMAGE, m_type, LASER_VEL_SCALE)));
 	}
 }
 

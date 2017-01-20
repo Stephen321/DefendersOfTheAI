@@ -39,6 +39,10 @@ Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, 
 	m_beamRect.setOrigin(0.f, m_beamRect.getSize().y * 0.5f);
 	m_beamRect.setPosition(-m_position);
 	m_beamRect.setFillColor(sf::Color(200, 0, 0, 40));
+
+	m_healthBar.setYOffset(-(m_sprite.getGlobalBounds().height * 0.5f + HEALTH_Y_OFFSET));
+	m_healthBar.setXSize(m_sprite.getGlobalBounds().width);
+	m_healthBar.setYSize(m_sprite.getGlobalBounds().height * 0.1f);
 }
 
 void Abductor::fire(float dt)
@@ -50,7 +54,7 @@ void Abductor::fire(float dt)
 	if (Helpers::getLength(vectorBetween) < PLAYER_LASER_RANGE)
 	{
 		m_reloadTimer = 0.f;
-		m_gameObjectsRef.at(Constants::PROJECTILE_KEY).push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), LASER_VEL_SCALE)));
+		m_gameObjectsRef.at(Constants::PROJECTILE_KEY).push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), DAMAGE, m_type, LASER_VEL_SCALE)));
 	}
 }
 
@@ -341,6 +345,20 @@ void Abductor::draw(sf::RenderTarget & target, sf::RenderStates states) const
 {
 	target.draw(m_beamRect);
 	AI::draw(target, states);
+}
+
+bool Abductor::collision(const std::shared_ptr<GameObject>& collidor)
+{
+	bool collided = AI::collision(collidor);
+	if (m_active == false)
+	{ //check if abducting
+		if (m_abducting)
+		{
+			m_abductionVictim->setBeingAbducted(false);
+		}
+
+	}
+	return collided;
 }
 
 void Abductor::move(float dt)

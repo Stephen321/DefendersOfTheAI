@@ -1,6 +1,6 @@
 #include "Missile.h"
 
-Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf::Vector2f& target, int& ownerMissileCount)
+Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf::Vector2f& target, int& ownerMissileCount, float damage)
 	: GameObject(Type::Missile, startPos, worldSize)
 	, m_liveTimer(0.f)
 	, m_finishedDropping(false)
@@ -8,6 +8,7 @@ Missile::Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf
 	, m_target(target)
 	, m_angle(0.f)
 	, m_ownerMissileCount(ownerMissileCount)
+	, m_damage(damage)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	m_sprite.setTexture(props.texture);
@@ -68,4 +69,9 @@ void Missile::checkWorldBounds()
 	{
 		m_position.x = halfWidth;
 	}
+}
+
+float Missile::getDamage() const
+{
+	return m_damage;
 }

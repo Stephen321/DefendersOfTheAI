@@ -40,5 +40,8 @@ void GameLoader::loadData(const std::string& filePath) {
 		props.forceAmount = (++propsIT)->value.GetFloat();
 		props.dragCoefficent = (++propsIT)->value.GetFloat();
 		props.maxVelocity = (++propsIT)->value.GetFloat();
+
+		//health
+		props.maxHealth = (++propsIT)->value.GetInt();
 	}
 }

@@ -51,4 +51,7 @@ private:
 	int m_missilesAlive;
 	const float RELOAD_TIME = 2.5f;
 	float m_reloadTimer;
+	
+	const float DAMAGE = 20.f;
+
 };

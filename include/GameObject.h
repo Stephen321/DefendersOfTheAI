@@ -39,6 +39,7 @@ public:
 	virtual float getHeight() const;
 	void setActive(bool value);
 	virtual bool collision(const std::shared_ptr<GameObject>& collidor);
+	bool intersects(const sf::FloatRect& r2);
 
 protected:
 	void setOrigin();

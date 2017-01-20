@@ -156,7 +156,7 @@ int GameScreen::run(sf::RenderWindow &window)
 				//update 
 				gameObject->update(dt); //TODO: another loop before .clear
 
-				//make abdbuctors abductor
+				//make abdbuctors abduct
 				if (type == GameObject::Type::Abductor)
 				{//loop through all astronauts
 					GameObjectPtrVector::iterator begin = gameObjectsMap[Constants::ASTRONAUT_KEY].begin();
@@ -178,17 +178,24 @@ int GameScreen::run(sf::RenderWindow &window)
 						}
 						
 					}
-				} //check for collision with meteor - AI (not astronaut)
-				if (type != GameObject::Type::Meteor && type != GameObject::Type::Astronaut
-					&& type != GameObject::Type::Player)
+				}
+
+				if (type == GameObject::Type::Meteor)
 				{
-					GameObjectPtrVector::iterator begin = gameObjectsMap.at(Constants::OBSTACLES_KEY).begin();
-					GameObjectPtrVector::iterator end = gameObjectsMap.at(Constants::OBSTACLES_KEY).end();
-					for (GameObjectPtrVector::iterator obstacleIT = begin; obstacleIT != end; ++obstacleIT)
-					{
-						std::shared_ptr<GameObject> obstacle = (*obstacleIT);
-						gameObject->collision(obstacle);
-					}
+					//abductor collision with collider(meteor)
+					checkForCollisions(gameObjectsMap.at(Constants::ABDUCTOR_KEY), gameObject);
+					checkForCollisions(gameObjectsMap.at(Constants::MISC_KEY), gameObject);
+					checkForCollisions(gameObjectsMap.at(Constants::MUTANT_KEY), gameObject);
+					checkForCollisions(gameObjectsMap.at(Constants::PROJECTILE_KEY), gameObject);
+				}
+
+				if (type == GameObject::Type::Laser || type == GameObject::Type::Missile)
+				{
+					//misc collision with collider(laser/missile)
+					checkForCollisions(gameObjectsMap.at(Constants::ABDUCTOR_KEY), gameObject);
+					checkForCollisions(gameObjectsMap.at(Constants::MISC_KEY), gameObject); //check laser/missile collisions with misc (player, meteor, nests)
+					checkForCollisions(gameObjectsMap.at(Constants::MUTANT_KEY), gameObject);
+
 				}
 
 				//draw
@@ -226,8 +233,8 @@ int GameScreen::run(sf::RenderWindow &window)
 					++itV;
 				}
 			}
-		}	
-			
+		}
+
 		if (zoomed) {
 			view.zoom(zoom);
 			zoomed = false;
@@ -277,7 +284,7 @@ int GameScreen::run(sf::RenderWindow &window)
 			s.setPosition(0.f, 0.f);
 			window.draw(s);
 		}
-		else if(player->getPosition().x >= worldSize.x - bounds.width)
+		else if (player->getPosition().x >= worldSize.x - bounds.width)
 		{
 			preTeleportTexture.display();
 			sf::Sprite s(preTeleportTexture.getTexture());
@@ -295,9 +302,9 @@ int GameScreen::run(sf::RenderWindow &window)
 sf::FloatRect GameScreen::getRectFromView(const sf::View & view)
 {
 	return sf::FloatRect(view.getCenter().x - view.getSize().x * 0.5f,
-						 view.getCenter().y- view.getSize().y * 0.5f,
-						 view.getSize().x,
-						 view.getSize().y);
+		view.getCenter().y - view.getSize().y * 0.5f,
+		view.getSize().x,
+		view.getSize().y);
 }
 
 void GameScreen::drawGameObject(sf::RenderTarget & target, std::shared_ptr<GameObject>& gameObject, const sf::FloatRect & viewBounds)
@@ -308,4 +315,16 @@ void GameScreen::drawGameObject(sf::RenderTarget & target, std::shared_ptr<GameO
 		target.draw(*gameObject);
 	}
 	target.setView(target.getDefaultView());
+}
+
+void GameScreen::checkForCollisions(std::vector<std::shared_ptr<GameObject>>& v, std::shared_ptr<GameObject>& collider)
+{
+	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
+	GameObjectPtrVector::iterator begin = v.begin();
+	GameObjectPtrVector::iterator end = v.end();
+	for (GameObjectPtrVector::iterator it = begin; it != end; ++it)
+	{
+		std::shared_ptr<GameObject> gameObject = (*it);
+		gameObject->collision(collider);
+	}
 }

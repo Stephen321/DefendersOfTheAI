@@ -5,9 +5,10 @@
 class Missile : public GameObject //TODO: use projectile superclass
 {
 public: //TODO: use pursue steering to aim at player (make Pursue/Flee/Seek/Evade classes instead of repeating code)
-	Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf::Vector2f& target, int& ownerMissileCount);
+	Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf::Vector2f& target, int& ownerMissileCount, float damage);
 	void update(float dt) override;
 	void checkWorldBounds() override;
+	float getDamage() const;
 private:
 	const float VEL_DROP_STOP_SCALE = 0.4f;
 	const float DROP_DIST = 50.f;
@@ -19,4 +20,5 @@ private:
 	float m_startY;
 	float m_liveTimer;
 	int& m_ownerMissileCount;
+	float m_damage;
 };
