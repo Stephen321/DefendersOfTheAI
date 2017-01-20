@@ -55,6 +55,7 @@ void Player::smartBomb()
 {
 	if (m_smartBombTimer <= 0)
 	{
+		m_bombReady = false;
 		m_smartBombTimer = SMARTBOMB_COOLDOWN;
 	}
 }

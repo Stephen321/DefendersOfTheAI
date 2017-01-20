@@ -111,8 +111,8 @@ int GameScreen::run(sf::RenderWindow &window)
 			if (Event.type == sf::Event::GainedFocus)
 			{
 				pause = false;
-			}
-		}
+			}				
+		}		
 
 		//get dt
 		float dt = frameClock.restart().asSeconds();
@@ -147,6 +147,35 @@ int GameScreen::run(sf::RenderWindow &window)
 		window.draw(background);
 
 		std::vector<std::pair<GameObject::Type, sf::Vector2f>>  radarEntities;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Q))
+		{
+			if (player->BombAvailable())
+			{
+				player->smartBomb();
+
+				for (GameObjectMap::iterator it = gameObjectsMap.begin(); it != gameObjectsMap.end(); ++it)
+				{
+					GameObjectPtrVector& v = it->second;
+					for (GameObjectPtrVector::iterator itV = v.begin(); itV != v.end();)
+					{
+						std::shared_ptr<GameObject>& gameObject = (*itV);
+
+						GameObject::Type type = gameObject->getType();
+						if (type != GameObject::Type::Astronaut &&
+							type != GameObject::Type::HyperJumpPickup &&
+							type != GameObject::Type::Player)
+						{
+							if (gameObject->getPosition().x + gameObject->getWidth() > bounds.left &&
+								gameObject->getPosition().x < bounds.left + bounds.width)
+							{
+								gameObject->setActive(false);
+							}
+						}
+					}
+				}
+			}
+		}
 
 		for (GameObjectMap::iterator it = gameObjectsMap.begin(); it != gameObjectsMap.end(); ++it)
 		{

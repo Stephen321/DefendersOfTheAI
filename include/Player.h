@@ -10,14 +10,14 @@ public:
 	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
 	Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameProjecttiles);
 	void update(float dt) override;
+	bool BombAvailable() const;
+	void smartBomb();
 
 private:
 	void checkInput();
 
 	//lasers
 	void fire(); //TODO: put this into a super class such as Character which AI and the Player both inheirit from
-	void smartBomb();
-	bool BombAvailable() const;
 	void hyperJump();
 	void replenishHyperJump();
 	bool m_canHyperJump;

@@ -55,7 +55,10 @@
 		"hyperJumpIcon": {
 			"hyperJumpIcon": "hyperJumpIcon.png"
 		},
-		"hyperJumpIconBG": {
+		"hyperJumpIcon": {
+			"smartBombIcon": "smartBombIcon.png"
+		},
+		"IconBG": {
 			"hyperJumpIconBG": "hyperJumpIconBG.png"
 		}
 	}
