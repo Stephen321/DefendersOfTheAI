@@ -45,11 +45,19 @@ int GameScreen::run(sf::RenderWindow &window)
 
 	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(100.f, worldSize.y * 0.1f),
 		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(200.f, worldSize.y * 0.2f),
+	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(200.f, worldSize.y * 0.4f),
 		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
 	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(300.f, worldSize.y * 0.1f),
 		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(400.f, worldSize.y * 0.2f),
+	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(400.f, worldSize.y * 0.7f),
+		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
+	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(8500.f, worldSize.y * 0.2f),
+		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
+	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(4600.f, worldSize.y * 0.2f),
+		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
+	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(2500.f, worldSize.y * 0.6f),
+		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
+	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(1600.f, worldSize.y * 0.3f),
 		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
 	
 	Background background(bounds, player);

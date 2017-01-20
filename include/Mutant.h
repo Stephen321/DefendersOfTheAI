@@ -14,6 +14,8 @@ public:
 
 	sf::Vector2f separation();
 	sf::Vector2f swarm();
+	sf::Vector2f seek();
+	void checkWorldBounds() override;
 	void setAcceleration(const sf::Vector2f& acceleration);
 	void move(float dt) override;
 	int getNeighbourCount() const;
@@ -38,10 +40,12 @@ private:
 	const float NEIGHBOUR_RADIUS = 250.f;
 	const float DESIRED_SEPARATION = 50.f;
 	const float PLAYER_DESIRED_SEPARATION = 100.f;
-	const float PLAYER_SEPERATION_FORCE_SCALE = 0.15f;
-	const float PLAYER_FORCE_SCALER = 1.5f;
+	const float PLAYER_SEPERATION_FORCE_SCALE = 0.05f;
+	const float PLAYER_FORCE_SCALER = 3.f;
+
+	const float PLAYER_SEEK_FORCE_SCALE = 0.5f;
 
 	const float SEPERATION_WEIGHT = 6.f;
-	const float ALIGNMENT_WEIGHT = 1.1f;
-	const float COHESION_WEIGHT = 1.2f;
+	const float SWARM_WEIGHT = 1.f;
+	const float SEEK_WEIGHT = 1.f;
 };

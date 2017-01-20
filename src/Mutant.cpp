@@ -35,9 +35,9 @@ sf::Vector2f Mutant::separation()
 	// For every Abductor in the system, check if it's too close
 	for (int i = 0; i < m_gameMutants.size(); i++)
 	{
-		// Calculate distance from current Abductor to Abductor we're looking at
+		// Calculate distance from current Mutant to Mutant we're looking at
 		float d = Helpers::getLength(m_position - m_gameMutants[i]->getPosition());
-		// If this is a fellow Abductor and it's too close, move away from it
+		// If this is a fellow Mutant and it's too close, move away from it
 		if (d > 0 && d < DESIRED_SEPARATION)
 		{
 			sf::Vector2f diff = m_position - m_gameMutants[i]->getPosition();
@@ -48,7 +48,6 @@ sf::Vector2f Mutant::separation()
 		}
 	}
 	float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_player->getPosition(), m_position));
-	// If this is a fellow Abductor and it's too close, move away from it
 	if (d < PLAYER_DESIRED_SEPARATION)
 	{
 		sf::Vector2f diff = Helpers::getVectorBetweenWrap(m_worldSize, m_player->getPosition(), m_position);
@@ -81,10 +80,10 @@ sf::Vector2f Mutant::swarm()
 	{
 		if (this != m_gameMutants[i].get())
 		{
-			float A = 120.f;
-			float N = 6.f;
+			float A = 800.f;
+			float N = 2.f;
 			float B = 1000.f;
-			float M = 1.1f;
+			float M = 0.5f;
 
 			sf::Vector2f	R;
 			R = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_gameMutants[i]->getPosition());
@@ -96,7 +95,42 @@ sf::Vector2f Mutant::swarm()
 			sum += R;
 		}
 	}
-	return sum;
+	return sum * SWARM_WEIGHT;
+}
+
+sf::Vector2f Mutant::seek()
+{
+	sf::Vector2f steer;
+
+	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_player->getPosition());
+	sf::Vector2f dir = Helpers::normaliseCopy(vectorBetween);
+	dir *= Helpers::getLength(vectorBetween) * PLAYER_SEEK_FORCE_SCALE;
+	steer += dir;
+	return steer * SEEK_WEIGHT;
+}
+
+void Mutant::checkWorldBounds()
+{
+	float halfWidth = m_sprite.getGlobalBounds().width * 0.5f;
+	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
+	if (m_position.y < halfHeight)
+	{
+		m_position.y = halfHeight;
+		m_velocity.y = -m_velocity.y * 0.9f;
+	}
+	else if (m_position.y > LOWEST_DISTANCE - halfHeight)
+	{
+		m_position.y = LOWEST_DISTANCE - halfHeight;
+		m_velocity.y = -m_velocity.y * 0.9f;
+	}
+	if (m_position.x < -halfWidth)
+	{
+		m_position.x = m_worldSize.x - halfWidth;
+	}
+	else if (m_position.x > m_worldSize.x + halfWidth)
+	{
+		m_position.x = halfWidth;
+	}
 }
 
 void Mutant::setAcceleration(const sf::Vector2f & acceleration)

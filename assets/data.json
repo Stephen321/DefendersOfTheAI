@@ -47,7 +47,7 @@
 			"texture_path": "ai/mutant.png",
 			"force": 200,
 			"drag_coefficent": 0.95,
-			"max_velocity": 400
+			"max_velocity": 250
 		}
 	}
 }

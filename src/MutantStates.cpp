@@ -8,8 +8,9 @@ void MSwarmState::start(Mutant* mutant)
 
 void MSwarmState::update(Mutant* mutant, float dt)
 { 
-	mutant->setAcceleration(mutant->swarm());
+	mutant->setAcceleration(mutant->swarm() + mutant->separation() + mutant->seek());
 	mutant->move(dt);
+	mutant->fire(dt);
 	mutant->checkWorldBounds();
 }
 
