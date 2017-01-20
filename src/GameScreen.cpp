@@ -354,8 +354,12 @@ int GameScreen::run(sf::RenderWindow &window)
 			window.draw(s);
 		}
 
-
+		sf::Vector2f scorePos = Helpers::getVectorBetweenWrap(worldSize, player->getPosition(), player->getPosition() + sf::Vector2f(-bounds.width * 0.45f, 15.f));
+		scoreText.setPosition(player->getPosition().x + scorePos.x, 15.f);
+		scoreText.setString("Score: " + std::to_string(player->getScore()));
 		window.draw(radar);
+
+		window.draw(scoreText);
 
 
 		window.display();

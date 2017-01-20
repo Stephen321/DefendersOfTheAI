@@ -24,6 +24,12 @@ Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, Game
 
 void Player::update(float dt)
 {
+	m_liveTimer += dt;
+	if (m_liveTimer > 1.f)
+	{
+		m_liveTimer = 0.f;
+		m_score += 10.f;
+	}
 	checkInput();
 	if (m_reloadTimer < RELOAD_TIME)
 	{

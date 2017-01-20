@@ -24,6 +24,7 @@ private:
 	void checkInput();
 
 	//lasers
+	float m_liveTimer;
 	void fire(); 
 	void hyperJump();
 	void replenishHyperJump();
