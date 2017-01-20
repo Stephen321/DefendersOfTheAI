@@ -54,10 +54,12 @@ public:
 			float damage = 0.f;
 			if (collidor->getType() == Type::Laser)
 			{
-				collidor->setActive(false);
 				std::shared_ptr<Laser> laser = std::static_pointer_cast<Laser>(collidor);
 				if (laser->ownerType() == Type::Player)
+				{
 					damage = laser->getDamage();
+					collidor->setActive(false);
+				}
 			}
 
 			if (m_healthBar.changeHealth(-damage) == false)

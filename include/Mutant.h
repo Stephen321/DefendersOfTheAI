@@ -48,5 +48,5 @@ private:
 	const float SWARM_WEIGHT = 1.f;
 	const float SEEK_WEIGHT = 1.f;
 
-	const float DAMAGE = 10.f;
+	const float DAMAGE = 8.f;
 };

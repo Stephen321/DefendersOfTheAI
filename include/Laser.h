@@ -12,7 +12,7 @@ public:
 	GameObject::Type ownerType() const;
 private:
 	Type m_ownerType;
-	const float TTL = 2.f;
+	const float TTL = 1.5f;
 	float m_liveTimer;
 	float m_damage;
 };

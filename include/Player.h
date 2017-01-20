@@ -29,5 +29,5 @@ private:
 	const float HEALTH_Y_OFFSET = 30.f;
 
 
-	const float DAMAGE = 5.f;
+	const float DAMAGE = 10.f;
 };

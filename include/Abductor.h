@@ -35,7 +35,6 @@ public:
 	void checkAbductionBounds();
 	bool checkIfVictim(const std::shared_ptr<GameObject>& astroObject);
 
-	const float DAMAGE = 5.f;
 	//testing
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool collision(const std::shared_ptr<GameObject>& collidor) override;
@@ -43,6 +42,8 @@ public:
 private:
 	//test
 	sf::RectangleShape m_beamRect;
+
+	const float DAMAGE = 4.f;
 
 	//lasers
 	const std::shared_ptr<GameObject> m_player;
