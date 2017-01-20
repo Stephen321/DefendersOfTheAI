@@ -84,6 +84,7 @@ void APatrolState::end(Abductor * abductor)
 void AAbductingState::start(Abductor* abductor)
 {
 	abductor->setMoving(true);
+	abductor->setAcceleration(sf::Vector2f());
 }
 
 void AAbductingState::update(Abductor* abductor, float dt)

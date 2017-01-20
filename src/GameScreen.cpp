@@ -32,38 +32,30 @@ int GameScreen::run(sf::RenderWindow &window)
 	preTeleportTexture.setView(sf::View());
 
 	GameObjectMap gameObjectsMap; //TODO: instead of 4 vectors?
+	gameObjectsMap[Constants::ABDUCTOR_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::MUTANT_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::PROJECTILE_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::MISC_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::ASTRONAUT_KEY] = GameObjectPtrVector();
+	gameObjectsMap[Constants::OBSTACLES_KEY] = GameObjectPtrVector();
 
 	std::shared_ptr<Player> player = std::shared_ptr<Player>(new Player(sf::Vector2f(500.f, worldSize.y * 0.5f),
 															 worldSize, gameObjectsMap[Constants::PROJECTILE_KEY]));
-	gameObjectsMap[Constants::MISC_KEY].push_back(player);
-	/*gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));*/
-	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
-	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
-	gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128))); //todo: 128???
-	
+	gameObjectsMap.at(Constants::MISC_KEY).push_back(player);
+	gameObjectsMap.at(Constants::MISC_KEY).push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f),
+		worldSize, player, gameObjectsMap)));
+	gameObjectsMap.at(Constants::MISC_KEY).push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(300.f, worldSize.y * 0.1f),
+		worldSize, player, gameObjectsMap)));
+	gameObjectsMap.at(Constants::MISC_KEY).push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(600.f, worldSize.y * 0.1f),
+		worldSize, player, gameObjectsMap)));
+	//gameObjectsMap.at(Constants::MISC_KEY).push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(100.f, worldSize.y * 0.1f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(200.f, worldSize.y * 0.4f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(300.f, worldSize.y * 0.1f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(400.f, worldSize.y * 0.7f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(8500.f, worldSize.y * 0.2f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(4600.f, worldSize.y * 0.2f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(2500.f, worldSize.y * 0.6f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
-	gameObjectsMap[Constants::MUTANT_KEY].push_back(std::shared_ptr<Mutant>(new Mutant(sf::Vector2f(1600.f, worldSize.y * 0.3f),
-		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::MUTANT_KEY])));
+	//gameObjectsMap.at(Constants::OBSTACLES_KEY).push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128))); //todo: 128???
 	
 	Background background(bounds, player);
 
 	float testing = 0;
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 35; i++)
 	{
 		if (testing > worldSize.x)
 			break;
@@ -190,8 +182,8 @@ int GameScreen::run(sf::RenderWindow &window)
 				if (type != GameObject::Type::Meteor && type != GameObject::Type::Astronaut
 					&& type != GameObject::Type::Player)
 				{
-					GameObjectPtrVector::iterator begin = gameObjectsMap[Constants::OBSTACLES_KEY].begin();
-					GameObjectPtrVector::iterator end = gameObjectsMap[Constants::OBSTACLES_KEY].end();
+					GameObjectPtrVector::iterator begin = gameObjectsMap.at(Constants::OBSTACLES_KEY).begin();
+					GameObjectPtrVector::iterator end = gameObjectsMap.at(Constants::OBSTACLES_KEY).end();
 					for (GameObjectPtrVector::iterator obstacleIT = begin; obstacleIT != end; ++obstacleIT)
 					{
 						std::shared_ptr<GameObject> obstacle = (*obstacleIT);
@@ -220,9 +212,8 @@ int GameScreen::run(sf::RenderWindow &window)
 					drawGameObject(preTeleportTexture, gameObject, sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height));
 				}
 
-
 				//remove if not active
-				if ((*itV)->getActive() == false)
+				if (gameObject->getActive() == false)
 				{
 					itV = v.erase(itV);
 					if (v.empty())

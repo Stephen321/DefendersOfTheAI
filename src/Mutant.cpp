@@ -3,11 +3,9 @@
 #include "SFML/Graphics.hpp"
 #include "Mutant.h"
 
-Mutant::Mutant(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject>& player,
-	GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameMutants)
+Mutant::Mutant(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player, GameObjectMap& gameObjectsRef)
 	: AI(Type::Mutant, startPos, worldSize)
-	, m_gameMutants(gameMutants)
-	, m_gameProjectiles(gameProjectiles)
+	, m_gameObjectsRef(gameObjectsRef)
 	, m_player(player)
 
 {
@@ -24,7 +22,7 @@ void Mutant::fire(float dt)
 	if (Helpers::getLength(vectorBetween) < PLAYER_LASER_RANGE)
 	{
 		m_reloadTimer = 0.f;
-		m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), LASER_VEL_SCALE)));
+		m_gameObjectsRef.at(Constants::PROJECTILE_KEY).push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), LASER_VEL_SCALE)));
 	}
 }
 
@@ -33,14 +31,14 @@ sf::Vector2f Mutant::separation()
 	sf::Vector2f steer(0, 0);
 	int count = 0;
 	// For every Abductor in the system, check if it's too close
-	for (int i = 0; i < m_gameMutants.size(); i++)
+	for (int i = 0; i < m_gameObjectsRef.at(Constants::MUTANT_KEY).size(); i++)
 	{
 		// Calculate distance from current Mutant to Mutant we're looking at
-		float d = Helpers::getLength(m_position - m_gameMutants[i]->getPosition());
+		float d = Helpers::getLength(m_position - m_gameObjectsRef.at(Constants::MUTANT_KEY)[i]->getPosition());
 		// If this is a fellow Mutant and it's too close, move away from it
 		if (d > 0 && d < DESIRED_SEPARATION)
 		{
-			sf::Vector2f diff = m_position - m_gameMutants[i]->getPosition();
+			sf::Vector2f diff = m_position - m_gameObjectsRef.at(Constants::MUTANT_KEY)[i]->getPosition();
 			Helpers::normalise(diff);
 			diff /= d;      // Weight by distance. Further away doesnt influence as much
 			steer += diff;
@@ -76,24 +74,32 @@ sf::Vector2f Mutant::separation()
 sf::Vector2f Mutant::swarm()
 {
 	sf::Vector2f sum;
-	for (int i = 0; i < m_gameMutants.size(); i++)
+	int count = 0;
+	for (int i = 0; i < m_gameObjectsRef.at(Constants::MUTANT_KEY).size(); i++)
 	{
-		if (this != m_gameMutants[i].get())
+		if (this != m_gameObjectsRef.at(Constants::MUTANT_KEY)[i].get())
 		{
-			float A = 800.f;
+			float A = 5000.f;
 			float N = 2.f;
 			float B = 1000.f;
 			float M = 0.5f;
 
 			sf::Vector2f	R;
-			R = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_gameMutants[i]->getPosition());
+			R = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_gameObjectsRef.at(Constants::MUTANT_KEY)[i]->getPosition());
 			float D = Helpers::getLength(R);
-			float U = (-A / pow(D, N)) + (B / pow(D, M));
-			Helpers::normalise(R);
-			R *= U;
-
-			sum += R;
+			if (D != 0.f)
+			{
+				float U = (-A / pow(D, N)) + (B / pow(D, M));
+				Helpers::normalise(R);
+				R *= U;
+				sum += R;
+				count++;
+			}
 		}
+	}
+	if (count > 0)
+	{
+		sum /= (float)count;
 	}
 	return sum * SWARM_WEIGHT;
 }
@@ -150,10 +156,10 @@ void Mutant::move(float dt)
 int Mutant::getNeighbourCount() const
 {
 	int count = 0;
-	for (int i = 0; i < m_gameMutants.size(); i++)
+	for (int i = 0; i < m_gameObjectsRef.at(Constants::MUTANT_KEY).size(); i++)
 	{
-		float d = Helpers::getLength(m_position - m_gameMutants[i]->getPosition());
-		if (this != m_gameMutants[i].get() && d < NEIGHBOUR_RADIUS)
+		float d = Helpers::getLength(m_position - m_gameObjectsRef.at(Constants::MUTANT_KEY)[i]->getPosition());
+		if (this != m_gameObjectsRef.at(Constants::MUTANT_KEY)[i].get() && d < NEIGHBOUR_RADIUS)
 		{
 			count++;
 		}

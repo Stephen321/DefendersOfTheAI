@@ -1,11 +1,9 @@
 #include "Nest.h"
 
 
-Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const std::shared_ptr<GameObject> player,
-		   GameObjectPtrVector& gameProjectiles, GameObjectPtrVector& gameAbductors)
+Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player, GameObjectMap& gameObjectsRef)
 	: AI(Type::Nest, startPos, worldSize)
-	, m_gameProjectiles(gameProjectiles)
-	, m_gameAbductors(gameAbductors)
+	, m_gameObjectsRef(gameObjectsRef)
 	, m_targetPos(m_position)
 	, m_wanderOrientation(atan2(m_dir.y, m_dir.x))
 	, m_player(player)
@@ -14,6 +12,7 @@ Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const st
 	, OFFSET_Y(worldSize.y * 0.3f)
 	, m_timeToProduceAbductor(TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET))
 {
+	m_dir = sf::Vector2f((rand() % 2 == 0) ? -1.f : 1.f, 0);
 	m_fsm.init(this);
 	m_fsm.changeState(NWanderState::getInstance());
 }
@@ -102,7 +101,7 @@ void Nest::fire(float dt)
 		m_reloadTimer = 0.f;
 		m_missilesAlive++;
 		sf::Vector2f startPos(m_position.x, m_position.y + (m_sprite.getGlobalBounds().height * 0.5f));
-		m_gameProjectiles.push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, m_playerPos, m_missilesAlive)));
+		m_gameObjectsRef.at(Constants::PROJECTILE_KEY).push_back(std::shared_ptr<Missile>(new Missile(startPos, m_worldSize, m_playerPos, m_missilesAlive)));
 	}
 }
 
@@ -151,14 +150,14 @@ void Nest::produceAbductors(float dt)
 		{
 			//new abductor
 			sf::Vector2f startPos(m_position.x, m_position.y + offset);
-			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors, m_player, m_gameProjectiles)));
-			m_gameAbductors.back()->setVelocity(sf::Vector2f(m_velocity.x, 0.f));
+			m_gameObjectsRef.at(Constants::ABDUCTOR_KEY).push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_player, m_gameObjectsRef)));
+			m_gameObjectsRef.at(Constants::ABDUCTOR_KEY).back()->setVelocity(sf::Vector2f(m_velocity.x, 0.f));
 			//update direction to move in the same x and a random y dir
-			m_gameAbductors.back()->setDirection(sf::Vector2f((m_velocity.x > 0.f) ? 1.f : -1.f, 1.f));
+			m_gameObjectsRef.at(Constants::ABDUCTOR_KEY).back()->setDirection(sf::Vector2f((m_velocity.x > 0.f) ? 1.f : -1.f, 1.f));
 			m_abductorsProduced++;
 			m_produceAbductorTimer = 0.f;
 			m_timeToProduceAbductor = TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET);
-		}
+		} 
 	}
 }
 

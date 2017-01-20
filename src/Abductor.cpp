@@ -3,11 +3,9 @@
 #include "SFML/Graphics.hpp"
 #include "Abductor.h"
 
-Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors,
-	std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles)
+Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player, GameObjectMap& gameObjectsRef)
 	: AI(Type::Abductor, startPos, worldSize)
-	, m_gameAbductors(gameAbductors)
-	, m_gameProjectiles(gameProjectiles)
+	, m_gameObjectsRef(gameObjectsRef)
 	, m_player(player)
 	, HIGHEST_DISTANCE(worldSize.y * 0.35f)
 	, ABDUCTION_RANGE(worldSize.y * 0.55f) //lowest astronaut is worldSie.y * 0.9
@@ -52,7 +50,7 @@ void Abductor::fire(float dt)
 	if (Helpers::getLength(vectorBetween) < PLAYER_LASER_RANGE)
 	{
 		m_reloadTimer = 0.f;
-		m_gameProjectiles.push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), LASER_VEL_SCALE)));
+		m_gameObjectsRef.at(Constants::PROJECTILE_KEY).push_back(std::shared_ptr<Laser>(new Laser(m_position, m_worldSize, Helpers::normaliseCopy(vectorBetween), LASER_VEL_SCALE)));
 	}
 }
 
@@ -63,14 +61,14 @@ sf::Vector2f Abductor::separation()
 	sf::Vector2f steer(0, 0);
 	int count = 0;
 	// For every Abductor in the system, check if it's too close
-	for (int i = 0; i < m_gameAbductors.size(); i++)
+	for (int i = 0; i < m_gameObjectsRef.at(Constants::ABDUCTOR_KEY).size(); i++)
 	{
 		// Calculate distance from current Abductor to Abductor we're looking at
-		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position));
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameObjectsRef.at(Constants::ABDUCTOR_KEY)[i]->getPosition(), m_position));
 		// If this is a fellow Abductor and it's too close, move away from it
 		if (d > 0 && d < DESIRED_SEPARATION)
 		{
-			sf::Vector2f diff = Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position);
+			sf::Vector2f diff = Helpers::getVectorBetweenWrap(m_worldSize, m_gameObjectsRef.at(Constants::ABDUCTOR_KEY)[i]->getPosition(), m_position);
 			Helpers::normalise(diff);
 			diff /= d;      // Weight by distance. Further away doesnt influence as much
 			steer += diff;
@@ -113,12 +111,12 @@ sf::Vector2f Abductor::alignment()
 {
 	sf::Vector2f sum(0, 0);	
 	int count = 0;
-	for (int i = 0; i < m_gameAbductors.size(); i++)
+	for (int i = 0; i < m_gameObjectsRef.at(Constants::ABDUCTOR_KEY).size(); i++)
 	{
-		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position));
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameObjectsRef.at(Constants::ABDUCTOR_KEY)[i]->getPosition(), m_position));
 		if (d > 0 && d < NEIGHBOUR_RADIUS)
 		{
-			sum += m_gameAbductors[i]->getVelocity();
+			sum += m_gameObjectsRef.at(Constants::ABDUCTOR_KEY)[i]->getVelocity();
 			count++;
 		}
 	}
@@ -145,12 +143,12 @@ sf::Vector2f Abductor::cohesion()
 {
 	sf::Vector2f sum(0, 0);	
 	int count = 0;
-	for (int i = 0; i < m_gameAbductors.size(); i++)
+	for (int i = 0; i < m_gameObjectsRef.at(Constants::ABDUCTOR_KEY).size(); i++)
 	{
-		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position));
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameObjectsRef.at(Constants::ABDUCTOR_KEY)[i]->getPosition(), m_position));
 		if (d > 0 && d < NEIGHBOUR_RADIUS)
 		{
-			sum += m_gameAbductors[i]->getPosition();
+			sum += m_gameObjectsRef.at(Constants::ABDUCTOR_KEY)[i]->getPosition();
 			count++;
 		}
 	}
@@ -292,6 +290,12 @@ void Abductor::updateAbduction(float dt)
 		m_beamRect.setFillColor(sf::Color(255, 0, 0, 200));
 		m_velocity = sf::Vector2f(0, -m_maxVelocity * ASCEND_SCALE); //ascend
 		m_abductionVictim->setTarget(sf::Vector2f(m_position.x, m_position.y + getHeight()));
+		if (m_abductionVictim->getActive() == false)
+		{
+			m_active = false;
+			m_gameObjectsRef.at(Constants::MUTANT_KEY).push_back(std::shared_ptr<Mutant>(new Mutant(m_position,
+					m_worldSize, m_player, m_gameObjectsRef)));
+		}
 	}
 	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_abductionVictim->getPosition());
 	sf::Vector2f dir = Helpers::normaliseCopy(vectorBetween);
@@ -352,10 +356,10 @@ void Abductor::move(float dt)
 int Abductor::getNeighbourCount() const
 {
 	int count = 0;
-	for (int i = 0; i < m_gameAbductors.size(); i++)
+	for (int i = 0; i < m_gameObjectsRef.at(Constants::ABDUCTOR_KEY).size(); i++)
 	{
-		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position));
-		if (this != m_gameAbductors[i].get() && d < NEIGHBOUR_RADIUS)
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameObjectsRef.at(Constants::ABDUCTOR_KEY)[i]->getPosition(), m_position));
+		if (this != m_gameObjectsRef.at(Constants::ABDUCTOR_KEY)[i].get() && d < NEIGHBOUR_RADIUS)
 		{
 			count++;
 		}

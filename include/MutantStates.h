@@ -17,19 +17,4 @@ public:
 	void end(Mutant*) override;
 };
 
-class MAttackState : public State<Mutant>
-{
-private:
-	MAttackState() {};
-public:
-	static std::shared_ptr<MAttackState>& getInstance()
-	{
-		static std::shared_ptr<MAttackState> state(new MAttackState);
-		return state;
-	}
-	void start(Mutant*) override;
-	void update(Mutant*, float) override;
-	void end(Mutant*) override;
-};
-
 #include "Mutant.h"

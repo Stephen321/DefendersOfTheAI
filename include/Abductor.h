@@ -4,13 +4,14 @@
 #include "AbductorStates.h"
 #include "Laser.h"
 #include "Astronaut.h"
+#include "Mutant.h"
 
 class Abductor : public AI<Abductor>
 {
 public:
 	typedef std::vector<std::shared_ptr<GameObject>> GameObjectPtrVector;
-	Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, GameObjectPtrVector& gameAbductors,
-			 std::shared_ptr<GameObject> player, GameObjectPtrVector& gameProjectiles);
+	typedef std::unordered_map<std::string, GameObjectPtrVector> GameObjectMap;
+	Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, std::shared_ptr<GameObject> player, GameObjectMap& gameObjectsRef);
 
 	sf::Vector2f separation();
 	sf::Vector2f alignment();
@@ -49,8 +50,8 @@ private:
 	const float RELOAD_TIME = 1.5f; //TODO put this reload time and timer in an interface
 	float m_reloadTimer;
 
-	GameObjectPtrVector& m_gameProjectiles;
-	GameObjectPtrVector& m_gameAbductors;
+	GameObjectMap& m_gameObjectsRef;
+
 	const float ABDUCT_TIME_TO_ARRIVE = 0.9f;
 	const float ABDUCT_ARRIVE_RADIUS = 400.f;
 	const float ABDUCT_SEEK_RANGE = 30.f;
@@ -76,7 +77,7 @@ private:
 	const float NEIGHBOUR_RADIUS = 250.f;
 	const float DESIRED_SEPARATION = 50.f;
 	const float PLAYER_DESIRED_SEPARATION = 100.f;
-	const float PLAYER_SEPERATION_FORCE_SCALE = 0.15f;
+	const float PLAYER_SEPERATION_FORCE_SCALE = 0.05f;
 	const float PLAYER_FORCE_SCALER = 1.5f;
 
 	const float SEPERATION_WEIGHT = 6.f;
