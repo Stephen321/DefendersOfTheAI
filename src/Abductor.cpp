@@ -66,11 +66,11 @@ sf::Vector2f Abductor::separation()
 	for (int i = 0; i < m_gameAbductors.size(); i++)
 	{
 		// Calculate distance from current Abductor to Abductor we're looking at
-		float d = Helpers::getLength(m_position - m_gameAbductors[i]->getPosition());
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position));
 		// If this is a fellow Abductor and it's too close, move away from it
 		if (d > 0 && d < DESIRED_SEPARATION)
 		{
-			sf::Vector2f diff = m_position - m_gameAbductors[i]->getPosition();
+			sf::Vector2f diff = Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position);
 			Helpers::normalise(diff);
 			diff /= d;      // Weight by distance. Further away doesnt influence as much
 			steer += diff;
@@ -115,7 +115,7 @@ sf::Vector2f Abductor::alignment()
 	int count = 0;
 	for (int i = 0; i < m_gameAbductors.size(); i++)
 	{
-		float d = Helpers::getLength(m_position - m_gameAbductors[i]->getPosition());
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position));
 		if (d > 0 && d < NEIGHBOUR_RADIUS)
 		{
 			sum += m_gameAbductors[i]->getVelocity();
@@ -147,7 +147,7 @@ sf::Vector2f Abductor::cohesion()
 	int count = 0;
 	for (int i = 0; i < m_gameAbductors.size(); i++)
 	{
-		float d = Helpers::getLength(m_position - m_gameAbductors[i]->getPosition());
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position));
 		if (d > 0 && d < NEIGHBOUR_RADIUS)
 		{
 			sum += m_gameAbductors[i]->getPosition();
@@ -298,7 +298,7 @@ void Abductor::updateAbduction(float dt)
 	float d = Helpers::getLength(vectorBetween);
 	m_beamRect.setPosition(m_position);
 	m_beamRect.setSize(sf::Vector2f(d, m_beamRect.getSize().y));
-	m_beamRect.setRotation(atan2(dir.y, dir.x) * (180.f / M_PI));
+	m_beamRect.setRotation(atan2(dir.y, dir.x) * (float)(180.f / M_PI));
 }
 
 void Abductor::checkAbductionBounds()
@@ -345,6 +345,7 @@ void Abductor::move(float dt)
 	Helpers::limit(m_velocity, m_maxVelocity);
 	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
 
+	//TODO: can this be removed?
 	m_sprite.setPosition(m_position);
 }
 
@@ -353,7 +354,7 @@ int Abductor::getNeighbourCount() const
 	int count = 0;
 	for (int i = 0; i < m_gameAbductors.size(); i++)
 	{
-		float d = Helpers::getLength(m_position - m_gameAbductors[i]->getPosition());
+		float d = Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_gameAbductors[i]->getPosition(), m_position));
 		if (this != m_gameAbductors[i].get() && d < NEIGHBOUR_RADIUS)
 		{
 			count++;

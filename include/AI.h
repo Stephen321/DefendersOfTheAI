@@ -17,7 +17,7 @@ public:
 		m_forceAmount = props.forceAmount;
 		m_dragCoefficent = props.dragCoefficent;
 		m_maxVelocity = props.maxVelocity;
-		m_dir.x = (rand() % 2 == 0) ? 1 : -1;
+		m_dir.x = (rand() % 2 == 0) ? 1.f : -1.f;
 		setOrigin();
 	}
 

@@ -179,6 +179,8 @@
     <ClInclude Include="include\MenuScreen.h" />
     <ClInclude Include="include\Meteor.h" />
     <ClInclude Include="include\Missile.h" />
+    <ClInclude Include="include\Mutant.h" />
+    <ClInclude Include="include\MutantStates.h" />
     <ClInclude Include="include\Nest.h" />
     <ClInclude Include="include\NestStates.h" />
     <ClInclude Include="include\Player.h" />
@@ -197,6 +199,8 @@
     <ClCompile Include="src\AstronautStates.cpp" />
     <ClCompile Include="src\Constants.cpp" />
     <ClCompile Include="src\Missile.cpp" />
+    <ClCompile Include="src\Mutant.cpp" />
+    <ClCompile Include="src\MutantStates.cpp" />
     <ClCompile Include="src\Nest.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>

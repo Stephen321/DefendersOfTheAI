@@ -64,6 +64,12 @@
     <ClCompile Include="src\AstronautStates.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Mutant.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MutantStates.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Background.h">
@@ -148,6 +154,12 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\AstronautStates.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Mutant.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\MutantStates.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
