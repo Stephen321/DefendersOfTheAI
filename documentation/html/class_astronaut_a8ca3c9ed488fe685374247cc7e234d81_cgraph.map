@@ -1,0 +1,18 @@
+<map id="Astronaut::setBeingAbducted" name="Astronaut::setBeingAbducted">
+<area shape="rect" id="node2" href="$class_a_i.html#ae08cb2117d4352ad462fefa357028a82" title="AI\&lt; Astronaut \&gt;::changeState" alt="" coords="694,5,889,32"/>
+<area shape="rect" id="node3" href="$class_as_wander_state.html#aec2c7973e9d2e7c3087a1a5c486a2bc4" title="AsWanderState::getInstance" alt="" coords="245,291,435,317"/>
+<area shape="rect" id="node4" href="$class_as_wander_state.html#a7821ce2fdac9afa1b111f695ac51af43" title="AsWanderState::start" alt="" coords="945,335,1093,361"/>
+<area shape="rect" id="node7" href="$class_as_wander_state.html#ab95b3dd74d0f3109a4778fceda43221d" title="AsWanderState::update" alt="" coords="483,208,644,235"/>
+<area shape="rect" id="node17" href="$class_as_wander_state.html#ab225e3074b252027cfd84f8fe9171e1c" title="AsWanderState::end" alt="" coords="947,397,1090,424"/>
+<area shape="rect" id="node5" href="$class_a_i.html#ac705298af197a4e87594ee095bfceb60" title="AI::setMoving" alt="" coords="1195,309,1295,336"/>
+<area shape="rect" id="node6" href="$class_astronaut.html#a1f4a85a0c38a73e1370528039535712b" title="Astronaut::updateAcceleration" alt="" coords="1147,360,1344,387"/>
+<area shape="rect" id="node8" href="$class_astronaut.html#a362cf11f645801a8067efaa1f9310e4c" title="Astronaut::checkWorldBounds" alt="" coords="692,56,891,83"/>
+<area shape="rect" id="node9" href="$class_game_object.html#acdd88174ec97a4fae78b039762a39726" title="GameObject::setPosition" alt="" coords="707,107,875,133"/>
+<area shape="rect" id="node10" href="$class_game_object.html#a43a1f9dafe383a47a20abb51919e9e79" title="GameObject::getPosition" alt="" coords="707,157,875,184"/>
+<area shape="rect" id="node11" href="$class_astronaut.html#accf210f01ffc0bbeaa3b3a9c0004233f" title="Astronaut::getYAtX" alt="" coords="725,208,858,235"/>
+<area shape="rect" id="node15" href="$class_astronaut.html#a261c75322690f57c19f46b1fa714c2e0" title="Astronaut::getBeingChased" alt="" coords="701,259,882,285"/>
+<area shape="rect" id="node16" href="$class_as_flee_state.html#ac997349091ed80416dfe2700bae5f726" title="AsFleeState::getInstance" alt="" coords="707,309,876,336"/>
+<area shape="rect" id="node12" href="$namespace_helpers.html#a17de449489ff14414634beaa710176cd" title="Helpers::binarySearch" alt="" coords="943,183,1094,209"/>
+<area shape="rect" id="node13" href="$namespace_helpers.html#a1c0a40432177c275488a904ea94eda66" title="Helpers::normaliseCopy" alt="" coords="939,233,1099,260"/>
+<area shape="rect" id="node14" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="1180,233,1311,260"/>
+</map>

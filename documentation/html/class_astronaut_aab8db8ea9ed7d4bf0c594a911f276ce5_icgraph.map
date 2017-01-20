@@ -1,0 +1,4 @@
+<map id="Astronaut::setBeingChased" name="Astronaut::setBeingChased">
+<area shape="rect" id="node2" href="$class_as_abduct_state.html#afad21e00707545b221d707932b22375e" title="AsAbductState::start" alt="" coords="235,5,379,32"/>
+<area shape="rect" id="node3" href="$class_game_screen.html#a0e39ba2968e5fcec952119f7a9d6e437" title="GameScreen::run" alt="" coords="245,56,369,83"/>
+</map>

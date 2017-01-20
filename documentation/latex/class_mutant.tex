@@ -1,0 +1,280 @@
+\hypertarget{class_mutant}{}\section{Mutant Class Reference}
+\label{class_mutant}\index{Mutant@{Mutant}}
+
+
+{\ttfamily \#include $<$Mutant.\+h$>$}
+
+
+
+Inheritance diagram for Mutant\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=154pt]{class_mutant__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Mutant\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=333pt]{class_mutant__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$ $>$ \hyperlink{class_mutant_a3fb0c08b707c995a0af286a938556169}{Game\+Object\+Ptr\+Vector}
+\item 
+typedef std\+::unordered\+\_\+map$<$ std\+::string, \hyperlink{class_mutant_a3fb0c08b707c995a0af286a938556169}{Game\+Object\+Ptr\+Vector} $>$ \hyperlink{class_mutant_a21ecadaee40ad4871af74ef606913db1}{Game\+Object\+Map}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_mutant_ae11d8a5d375b8b469a1125c5f3db059d}{Mutant} (const sf\+::\+Vector2f \&start\+Pos, const sf\+::\+Vector2f \&world\+Size, std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$ player, \hyperlink{class_mutant_a21ecadaee40ad4871af74ef606913db1}{Game\+Object\+Map} \&game\+Objects\+Ref)
+\item 
+sf\+::\+Vector2f \hyperlink{class_mutant_a0ea8c6678568932e57054f13c00d12d9}{separation} ()
+\item 
+sf\+::\+Vector2f \hyperlink{class_mutant_a03a015517d346506a2d994e3867b6228}{swarm} ()
+\item 
+sf\+::\+Vector2f \hyperlink{class_mutant_a5cdfb629154531e8f010930b072e14cc}{seek} ()
+\item 
+void \hyperlink{class_mutant_af5b703545939ef9295ecbe2762947995}{check\+World\+Bounds} () override
+\item 
+void \hyperlink{class_mutant_a307fa4d660b49702927e18d2dc316376}{set\+Acceleration} (const sf\+::\+Vector2f \&acceleration)
+\item 
+void \hyperlink{class_mutant_a5f5208a68bebe2cd3773f771a18e2992}{move} (float dt) override
+\item 
+int \hyperlink{class_mutant_aeca389c4c77ef86f9a41dd9e431abe50}{get\+Neighbour\+Count} () const
+\item 
+float \hyperlink{class_mutant_a308e103233480f0f7cd626cffc90d833}{get\+Force\+Amount} () const
+\item 
+void \hyperlink{class_mutant_ac404012989fab1737c145a09f37c69c3}{set\+Direction} (const sf\+::\+Vector2f \&dir)
+\item 
+sf\+::\+Vector2f \hyperlink{class_mutant_a9b3db53e81b2736b2390375b7a0aba2e}{get\+Direction} () const
+\item 
+void \hyperlink{class_mutant_a64b25d92b0d694889047b71e3e501689}{fire} (float dt)
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Member Typedef Documentation}
+\mbox{\Hypertarget{class_mutant_a21ecadaee40ad4871af74ef606913db1}\label{class_mutant_a21ecadaee40ad4871af74ef606913db1}} 
+\index{Mutant@{Mutant}!Game\+Object\+Map@{Game\+Object\+Map}}
+\index{Game\+Object\+Map@{Game\+Object\+Map}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{Game\+Object\+Map}{GameObjectMap}}
+{\footnotesize\ttfamily typedef std\+::unordered\+\_\+map$<$std\+::string, \hyperlink{class_mutant_a3fb0c08b707c995a0af286a938556169}{Game\+Object\+Ptr\+Vector}$>$ \hyperlink{class_mutant_a21ecadaee40ad4871af74ef606913db1}{Mutant\+::\+Game\+Object\+Map}}
+
+\mbox{\Hypertarget{class_mutant_a3fb0c08b707c995a0af286a938556169}\label{class_mutant_a3fb0c08b707c995a0af286a938556169}} 
+\index{Mutant@{Mutant}!Game\+Object\+Ptr\+Vector@{Game\+Object\+Ptr\+Vector}}
+\index{Game\+Object\+Ptr\+Vector@{Game\+Object\+Ptr\+Vector}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{Game\+Object\+Ptr\+Vector}{GameObjectPtrVector}}
+{\footnotesize\ttfamily typedef std\+::vector$<$std\+::shared\+\_\+ptr$<$\hyperlink{class_game_object}{Game\+Object}$>$ $>$ \hyperlink{class_mutant_a3fb0c08b707c995a0af286a938556169}{Mutant\+::\+Game\+Object\+Ptr\+Vector}}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_mutant_ae11d8a5d375b8b469a1125c5f3db059d}\label{class_mutant_ae11d8a5d375b8b469a1125c5f3db059d}} 
+\index{Mutant@{Mutant}!Mutant@{Mutant}}
+\index{Mutant@{Mutant}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{Mutant()}{Mutant()}}
+{\footnotesize\ttfamily Mutant\+::\+Mutant (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{start\+Pos,  }\item[{const sf\+::\+Vector2f \&}]{world\+Size,  }\item[{std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$}]{player,  }\item[{\hyperlink{class_mutant_a21ecadaee40ad4871af74ef606913db1}{Game\+Object\+Map} \&}]{game\+Objects\+Ref }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_ae11d8a5d375b8b469a1125c5f3db059d_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_mutant_af5b703545939ef9295ecbe2762947995}\label{class_mutant_af5b703545939ef9295ecbe2762947995}} 
+\index{Mutant@{Mutant}!check\+World\+Bounds@{check\+World\+Bounds}}
+\index{check\+World\+Bounds@{check\+World\+Bounds}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{check\+World\+Bounds()}{checkWorldBounds()}}
+{\footnotesize\ttfamily void Mutant\+::check\+World\+Bounds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_a07bcaf0d87bd507f0a6e98abebd70e53}{Game\+Object}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_af5b703545939ef9295ecbe2762947995_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_mutant_a64b25d92b0d694889047b71e3e501689}\label{class_mutant_a64b25d92b0d694889047b71e3e501689}} 
+\index{Mutant@{Mutant}!fire@{fire}}
+\index{fire@{fire}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{fire()}{fire()}}
+{\footnotesize\ttfamily void Mutant\+::fire (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a64b25d92b0d694889047b71e3e501689_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a64b25d92b0d694889047b71e3e501689_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_mutant_a9b3db53e81b2736b2390375b7a0aba2e}\label{class_mutant_a9b3db53e81b2736b2390375b7a0aba2e}} 
+\index{Mutant@{Mutant}!get\+Direction@{get\+Direction}}
+\index{get\+Direction@{get\+Direction}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{get\+Direction()}{getDirection()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Mutant\+::get\+Direction (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_mutant_a308e103233480f0f7cd626cffc90d833}\label{class_mutant_a308e103233480f0f7cd626cffc90d833}} 
+\index{Mutant@{Mutant}!get\+Force\+Amount@{get\+Force\+Amount}}
+\index{get\+Force\+Amount@{get\+Force\+Amount}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{get\+Force\+Amount()}{getForceAmount()}}
+{\footnotesize\ttfamily float Mutant\+::get\+Force\+Amount (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_mutant_aeca389c4c77ef86f9a41dd9e431abe50}\label{class_mutant_aeca389c4c77ef86f9a41dd9e431abe50}} 
+\index{Mutant@{Mutant}!get\+Neighbour\+Count@{get\+Neighbour\+Count}}
+\index{get\+Neighbour\+Count@{get\+Neighbour\+Count}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{get\+Neighbour\+Count()}{getNeighbourCount()}}
+{\footnotesize\ttfamily int Mutant\+::get\+Neighbour\+Count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=349pt]{class_mutant_aeca389c4c77ef86f9a41dd9e431abe50_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_mutant_a5f5208a68bebe2cd3773f771a18e2992}\label{class_mutant_a5f5208a68bebe2cd3773f771a18e2992}} 
+\index{Mutant@{Mutant}!move@{move}}
+\index{move@{move}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{move()}{move()}}
+{\footnotesize\ttfamily void Mutant\+::move (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_abebe08f70e334c52b8bf052b6ef8c6f3}{Game\+Object}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a5f5208a68bebe2cd3773f771a18e2992_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a5f5208a68bebe2cd3773f771a18e2992_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_mutant_a5cdfb629154531e8f010930b072e14cc}\label{class_mutant_a5cdfb629154531e8f010930b072e14cc}} 
+\index{Mutant@{Mutant}!seek@{seek}}
+\index{seek@{seek}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{seek()}{seek()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Mutant\+::seek (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a5cdfb629154531e8f010930b072e14cc_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a5cdfb629154531e8f010930b072e14cc_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_mutant_a0ea8c6678568932e57054f13c00d12d9}\label{class_mutant_a0ea8c6678568932e57054f13c00d12d9}} 
+\index{Mutant@{Mutant}!separation@{separation}}
+\index{separation@{separation}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{separation()}{separation()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Mutant\+::separation (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a0ea8c6678568932e57054f13c00d12d9_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a0ea8c6678568932e57054f13c00d12d9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_mutant_a307fa4d660b49702927e18d2dc316376}\label{class_mutant_a307fa4d660b49702927e18d2dc316376}} 
+\index{Mutant@{Mutant}!set\+Acceleration@{set\+Acceleration}}
+\index{set\+Acceleration@{set\+Acceleration}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{set\+Acceleration()}{setAcceleration()}}
+{\footnotesize\ttfamily void Mutant\+::set\+Acceleration (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{acceleration }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a307fa4d660b49702927e18d2dc316376_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_mutant_ac404012989fab1737c145a09f37c69c3}\label{class_mutant_ac404012989fab1737c145a09f37c69c3}} 
+\index{Mutant@{Mutant}!set\+Direction@{set\+Direction}}
+\index{set\+Direction@{set\+Direction}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{set\+Direction()}{setDirection()}}
+{\footnotesize\ttfamily void Mutant\+::set\+Direction (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{dir }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_mutant_a03a015517d346506a2d994e3867b6228}\label{class_mutant_a03a015517d346506a2d994e3867b6228}} 
+\index{Mutant@{Mutant}!swarm@{swarm}}
+\index{swarm@{swarm}!Mutant@{Mutant}}
+\subsubsection{\texorpdfstring{swarm()}{swarm()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Mutant\+::swarm (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a03a015517d346506a2d994e3867b6228_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_mutant_a03a015517d346506a2d994e3867b6228_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_mutant_8h}{Mutant.\+h}\item 
+src/\hyperlink{_mutant_8cpp}{Mutant.\+cpp}\end{DoxyCompactItemize}

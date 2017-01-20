@@ -1,0 +1,7 @@
+<map id="Player::Player" name="Player::Player">
+<area shape="rect" id="node2" href="$class_game_data.html#a5930d5371cde0a43f4fa05b6b7152bb8" title="GameData::getInstance" alt="" coords="181,5,340,32"/>
+<area shape="rect" id="node3" href="$class_game_data.html#acf4e9f7e0bbd359c54d048ccdbbdcd2b" title="GameData::getObjectProperties" alt="" coords="157,56,364,83"/>
+<area shape="rect" id="node4" href="$class_health_bar.html#a625701fd387910d769905ebd1a0f41a4" title="HealthBar::setYOffset" alt="" coords="187,107,335,133"/>
+<area shape="rect" id="node5" href="$class_health_bar.html#a161a9325d1bddd74fd13665ad12c979a" title="HealthBar::setXSize" alt="" coords="191,157,330,184"/>
+<area shape="rect" id="node6" href="$class_game_object.html#a939b26e569a42ec129e57540920e859c" title="GameObject::setOrigin" alt="" coords="183,208,338,235"/>
+</map>

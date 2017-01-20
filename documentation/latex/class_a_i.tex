@@ -1,0 +1,189 @@
+\hypertarget{class_a_i}{}\section{AI$<$ T $>$ Class Template Reference}
+\label{class_a_i}\index{A\+I$<$ T $>$@{A\+I$<$ T $>$}}
+
+
+{\ttfamily \#include $<$A\+I.\+h$>$}
+
+
+
+Inheritance diagram for AI$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{class_a_i__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for AI$<$ T $>$\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=232pt]{class_a_i__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_a_i_a0e9856d1f5aa1f0009f9ff2cd51e0598}{AI} (\hyperlink{class_game_object_a4bf9e8f660e6a49f1b802c2aa9dd95af}{Game\+Object\+::\+Type} type, const sf\+::\+Vector2f \&start\+Pos, const sf\+::\+Vector2f \&world\+Size)
+\item 
+void \hyperlink{class_a_i_a1e1875bffd6f4da9e8333cba89aa3cd7}{update} (float dt) override
+\item 
+void \hyperlink{class_a_i_ae08cb2117d4352ad462fefa357028a82}{change\+State} (std\+::shared\+\_\+ptr$<$ \hyperlink{class_state}{State}$<$ T $>$$>$ state)
+\item 
+void \hyperlink{class_a_i_ac705298af197a4e87594ee095bfceb60}{set\+Moving} (bool moving)
+\item 
+virtual bool \hyperlink{class_a_i_a15f7ffd56bf48c7475f9b50d82b60528}{collision} (const std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$ \&collidor) override
+\item 
+virtual void \hyperlink{class_a_i_a8a7423a8612cfd777f3b5eeae4764d50}{draw} (sf\+::\+Render\+Target \&target, sf\+::\+Render\+States states) const override
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+const float \hyperlink{class_a_i_a876a6f7273d86861bfbec7ada91c40b0}{L\+O\+W\+E\+S\+T\+\_\+\+D\+I\+S\+T\+A\+N\+CE}
+\item 
+\hyperlink{class_health_bar}{Health\+Bar} \hyperlink{class_a_i_aa85c378f07b503e706be6cc150a2bae8}{m\+\_\+health\+Bar}
+\item 
+\hyperlink{class_f_s_m}{F\+SM}$<$ T $>$ \hyperlink{class_a_i_a3411b59aac349775e44e764125a007dd}{m\+\_\+fsm}
+\item 
+float \hyperlink{class_a_i_ad32aa749623a2cce0d11ea44eb925602}{H\+E\+A\+L\+T\+H\+\_\+\+Y\+\_\+\+O\+F\+F\+S\+ET} = 1.f
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_a_i_a0e9856d1f5aa1f0009f9ff2cd51e0598}\label{class_a_i_a0e9856d1f5aa1f0009f9ff2cd51e0598}} 
+\index{AI@{AI}!AI@{AI}}
+\index{AI@{AI}!AI@{AI}}
+\subsubsection{\texorpdfstring{A\+I()}{AI()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{class_a_i}{AI}$<$ T $>$\+::\hyperlink{class_a_i}{AI} (\begin{DoxyParamCaption}\item[{\hyperlink{class_game_object_a4bf9e8f660e6a49f1b802c2aa9dd95af}{Game\+Object\+::\+Type}}]{type,  }\item[{const sf\+::\+Vector2f \&}]{start\+Pos,  }\item[{const sf\+::\+Vector2f \&}]{world\+Size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_a_i_ae08cb2117d4352ad462fefa357028a82}\label{class_a_i_ae08cb2117d4352ad462fefa357028a82}} 
+\index{AI@{AI}!change\+State@{change\+State}}
+\index{change\+State@{change\+State}!AI@{AI}}
+\subsubsection{\texorpdfstring{change\+State()}{changeState()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{class_a_i}{AI}$<$ T $>$\+::change\+State (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \hyperlink{class_state}{State}$<$ T $>$$>$}]{state }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_a_i_ae08cb2117d4352ad462fefa357028a82_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_a_i_a15f7ffd56bf48c7475f9b50d82b60528}\label{class_a_i_a15f7ffd56bf48c7475f9b50d82b60528}} 
+\index{AI@{AI}!collision@{collision}}
+\index{collision@{collision}!AI@{AI}}
+\subsubsection{\texorpdfstring{collision()}{collision()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+virtual bool \hyperlink{class_a_i}{AI}$<$ T $>$\+::collision (\begin{DoxyParamCaption}\item[{const std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$ \&}]{collidor }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_a56a330813f51b91b2ad8aacb42b6d8ea}{Game\+Object}.
+
+
+
+Reimplemented in \hyperlink{class_abductor_a247dff8e49fc656700c8cb16ed08252d}{Abductor}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=280pt]{class_a_i_a15f7ffd56bf48c7475f9b50d82b60528_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_a_i_a8a7423a8612cfd777f3b5eeae4764d50}\label{class_a_i_a8a7423a8612cfd777f3b5eeae4764d50}} 
+\index{AI@{AI}!draw@{draw}}
+\index{draw@{draw}!AI@{AI}}
+\subsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+virtual void \hyperlink{class_a_i}{AI}$<$ T $>$\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Target \&}]{target,  }\item[{sf\+::\+Render\+States}]{states }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_aa6d7650a920e2dd79b0125560faf3807}{Game\+Object}.
+
+
+
+Reimplemented in \hyperlink{class_abductor_aebaf5c5a2882f41c8e1ed1b18f80e3d1}{Abductor}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=250pt]{class_a_i_a8a7423a8612cfd777f3b5eeae4764d50_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_a_i_ac705298af197a4e87594ee095bfceb60}\label{class_a_i_ac705298af197a4e87594ee095bfceb60}} 
+\index{AI@{AI}!set\+Moving@{set\+Moving}}
+\index{set\+Moving@{set\+Moving}!AI@{AI}}
+\subsubsection{\texorpdfstring{set\+Moving()}{setMoving()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{class_a_i}{AI}$<$ T $>$\+::set\+Moving (\begin{DoxyParamCaption}\item[{bool}]{moving }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_a_i_ac705298af197a4e87594ee095bfceb60_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_a_i_a1e1875bffd6f4da9e8333cba89aa3cd7}\label{class_a_i_a1e1875bffd6f4da9e8333cba89aa3cd7}} 
+\index{AI@{AI}!update@{update}}
+\index{update@{update}!AI@{AI}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+void \hyperlink{class_a_i}{AI}$<$ T $>$\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_a2fece397b6343682d639f8943f124d0e}{Game\+Object}.
+
+
+
+\subsection{Member Data Documentation}
+\mbox{\Hypertarget{class_a_i_ad32aa749623a2cce0d11ea44eb925602}\label{class_a_i_ad32aa749623a2cce0d11ea44eb925602}} 
+\index{AI@{AI}!H\+E\+A\+L\+T\+H\+\_\+\+Y\+\_\+\+O\+F\+F\+S\+ET@{H\+E\+A\+L\+T\+H\+\_\+\+Y\+\_\+\+O\+F\+F\+S\+ET}}
+\index{H\+E\+A\+L\+T\+H\+\_\+\+Y\+\_\+\+O\+F\+F\+S\+ET@{H\+E\+A\+L\+T\+H\+\_\+\+Y\+\_\+\+O\+F\+F\+S\+ET}!AI@{AI}}
+\subsubsection{\texorpdfstring{H\+E\+A\+L\+T\+H\+\_\+\+Y\+\_\+\+O\+F\+F\+S\+ET}{HEALTH\_Y\_OFFSET}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+float \hyperlink{class_a_i}{AI}$<$ T $>$\+::H\+E\+A\+L\+T\+H\+\_\+\+Y\+\_\+\+O\+F\+F\+S\+ET = 1.f\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_a_i_a876a6f7273d86861bfbec7ada91c40b0}\label{class_a_i_a876a6f7273d86861bfbec7ada91c40b0}} 
+\index{AI@{AI}!L\+O\+W\+E\+S\+T\+\_\+\+D\+I\+S\+T\+A\+N\+CE@{L\+O\+W\+E\+S\+T\+\_\+\+D\+I\+S\+T\+A\+N\+CE}}
+\index{L\+O\+W\+E\+S\+T\+\_\+\+D\+I\+S\+T\+A\+N\+CE@{L\+O\+W\+E\+S\+T\+\_\+\+D\+I\+S\+T\+A\+N\+CE}!AI@{AI}}
+\subsubsection{\texorpdfstring{L\+O\+W\+E\+S\+T\+\_\+\+D\+I\+S\+T\+A\+N\+CE}{LOWEST\_DISTANCE}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+const float \hyperlink{class_a_i}{AI}$<$ T $>$\+::L\+O\+W\+E\+S\+T\+\_\+\+D\+I\+S\+T\+A\+N\+CE\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_a_i_a3411b59aac349775e44e764125a007dd}\label{class_a_i_a3411b59aac349775e44e764125a007dd}} 
+\index{AI@{AI}!m\+\_\+fsm@{m\+\_\+fsm}}
+\index{m\+\_\+fsm@{m\+\_\+fsm}!AI@{AI}}
+\subsubsection{\texorpdfstring{m\+\_\+fsm}{m\_fsm}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{class_f_s_m}{F\+SM}$<$T$>$ \hyperlink{class_a_i}{AI}$<$ T $>$\+::m\+\_\+fsm\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_a_i_aa85c378f07b503e706be6cc150a2bae8}\label{class_a_i_aa85c378f07b503e706be6cc150a2bae8}} 
+\index{AI@{AI}!m\+\_\+health\+Bar@{m\+\_\+health\+Bar}}
+\index{m\+\_\+health\+Bar@{m\+\_\+health\+Bar}!AI@{AI}}
+\subsubsection{\texorpdfstring{m\+\_\+health\+Bar}{m\_healthBar}}
+{\footnotesize\ttfamily template$<$typename T$>$ \\
+\hyperlink{class_health_bar}{Health\+Bar} \hyperlink{class_a_i}{AI}$<$ T $>$\+::m\+\_\+health\+Bar\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_a_i_8h}{A\+I.\+h}\end{DoxyCompactItemize}

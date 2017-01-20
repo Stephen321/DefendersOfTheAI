@@ -157,7 +157,7 @@ int GameScreen::run(sf::RenderWindow &window)
 				for (GameObjectMap::iterator it = gameObjectsMap.begin(); it != gameObjectsMap.end(); ++it)
 				{
 					GameObjectPtrVector& v = it->second;
-					for (GameObjectPtrVector::iterator itV = v.begin(); itV != v.end();)
+					for (GameObjectPtrVector::iterator itV = v.begin(); itV != v.end();++itV)
 					{
 						std::shared_ptr<GameObject>& gameObject = (*itV);
 

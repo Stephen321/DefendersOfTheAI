@@ -1,0 +1,5 @@
+<map id="Screen" name="Screen">
+<area shape="rect" id="node2" href="$class_game_over_screen.html" title="GameOverScreen" alt="" coords="5,80,129,107"/>
+<area shape="rect" id="node3" href="$class_game_screen.html" title="GameScreen" alt="" coords="154,80,253,107"/>
+<area shape="rect" id="node4" href="$class_menu_screen.html" title="MenuScreen" alt="" coords="277,80,372,107"/>
+</map>

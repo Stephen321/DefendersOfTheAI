@@ -1,0 +1,114 @@
+\hypertarget{class_laser}{}\section{Laser Class Reference}
+\label{class_laser}\index{Laser@{Laser}}
+
+
+{\ttfamily \#include $<$Laser.\+h$>$}
+
+
+
+Inheritance diagram for Laser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{class_laser__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Laser\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{class_laser__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_laser_acae004a0d25fdc1c3926bcfd52678f9c}{Laser} (const sf\+::\+Vector2f \&start\+Pos, const sf\+::\+Vector2f \&world\+Size, const sf\+::\+Vector2f \&direction, float damage, \hyperlink{class_game_object_a4bf9e8f660e6a49f1b802c2aa9dd95af}{Game\+Object\+::\+Type} \hyperlink{class_laser_abbda8cd10b6ea38a1be7bd867a902dd9}{owner\+Type}, float max\+Velocity\+Scale=0.f)
+\item 
+void \hyperlink{class_laser_af692c14903cce59991bdd9cc9f78aeb3}{update} (float dt) override
+\item 
+void \hyperlink{class_laser_a59c9d2f9bbefdbc978232acf0a1fa978}{check\+World\+Bounds} () override
+\item 
+float \hyperlink{class_laser_a121266b7a10b80a71304e85421eebc3a}{get\+Damage} () const
+\item 
+\hyperlink{class_game_object_a4bf9e8f660e6a49f1b802c2aa9dd95af}{Game\+Object\+::\+Type} \hyperlink{class_laser_abbda8cd10b6ea38a1be7bd867a902dd9}{owner\+Type} () const
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_laser_acae004a0d25fdc1c3926bcfd52678f9c}\label{class_laser_acae004a0d25fdc1c3926bcfd52678f9c}} 
+\index{Laser@{Laser}!Laser@{Laser}}
+\index{Laser@{Laser}!Laser@{Laser}}
+\subsubsection{\texorpdfstring{Laser()}{Laser()}}
+{\footnotesize\ttfamily Laser\+::\+Laser (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{start\+Pos,  }\item[{const sf\+::\+Vector2f \&}]{world\+Size,  }\item[{const sf\+::\+Vector2f \&}]{direction,  }\item[{float}]{damage,  }\item[{\hyperlink{class_game_object_a4bf9e8f660e6a49f1b802c2aa9dd95af}{Game\+Object\+::\+Type}}]{owner\+Type,  }\item[{float}]{max\+Velocity\+Scale = {\ttfamily 0.f} }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=342pt]{class_laser_acae004a0d25fdc1c3926bcfd52678f9c_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_laser_a59c9d2f9bbefdbc978232acf0a1fa978}\label{class_laser_a59c9d2f9bbefdbc978232acf0a1fa978}} 
+\index{Laser@{Laser}!check\+World\+Bounds@{check\+World\+Bounds}}
+\index{check\+World\+Bounds@{check\+World\+Bounds}!Laser@{Laser}}
+\subsubsection{\texorpdfstring{check\+World\+Bounds()}{checkWorldBounds()}}
+{\footnotesize\ttfamily void Laser\+::check\+World\+Bounds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_a07bcaf0d87bd507f0a6e98abebd70e53}{Game\+Object}.
+
+\mbox{\Hypertarget{class_laser_a121266b7a10b80a71304e85421eebc3a}\label{class_laser_a121266b7a10b80a71304e85421eebc3a}} 
+\index{Laser@{Laser}!get\+Damage@{get\+Damage}}
+\index{get\+Damage@{get\+Damage}!Laser@{Laser}}
+\subsubsection{\texorpdfstring{get\+Damage()}{getDamage()}}
+{\footnotesize\ttfamily float Laser\+::get\+Damage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=317pt]{class_laser_a121266b7a10b80a71304e85421eebc3a_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_laser_abbda8cd10b6ea38a1be7bd867a902dd9}\label{class_laser_abbda8cd10b6ea38a1be7bd867a902dd9}} 
+\index{Laser@{Laser}!owner\+Type@{owner\+Type}}
+\index{owner\+Type@{owner\+Type}!Laser@{Laser}}
+\subsubsection{\texorpdfstring{owner\+Type()}{ownerType()}}
+{\footnotesize\ttfamily \hyperlink{class_game_object_a4bf9e8f660e6a49f1b802c2aa9dd95af}{Game\+Object\+::\+Type} Laser\+::owner\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{class_laser_af692c14903cce59991bdd9cc9f78aeb3}\label{class_laser_af692c14903cce59991bdd9cc9f78aeb3}} 
+\index{Laser@{Laser}!update@{update}}
+\index{update@{update}!Laser@{Laser}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Laser\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_a2fece397b6343682d639f8943f124d0e}{Game\+Object}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_laser_af692c14903cce59991bdd9cc9f78aeb3_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_laser_8h}{Laser.\+h}\item 
+src/\hyperlink{_laser_8cpp}{Laser.\+cpp}\end{DoxyCompactItemize}

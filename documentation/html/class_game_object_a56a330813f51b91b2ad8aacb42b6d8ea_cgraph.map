@@ -1,0 +1,4 @@
+<map id="GameObject::collision" name="GameObject::collision">
+<area shape="rect" id="node2" href="$class_game_object.html#a7c189644b6b5810c117a4e2654fbc752" title="GameObject::intersects" alt="" coords="204,5,364,32"/>
+<area shape="rect" id="node3" href="$class_game_object.html#aecc23e1558ae04e10083deae74774bd2" title="GameObject::getRect" alt="" coords="412,5,560,32"/>
+</map>

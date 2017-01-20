@@ -1,0 +1,8 @@
+<map id="GameData::getObjectProperties" name="GameData::getObjectProperties">
+<area shape="rect" id="node2" href="$class_a_i.html#a0e9856d1f5aa1f0009f9ff2cd51e0598" title="AI\&lt; Nest \&gt;::AI" alt="" coords="297,5,402,32"/>
+<area shape="rect" id="node3" href="$class_game_loader.html#ac47fc3a0b84e55b5a141047a3baee19e" title="GameLoader::GameLoader" alt="" coords="260,56,439,83"/>
+<area shape="rect" id="node4" href="$class_laser.html#acae004a0d25fdc1c3926bcfd52678f9c" title="Laser::Laser" alt="" coords="302,107,397,133"/>
+<area shape="rect" id="node5" href="$class_meteor.html#a70f6f6e90203c47b3529d660c178bfbb" title="Meteor::Meteor" alt="" coords="294,157,405,184"/>
+<area shape="rect" id="node6" href="$class_missile.html#a74052851a2f92d2045198c19171c1dbb" title="Missile::Missile" alt="" coords="293,208,405,235"/>
+<area shape="rect" id="node7" href="$class_player.html#a64fb9eae1f16453837b951b04078d8af" title="Player::Player" alt="" coords="297,259,401,285"/>
+</map>

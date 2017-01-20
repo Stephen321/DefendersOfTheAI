@@ -1,0 +1,4 @@
+<map id="Astronaut::getBeingAbducted" name="Astronaut::getBeingAbducted">
+<area shape="rect" id="node2" href="$class_as_flee_state.html#a2a6af75f427daa36c6e480f531e783ee" title="AsFleeState::update" alt="" coords="253,5,395,32"/>
+<area shape="rect" id="node3" href="$class_as_abduct_state.html#a5d1f94854fc9ef5e4cc35734ad691660" title="AsAbductState::update" alt="" coords="245,56,403,83"/>
+</map>

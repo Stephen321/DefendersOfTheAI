@@ -1,0 +1,266 @@
+\hypertarget{class_astronaut}{}\section{Astronaut Class Reference}
+\label{class_astronaut}\index{Astronaut@{Astronaut}}
+
+
+{\ttfamily \#include $<$Astronaut.\+h$>$}
+
+
+
+Inheritance diagram for Astronaut\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=166pt]{class_astronaut__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Astronaut\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=345pt]{class_astronaut__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_astronaut_a36a970b94e407cb7894f6ae2d3547449}{Astronaut} (float startX, const sf\+::\+Vector2f \&world\+Size, const std\+::vector$<$ sf\+::\+Vector2i $>$ \&surface\+Path\+Points)
+\item 
+void \hyperlink{class_astronaut_a362cf11f645801a8067efaa1f9310e4c}{check\+World\+Bounds} () override
+\item 
+void \hyperlink{class_astronaut_a8ca3c9ed488fe685374247cc7e234d81}{set\+Being\+Abducted} (bool value)
+\item 
+void \hyperlink{class_astronaut_aab8db8ea9ed7d4bf0c594a911f276ce5}{set\+Being\+Chased} (bool value)
+\item 
+bool \hyperlink{class_astronaut_af372531d99d29adf03595c0a7922ce42}{get\+Being\+Abducted} () const
+\item 
+bool \hyperlink{class_astronaut_a261c75322690f57c19f46b1fa714c2e0}{get\+Being\+Chased} () const
+\item 
+void \hyperlink{class_astronaut_ab299cd77fd739b597a9d0f97dce79fe5}{set\+Target} (const sf\+::\+Vector2f \&target)
+\item 
+float \hyperlink{class_astronaut_accf210f01ffc0bbeaa3b3a9c0004233f}{get\+Y\+AtX} (float x)
+\item 
+void \hyperlink{class_astronaut_a78272dce915584767db158d231af27d7}{set\+Abductor} (const std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$ \&abductor)
+\item 
+const std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$ \& \hyperlink{class_astronaut_ac09116dc65723515d6bcf4bd81a8fcb2}{get\+Abductor} () const
+\item 
+void \hyperlink{class_astronaut_aa9f03535d8f48b807838d28885904e59}{seek\+Abduction\+Pos} ()
+\item 
+void \hyperlink{class_astronaut_a763eea389d50440a049cd16d92c7c694}{move} (float dt) override
+\item 
+void \hyperlink{class_astronaut_a1f4a85a0c38a73e1370528039535712b}{update\+Acceleration} ()
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_astronaut_a36a970b94e407cb7894f6ae2d3547449}\label{class_astronaut_a36a970b94e407cb7894f6ae2d3547449}} 
+\index{Astronaut@{Astronaut}!Astronaut@{Astronaut}}
+\index{Astronaut@{Astronaut}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{Astronaut()}{Astronaut()}}
+{\footnotesize\ttfamily Astronaut\+::\+Astronaut (\begin{DoxyParamCaption}\item[{float}]{startX,  }\item[{const sf\+::\+Vector2f \&}]{world\+Size,  }\item[{const std\+::vector$<$ sf\+::\+Vector2i $>$ \&}]{surface\+Path\+Points }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_a36a970b94e407cb7894f6ae2d3547449_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_astronaut_a362cf11f645801a8067efaa1f9310e4c}\label{class_astronaut_a362cf11f645801a8067efaa1f9310e4c}} 
+\index{Astronaut@{Astronaut}!check\+World\+Bounds@{check\+World\+Bounds}}
+\index{check\+World\+Bounds@{check\+World\+Bounds}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{check\+World\+Bounds()}{checkWorldBounds()}}
+{\footnotesize\ttfamily void Astronaut\+::check\+World\+Bounds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_a07bcaf0d87bd507f0a6e98abebd70e53}{Game\+Object}.
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_a362cf11f645801a8067efaa1f9310e4c_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_ac09116dc65723515d6bcf4bd81a8fcb2}\label{class_astronaut_ac09116dc65723515d6bcf4bd81a8fcb2}} 
+\index{Astronaut@{Astronaut}!get\+Abductor@{get\+Abductor}}
+\index{get\+Abductor@{get\+Abductor}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{get\+Abductor()}{getAbductor()}}
+{\footnotesize\ttfamily const std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$ \& Astronaut\+::get\+Abductor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=339pt]{class_astronaut_ac09116dc65723515d6bcf4bd81a8fcb2_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_af372531d99d29adf03595c0a7922ce42}\label{class_astronaut_af372531d99d29adf03595c0a7922ce42}} 
+\index{Astronaut@{Astronaut}!get\+Being\+Abducted@{get\+Being\+Abducted}}
+\index{get\+Being\+Abducted@{get\+Being\+Abducted}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{get\+Being\+Abducted()}{getBeingAbducted()}}
+{\footnotesize\ttfamily bool Astronaut\+::get\+Being\+Abducted (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_af372531d99d29adf03595c0a7922ce42_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_a261c75322690f57c19f46b1fa714c2e0}\label{class_astronaut_a261c75322690f57c19f46b1fa714c2e0}} 
+\index{Astronaut@{Astronaut}!get\+Being\+Chased@{get\+Being\+Chased}}
+\index{get\+Being\+Chased@{get\+Being\+Chased}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{get\+Being\+Chased()}{getBeingChased()}}
+{\footnotesize\ttfamily bool Astronaut\+::get\+Being\+Chased (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_a261c75322690f57c19f46b1fa714c2e0_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_accf210f01ffc0bbeaa3b3a9c0004233f}\label{class_astronaut_accf210f01ffc0bbeaa3b3a9c0004233f}} 
+\index{Astronaut@{Astronaut}!get\+Y\+AtX@{get\+Y\+AtX}}
+\index{get\+Y\+AtX@{get\+Y\+AtX}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{get\+Y\+At\+X()}{getYAtX()}}
+{\footnotesize\ttfamily float Astronaut\+::get\+Y\+AtX (\begin{DoxyParamCaption}\item[{float}]{x }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_accf210f01ffc0bbeaa3b3a9c0004233f_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_accf210f01ffc0bbeaa3b3a9c0004233f_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_a763eea389d50440a049cd16d92c7c694}\label{class_astronaut_a763eea389d50440a049cd16d92c7c694}} 
+\index{Astronaut@{Astronaut}!move@{move}}
+\index{move@{move}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{move()}{move()}}
+{\footnotesize\ttfamily void Astronaut\+::move (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_abebe08f70e334c52b8bf052b6ef8c6f3}{Game\+Object}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_a763eea389d50440a049cd16d92c7c694_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=321pt]{class_astronaut_a763eea389d50440a049cd16d92c7c694_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_aa9f03535d8f48b807838d28885904e59}\label{class_astronaut_aa9f03535d8f48b807838d28885904e59}} 
+\index{Astronaut@{Astronaut}!seek\+Abduction\+Pos@{seek\+Abduction\+Pos}}
+\index{seek\+Abduction\+Pos@{seek\+Abduction\+Pos}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{seek\+Abduction\+Pos()}{seekAbductionPos()}}
+{\footnotesize\ttfamily void Astronaut\+::seek\+Abduction\+Pos (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_aa9f03535d8f48b807838d28885904e59_cgraph}
+\end{center}
+\end{figure}
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_aa9f03535d8f48b807838d28885904e59_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_a78272dce915584767db158d231af27d7}\label{class_astronaut_a78272dce915584767db158d231af27d7}} 
+\index{Astronaut@{Astronaut}!set\+Abductor@{set\+Abductor}}
+\index{set\+Abductor@{set\+Abductor}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{set\+Abductor()}{setAbductor()}}
+{\footnotesize\ttfamily void Astronaut\+::set\+Abductor (\begin{DoxyParamCaption}\item[{const std\+::shared\+\_\+ptr$<$ \hyperlink{class_game_object}{Game\+Object} $>$ \&}]{abductor }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_astronaut_a8ca3c9ed488fe685374247cc7e234d81}\label{class_astronaut_a8ca3c9ed488fe685374247cc7e234d81}} 
+\index{Astronaut@{Astronaut}!set\+Being\+Abducted@{set\+Being\+Abducted}}
+\index{set\+Being\+Abducted@{set\+Being\+Abducted}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{set\+Being\+Abducted()}{setBeingAbducted()}}
+{\footnotesize\ttfamily void Astronaut\+::set\+Being\+Abducted (\begin{DoxyParamCaption}\item[{bool}]{value }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_a8ca3c9ed488fe685374247cc7e234d81_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_aab8db8ea9ed7d4bf0c594a911f276ce5}\label{class_astronaut_aab8db8ea9ed7d4bf0c594a911f276ce5}} 
+\index{Astronaut@{Astronaut}!set\+Being\+Chased@{set\+Being\+Chased}}
+\index{set\+Being\+Chased@{set\+Being\+Chased}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{set\+Being\+Chased()}{setBeingChased()}}
+{\footnotesize\ttfamily void Astronaut\+::set\+Being\+Chased (\begin{DoxyParamCaption}\item[{bool}]{value }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_aab8db8ea9ed7d4bf0c594a911f276ce5_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_astronaut_ab299cd77fd739b597a9d0f97dce79fe5}\label{class_astronaut_ab299cd77fd739b597a9d0f97dce79fe5}} 
+\index{Astronaut@{Astronaut}!set\+Target@{set\+Target}}
+\index{set\+Target@{set\+Target}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{set\+Target()}{setTarget()}}
+{\footnotesize\ttfamily void Astronaut\+::set\+Target (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{target }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_astronaut_a1f4a85a0c38a73e1370528039535712b}\label{class_astronaut_a1f4a85a0c38a73e1370528039535712b}} 
+\index{Astronaut@{Astronaut}!update\+Acceleration@{update\+Acceleration}}
+\index{update\+Acceleration@{update\+Acceleration}!Astronaut@{Astronaut}}
+\subsubsection{\texorpdfstring{update\+Acceleration()}{updateAcceleration()}}
+{\footnotesize\ttfamily void Astronaut\+::update\+Acceleration (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_astronaut_a1f4a85a0c38a73e1370528039535712b_icgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_astronaut_8h}{Astronaut.\+h}\item 
+src/\hyperlink{_astronaut_8cpp}{Astronaut.\+cpp}\end{DoxyCompactItemize}
