@@ -13,7 +13,6 @@ void NWanderState::update(Nest* nest, float dt)
 	{
 		nest->getWanderTarget();
 	}
-	//TODOWRAP: wrap around target and auto best vel chosen
 	if (nest->playerInRange())
 	{
 		nest->changeState(NEvadeState::getInstance());

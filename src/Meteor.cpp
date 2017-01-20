@@ -109,19 +109,14 @@ void Meteor::update(float dt)
 			}
 		}
 		else 
-		{//test
+		{
 			m_active = false;
 		}
 		checkWorldBounds();
 		m_position = m_shapes[0].getPosition();
 	}	
 }
-
-void Meteor::lerpFaceColor(float currentRotation, const std::pair<float, float> angleRange, sf::Color startColor, sf::Color endColor)
-{
-
-}
-
+	
 void Meteor::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	for (int i = 0; i < m_shapes.size(); i++)

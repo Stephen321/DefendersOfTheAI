@@ -24,7 +24,7 @@ public:
 	sf::Vector2f getDirection() const;
 	void updateDropAcceleration();
 	void updatePatrolAcceleration();
-	void fire(float dt); //TODO: and put this into that fire capable interface
+	void fire(float dt); 
 	bool reachedTarget() const;
 
 	void checkWorldBounds() override;
@@ -35,12 +35,10 @@ public:
 	void checkAbductionBounds();
 	bool checkIfVictim(const std::shared_ptr<GameObject>& astroObject);
 
-	//testing
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool collision(const std::shared_ptr<GameObject>& collidor) override;
 
 private:
-	//test
 	sf::RectangleShape m_beamRect;
 
 	const float DAMAGE = 4.f;
@@ -49,7 +47,7 @@ private:
 	const std::shared_ptr<GameObject> m_player;
 	const float LASER_VEL_SCALE = 0.4f; //abductor lasers travel slower than players so the player gets a chance to avoid them
 	const float PLAYER_LASER_RANGE = 500.f;
-	const float RELOAD_TIME = 1.5f; //TODO put this reload time and timer in an interface
+	const float RELOAD_TIME = 1.5f; 
 	float m_reloadTimer;
 
 	GameObjectMap& m_gameObjectsRef;

@@ -82,7 +82,6 @@ void GameObject::move(float dt)
 	checkWorldBounds();
 }
 
-//TODO: is this function still necessary for abductors flocking?
 sf::Vector2f GameObject::calculateAcceleration()
 {
 	sf::Vector2f acceleration;
@@ -169,7 +168,7 @@ bool GameObject::collision(const std::shared_ptr<GameObject>& collidor)
 	if (intersects(collidor->getRect()))
 	{//collision 
 		collided = true;
-		if (collidor->getType() == Type::Meteor)
+		if (collidor->getType() == Type::Meteor && m_type != Type::Player)
 		{
 			m_active = false;
 		}

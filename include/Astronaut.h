@@ -20,7 +20,7 @@ public:
 	void move(float dt) override;
 	void updateAcceleration();
 private:
-	bool m_beingAbducted; //todo: state for this?
+	bool m_beingAbducted; 
 	bool m_beingChased;
 	sf::Vector2f m_targetPos;
 	std::vector<sf::Vector2i> m_surfacePathPoints;

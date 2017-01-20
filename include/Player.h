@@ -22,7 +22,7 @@ private:
 	void checkInput();
 
 	//lasers
-	void fire(); //TODO: put this into a super class such as Character which AI and the Player both inheirit from
+	void fire(); 
 	void hyperJump();
 	void replenishHyperJump();
 	bool m_canHyperJump;
