@@ -35,7 +35,7 @@ Meteor::Meteor(const sf::Vector2f& worldSize, const int radius)
 
 void Meteor::generateShape(sf::Vector2f worldSize, int screenUnit)
 {
-	int xPos = worldSize.x - 200;// rand() % (int)(worldSize.x);
+	int xPos = rand() % (int)(worldSize.x);
 	createConvexCircle(screenUnit, m_radius, xPos, sf::Color(225, 155, 176));	//Rim Highlight
 	createConvexCircle(screenUnit, m_radius - (screenUnit * 0.5f), xPos, sf::Color(196, 55, 98));							//Body		
 	createConvexCircle(screenUnit, m_radius * 0.75f, xPos, sf::Color(0, 0, 0, 150));					//Outer Shadow
@@ -110,7 +110,7 @@ void Meteor::update(float dt)
 		}
 		else 
 		{//test
-			//m_active = false;
+			m_active = false;
 		}
 		checkWorldBounds();
 		m_position = m_shapes[0].getPosition();

@@ -24,7 +24,7 @@ void Player::update(float dt)
 	{
 		m_reloadTimer += dt;
 	}
-	m_sprite.setRotation(atan2(0, m_dir.x) * (180.f / M_PI) + ANGLE_OFFSET);
+	//m_sprite.setRotation(atan2(0, m_dir.x) * (180.f / M_PI) + ANGLE_OFFSET);
 	GameObject::update(dt);
 }
 
