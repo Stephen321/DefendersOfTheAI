@@ -1,8 +1,0 @@
-<map id="include/Layer.h" name="include/Layer.h">
-<area shape="rect" id="node2" href="$_background_8h.html" title="include/Background.h" alt="" coords="145,80,292,107"/>
-<area shape="rect" id="node7" href="$_layer_8cpp.html" title="src/Layer.cpp" alt="" coords="316,80,417,107"/>
-<area shape="rect" id="node3" href="$_game_screen_8h.html" title="include/GameScreen.h" alt="" coords="56,155,211,181"/>
-<area shape="rect" id="node6" href="$_background_8cpp.html" title="src/Background.cpp" alt="" coords="235,155,373,181"/>
-<area shape="rect" id="node4" href="$_d_o_t_a_i_8cpp.html" title="src/DOTAI.cpp" alt="" coords="5,229,112,256"/>
-<area shape="rect" id="node5" href="$_game_screen_8cpp.html" title="src/GameScreen.cpp" alt="" coords="137,229,282,256"/>
-</map>

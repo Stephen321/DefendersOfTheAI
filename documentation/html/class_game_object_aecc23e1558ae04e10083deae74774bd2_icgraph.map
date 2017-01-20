@@ -1,6 +1,0 @@
-<map id="GameObject::getRect" name="GameObject::getRect">
-<area shape="rect" id="node2" href="$class_game_object.html#a7c189644b6b5810c117a4e2654fbc752" title="GameObject::intersects" alt="" coords="201,31,361,57"/>
-<area shape="rect" id="node3" href="$class_game_object.html#a56a330813f51b91b2ad8aacb42b6d8ea" title="GameObject::collision" alt="" coords="409,31,560,57"/>
-<area shape="rect" id="node4" href="$class_a_i.html#a15f7ffd56bf48c7475f9b50d82b60528" title="AI\&lt; Nest \&gt;::collision" alt="" coords="608,5,748,32"/>
-<area shape="rect" id="node5" href="$class_player.html#a669d12e0034e51489a37268b2ca7aab0" title="Player::collision" alt="" coords="621,56,735,83"/>
-</map>

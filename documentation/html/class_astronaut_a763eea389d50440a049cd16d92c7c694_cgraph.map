@@ -1,5 +1,0 @@
-<map id="Astronaut::move" name="Astronaut::move">
-<area shape="rect" id="node2" href="$namespace_helpers.html#a7b90b08e0cd27e52500271b582f8797b" title="Helpers::limit" alt="" coords="169,5,268,32"/>
-<area shape="rect" id="node3" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="524,5,655,32"/>
-<area shape="rect" id="node4" href="$namespace_helpers.html#a1c0a40432177c275488a904ea94eda66" title="Helpers::normaliseCopy" alt="" coords="316,31,476,57"/>
-</map>

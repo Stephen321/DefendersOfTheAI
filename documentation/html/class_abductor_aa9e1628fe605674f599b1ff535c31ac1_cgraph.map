@@ -1,7 +1,0 @@
-<map id="Abductor::updateAbduction" name="Abductor::updateAbduction">
-<area shape="rect" id="node2" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="697,62,828,89"/>
-<area shape="rect" id="node3" href="$namespace_helpers.html#a93defc4f62a0b29303b84ea17eeeb2fb" title="Helpers::getVectorBetweenWrap" alt="" coords="439,37,649,63"/>
-<area shape="rect" id="node4" href="$namespace_helpers.html#a1c0a40432177c275488a904ea94eda66" title="Helpers::normaliseCopy" alt="" coords="464,87,624,114"/>
-<area shape="rect" id="node5" href="$namespace_helpers.html#a7b90b08e0cd27e52500271b582f8797b" title="Helpers::limit" alt="" coords="262,138,361,165"/>
-<area shape="rect" id="node6" href="$class_game_object.html#a927400453a0989e2f5b765031f4d861c" title="GameObject::getHeight" alt="" coords="232,189,391,215"/>
-</map>

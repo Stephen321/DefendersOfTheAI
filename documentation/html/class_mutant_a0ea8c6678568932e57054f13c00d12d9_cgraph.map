@@ -1,7 +1,0 @@
-<map id="Mutant::separation" name="Mutant::separation">
-<area shape="rect" id="node2" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="621,70,752,97"/>
-<area shape="rect" id="node3" href="$namespace_helpers.html#acf3ecf44a1d56b27ec102715bae903c1" title="Helpers::normalise" alt="" coords="184,45,315,71"/>
-<area shape="rect" id="node5" href="$namespace_helpers.html#a93defc4f62a0b29303b84ea17eeeb2fb" title="Helpers::getVectorBetweenWrap" alt="" coords="363,146,573,173"/>
-<area shape="rect" id="node6" href="$namespace_helpers.html#a7b90b08e0cd27e52500271b582f8797b" title="Helpers::limit" alt="" coords="200,95,299,122"/>
-<area shape="rect" id="node4" href="$namespace_helpers.html#a1c0a40432177c275488a904ea94eda66" title="Helpers::normaliseCopy" alt="" coords="388,45,548,71"/>
-</map>

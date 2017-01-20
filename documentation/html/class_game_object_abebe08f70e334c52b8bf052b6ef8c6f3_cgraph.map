@@ -1,7 +1,0 @@
-<map id="GameObject::move" name="GameObject::move">
-<area shape="rect" id="node2" href="$class_game_object.html#a353ce0e2b43911b153f1b917cefaa45e" title="GameObject::calculateAcceleration" alt="" coords="187,5,413,32"/>
-<area shape="rect" id="node3" href="$namespace_helpers.html#a7b90b08e0cd27e52500271b582f8797b" title="Helpers::limit" alt="" coords="251,56,349,83"/>
-<area shape="rect" id="node6" href="$class_game_object.html#a07bcaf0d87bd507f0a6e98abebd70e53" title="GameObject::checkWorldBounds" alt="" coords="192,107,408,133"/>
-<area shape="rect" id="node4" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="669,56,800,83"/>
-<area shape="rect" id="node5" href="$namespace_helpers.html#a1c0a40432177c275488a904ea94eda66" title="Helpers::normaliseCopy" alt="" coords="461,81,621,108"/>
-</map>
