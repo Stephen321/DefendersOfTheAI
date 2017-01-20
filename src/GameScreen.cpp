@@ -20,6 +20,13 @@ int GameScreen::run(sf::RenderWindow &window)
 	
 	sf::Vector2f worldSize(bounds.width * Constants::WORLD_SCREEN_SIZES, bounds.height);
 
+	/*sf::Sprite hyperJumpIcon;
+	sf::Sprite hyperJumpIconBG;
+
+	hyperJumpIcon.setTexture(GameData::getInstance().hyperJumpIconTexture);
+	hyperJumpIconBG.setTexture(GameData::getInstance().hyperJumpIconBGTexture);*/
+
+
 	sf::RenderTexture leftTexture;
 	leftTexture.create(bounds.width, bounds.height);
 	leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
@@ -229,8 +236,11 @@ int GameScreen::run(sf::RenderWindow &window)
 		}	
 		radar.update(player->getPosition(), bounds, radarEntities);
 
-		if (rand() % Constants::METEOR_CHANCE_PRIME == 0)
+		if (rand() % Constants::METEOR_CHANCE == 0)
 			gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128)));
+
+		if (rand() % Constants::HYPERJUMP_CHANCE == Constants::HYPERJUMP_CHANCE - 1)
+			gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Pickup>(new Pickup(GameObject::Type::HyperJumpPickup, worldSize)));
 
 		if (zoomed) {
 			view.zoom(zoom);

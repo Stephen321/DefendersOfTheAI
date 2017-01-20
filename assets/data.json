@@ -42,6 +42,21 @@
 			"force": 100,
 			"drag_coefficent": 0.8,
 			"max_velocity": 100
+		},
+		"hyperjumpPickup": {
+			"texture_path": "hyperJumpIcon.png",
+			"force": 100,
+			"drag_coefficent": 0,
+			"max_velocity": 100
+		}
+
+	},
+	"misc_sprites": {
+		"hyperJumpIcon": {
+			"hyperJumpIcon": "hyperJumpIcon.png"
+		},
+		"hyperJumpIconBG": {
+			"hyperJumpIconBG": "hyperJumpIconBG.png"
 		}
 	}
 }

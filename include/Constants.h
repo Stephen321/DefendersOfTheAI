@@ -10,5 +10,6 @@ namespace Constants
 	extern const std::string MISC_KEY;
 	extern const std::string ASTRONAUT_KEY;
 	extern const std::string OBSTACLES_KEY;
-	extern const int METEOR_CHANCE_PRIME;
+	extern const int METEOR_CHANCE;
+	extern const int HYPERJUMP_CHANCE;
 }

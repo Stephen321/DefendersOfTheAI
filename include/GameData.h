@@ -21,6 +21,10 @@ public:
 		float maxVelocity;
 	};
 	ObjectProperties& getObjectProperties(int id);
+
+	//User Interface Sprites
+	sf::Texture hyperJumpIconTexture;
+	sf::Texture hyperJumpIconBGTexture;
 private:
 	GameData();
 	std::unordered_map<int, ObjectProperties> m_objectProperties;

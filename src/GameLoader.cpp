@@ -41,4 +41,17 @@ void GameLoader::loadData(const std::string& filePath) {
 		props.dragCoefficent = (++propsIT)->value.GetFloat();
 		props.maxVelocity = (++propsIT)->value.GetFloat();
 	}
+
+	//++it;
+	//misc sprites
+	//Value::ConstMemberIterator miscIT = it->value.MemberBegin();
+	//Value::ConstMemberIterator mistITEnd = it->value.MemberEnd();
+	//for (; miscIT != mistITEnd; ++miscIT) {
+	//	Value::ConstMemberIterator iconIT = miscIT->value.MemberBegin();
+	//	std::string iconName = iconIT->name.GetString();
+	//	if (iconName == "hyperJumpIcon")
+	//		GameData::getInstance().hyperJumpIconTexture.loadFromFile(filePath + spritesPath + iconIT->value.GetString());
+	//	else if (iconName == "hyperJumpIconBG")
+	//		GameData::getInstance().hyperJumpIconBGTexture.loadFromFile(filePath + spritesPath + iconIT->value.GetString());
+	//}
 }

@@ -67,6 +67,9 @@
     <ClCompile Include="src\Radar.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Pickup.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Background.h">
@@ -154,6 +157,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\Radar.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Pickup.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>
