@@ -227,6 +227,8 @@ void Abductor::setAbductingVictim(const std::shared_ptr<Astronaut>& abductionVic
 
 void Abductor::updateAbduction(float dt)
 {
+	if (m_active == false)
+		return;
 	//if not above victim move there
 	//now above target so stop victim moving
 	//start ascending with victim locking beneath you on its y
@@ -357,6 +359,12 @@ bool Abductor::collision(const std::shared_ptr<GameObject>& collidor)
 
 	}
 	return collided;
+}
+
+void Abductor::stopAbducting()
+{
+	m_abductionVictim->setBeingAbducted(false);
+	m_abductionVictim->setBeingChased(false);
 }
 
 void Abductor::move(float dt)

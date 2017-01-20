@@ -1,5 +1,0 @@
-<map id="Mutant::checkWorldBounds" name="Mutant::checkWorldBounds">
-<area shape="rect" id="node2" href="$class_m_swarm_state.html#a7e4abd7da613e0a3d013e149c37f8e40" title="MSwarmState::update" alt="" coords="236,5,387,32"/>
-<area shape="rect" id="node3" href="$class_m_swarm_state.html#a34e48cde060647067f9990ee914b6dfd" title="MSwarmState::getInstance" alt="" coords="435,5,613,32"/>
-<area shape="rect" id="node4" href="$class_mutant.html#ae11d8a5d375b8b469a1125c5f3db059d" title="Mutant::Mutant" alt="" coords="661,5,772,32"/>
-</map>

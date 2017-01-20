@@ -25,19 +25,6 @@ Layer::Layer(const std::string& path, const sf::FloatRect& bounds, int sections,
 
 		s.sprite.setOrigin((int)(s.sprite.getLocalBounds().width  * 0.5f), (int)(s.sprite.getLocalBounds().height * 0.5f));
 		s.sprite.setPosition((width * 0.5f) + (width * i), (m_bounds.height - (height * 0.5f)));
-		//debug
-		s.debugShape.setOutlineThickness(3.f);
-		s.debugShape.setFillColor(sf::Color::Transparent);
-		s.debugShape.setOutlineColor(sf::Color::Magenta);
-		s.debugShape.setSize(sf::Vector2f(width, height));
-		s.debugShape.setOrigin(s.debugShape.getLocalBounds().width * 0.5f, s.debugShape.getLocalBounds().height * 0.5f);
-		s.debugShape.setPosition(s.sprite.getPosition());
-
-		s.debugFont.loadFromFile("assets/fonts/GROBOLD.ttf");
-		s.debugText = sf::Text(std::to_string(i), s.debugFont, 50.f);
-		s.debugText.setFillColor(sf::Color::White);
-		s.debugText.setPosition(s.sprite.getPosition());
-		s.debugText.setStyle(sf::Text::Regular);
 	}
 }
 
@@ -46,21 +33,6 @@ void Layer::draw(sf::RenderTarget & target, sf::RenderStates states) const
 	target.draw(m_sections[m_left].sprite);
 	target.draw(m_sections[m_middle].sprite);
 	target.draw(m_sections[m_right].sprite);
-
-	//debug
-	//target.draw(m_sections[m_left].debugShape);
-	//target.draw(m_sections[m_middle].debugShape);
-	//target.draw(m_sections[m_right].debugShape);
-	//target.draw(m_sections[m_left].debugText);
-	//target.draw(m_sections[m_middle].debugText);
-	//target.draw(m_sections[m_right].debugText);
-
-	/*for (Section s : m_sections)
-	{
-	target.draw(s.sprite);
-	target.draw(s.debugShape);
-	target.draw(s.debugText);
-	}*/
 }
 
 void Layer::update(float dt)
@@ -98,13 +70,6 @@ void Layer::update(float dt)
 	m_sections[m_middle].sprite.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
 	m_sections[m_right].sprite.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
 
-	//debug
-	m_sections[m_left].debugShape.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
-	m_sections[m_middle].debugShape.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
-	m_sections[m_right].debugShape.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
-	m_sections[m_left].debugText.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
-	m_sections[m_middle].debugText.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
-	m_sections[m_right].debugText.move(teleportCorrectionDist + worldVelX * m_scrollMultiplier, 0);
 	m_lastPlayerPos = currentPlayerPos;
 }
 
@@ -114,12 +79,6 @@ void Layer::positionSection(int section, int direction)
 	{
 		float offset = ((m_bounds.width * 0.5f) + (m_bounds.width * 0.5f)) * direction;
 		m_sections[section].sprite.setPosition(m_sections[m_middle].sprite.getPosition().x + offset,
-			m_sections[section].sprite.getPosition().y);
-
-		//debug
-		m_sections[section].debugShape.setPosition(m_sections[m_middle].sprite.getPosition().x + offset,
-			m_sections[section].sprite.getPosition().y);
-		m_sections[section].debugText.setPosition(m_sections[m_middle].sprite.getPosition().x + offset,
 			m_sections[section].sprite.getPosition().y);
 	}
 }

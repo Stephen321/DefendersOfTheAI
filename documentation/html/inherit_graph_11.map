@@ -1,6 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$class_state.html" title="State\&lt; Astronaut \&gt;" alt="" coords="5,56,139,83"/>
-<area shape="rect" id="node2" href="$class_as_abduct_state.html" title="AsAbductState" alt="" coords="189,5,299,32"/>
-<area shape="rect" id="node3" href="$class_as_flee_state.html" title="AsFleeState" alt="" coords="197,56,291,83"/>
-<area shape="rect" id="node4" href="$class_as_wander_state.html" title="AsWanderState" alt="" coords="187,107,301,133"/>
-</map>

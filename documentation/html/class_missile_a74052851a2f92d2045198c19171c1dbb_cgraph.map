@@ -1,5 +1,0 @@
-<map id="Missile::Missile" name="Missile::Missile">
-<area shape="rect" id="node2" href="$class_game_data.html#a5930d5371cde0a43f4fa05b6b7152bb8" title="GameData::getInstance" alt="" coords="189,5,348,32"/>
-<area shape="rect" id="node3" href="$class_game_data.html#acf4e9f7e0bbd359c54d048ccdbbdcd2b" title="GameData::getObjectProperties" alt="" coords="165,56,372,83"/>
-<area shape="rect" id="node4" href="$class_game_object.html#a939b26e569a42ec129e57540920e859c" title="GameObject::setOrigin" alt="" coords="191,107,346,133"/>
-</map>

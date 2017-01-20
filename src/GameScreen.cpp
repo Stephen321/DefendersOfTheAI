@@ -15,6 +15,13 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::Clock frameClock;
 	int menu = 0;
 
+	sf::Font font;
+	font.loadFromFile("assets/fonts/GROBOLD.ttf");
+	sf::Text scoreText("test", font, 30.f);
+	scoreText.setFillColor(sf::Color::White);
+	scoreText.setPosition(10.f, 10.f);
+	scoreText.setStyle(sf::Text::Regular);
+
 	sf::View view = window.getView();
 	sf::FloatRect bounds(0.f, 0.f, view.getSize().x, view.getSize().y);
 
@@ -172,12 +179,21 @@ int GameScreen::run(sf::RenderWindow &window)
 						GameObject::Type type = gameObject->getType();
 						if (type != GameObject::Type::Astronaut &&
 							type != GameObject::Type::HyperJumpPickup &&
-							type != GameObject::Type::Player)
+							type != GameObject::Type::Player &&
+							type != GameObject::Type::Nest)
 						{
 							if (gameObject->getPosition().x + gameObject->getWidth() > bounds.left &&
 								gameObject->getPosition().x < bounds.left + bounds.width)
 							{
 								gameObject->setActive(false);
+								if (gameObject->getType() == GameObject::Type::Abductor)
+								{
+									std::shared_ptr<Abductor> abductor = std::static_pointer_cast<Abductor>(gameObject);
+									if (abductor->getAbducting())
+									{
+										abductor->stopAbducting();
+									}
+								}
 							}
 						}
 					}
@@ -258,7 +274,6 @@ int GameScreen::run(sf::RenderWindow &window)
 					checkForCollisions(gameObjectsMap.at(Constants::MUTANT_KEY), gameObject);
 
 				}
-
 				//draw
 				drawGameObject(leftTexture, gameObject, sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height));
 				drawGameObject(rightTexture, gameObject, sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height));
@@ -297,7 +312,7 @@ int GameScreen::run(sf::RenderWindow &window)
 		}	
 		radar.update(player->getPosition(), bounds, radarEntities);
 
-		if (rand() % Constants::METEOR_CHANCE == 0)
+		if (rand() % Constants::METEOR_CHANCE == Constants::METEOR_CHANCE - 1)
 			gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128)));
 
 		if (rand() % Constants::HYPERJUMP_CHANCE == Constants::HYPERJUMP_CHANCE - 1)
@@ -371,8 +386,12 @@ int GameScreen::run(sf::RenderWindow &window)
 		window.draw(iconBG);
 		window.draw(bombIcon);
 
-
+		sf::Vector2f scorePos = Helpers::getVectorBetweenWrap(worldSize, player->getPosition(), player->getPosition() + sf::Vector2f(-bounds.width * 0.45f, 15.f));
+		scoreText.setPosition(player->getPosition().x + scorePos.x, 2.f);
+		scoreText.setString("Score: " + std::to_string(player->getScore()));
 		window.draw(radar);
+
+		window.draw(scoreText);
 
 
 		window.display();

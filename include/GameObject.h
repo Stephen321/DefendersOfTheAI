@@ -4,7 +4,6 @@
 #include <math.h>
 #include <memory>
 
-#include <iostream> //debug purposes
 #include "Helpers.h"
 #include "GameData.h"
 

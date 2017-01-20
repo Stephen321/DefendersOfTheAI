@@ -1,6 +1,0 @@
-<map id="FSM::changeState" name="FSM::changeState">
-<area shape="rect" id="node2" href="$class_abductor.html#ac68525ef8d05680afbef24761e2baa8c" title="Abductor::Abductor" alt="" coords="188,5,323,32"/>
-<area shape="rect" id="node3" href="$class_astronaut.html#a36a970b94e407cb7894f6ae2d3547449" title="Astronaut::Astronaut" alt="" coords="184,56,327,83"/>
-<area shape="rect" id="node4" href="$class_mutant.html#ae11d8a5d375b8b469a1125c5f3db059d" title="Mutant::Mutant" alt="" coords="200,107,311,133"/>
-<area shape="rect" id="node5" href="$class_nest.html#a2ff01e11d59383d9121c836ea3eb966b" title="Nest::Nest" alt="" coords="213,157,297,184"/>
-</map>
