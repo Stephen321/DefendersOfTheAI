@@ -5,7 +5,7 @@
 			"texture_path": "player/square.png",
 			"force": 800,
 			"drag_coefficent": 0.9,
-			"max_velocity": 800
+			"max_velocity": 600
 		},
 		"nest": {
 			"texture_path": "ai/square.png",
@@ -17,13 +17,13 @@
 			"texture_path": "laser.png",
 			"force": 0,
 			"drag_coefficent": 0,
-			"max_velocity": 1600
+			"max_velocity": 1400
 		},
 		"missile": {
 			"texture_path": "missile.png",
 			"force": 800,
 			"drag_coefficent": 0.9,
-			"max_velocity": 800
+			"max_velocity": 600
 		},
 		"meteor": {
 			"texture_path": "meteor.png",
@@ -34,8 +34,14 @@
 		"abductor": {
 			"texture_path": "ai/abductor.png",
 			"force": 100,
-			"drag_coefficent": 0.9,
-			"max_velocity": 500
+			"drag_coefficent": 0.3,
+			"max_velocity": 150
+		},
+		"astronaut": {
+			"texture_path": "ai/astronaut.png",
+			"force": 100,
+			"drag_coefficent": 0.8,
+			"max_velocity": 100
 		}
 	}
 }

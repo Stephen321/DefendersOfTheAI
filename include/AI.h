@@ -10,7 +10,7 @@ class AI : public GameObject
 public:
 	AI(GameObject::Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize)
 		: GameObject(type, startPos, worldSize)
-		, LOWEST_DISTANCE(worldSize.y * 0.6f)
+		, LOWEST_DISTANCE(worldSize.y * 0.65f)
 	{
 		GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 		m_sprite.setTexture(props.texture);
@@ -34,22 +34,37 @@ public:
 	{
 		m_fsm.changeState(state);
 	}
-	
+
 	void setMoving(bool moving)
 	{
 		m_moving = moving;
 	}
 
-	void checkWorldBounds() override
+	virtual bool collision(const std::shared_ptr<GameObject>& collidor) override
 	{
-		GameObject::checkWorldBounds();
-		float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
-		if (m_position.y > LOWEST_DISTANCE - halfHeight)
+	/*	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, collidor->getPosition(), m_position);
+		float distance = Helpers::getLength(vectorBetween);
+
+		if (collidor->getType() == Type::Meteor)
 		{
-			m_position.y = LOWEST_DISTANCE - halfHeight;
-			m_velocity.y = 0.f;
-		}
+			if (distance - collidor->getHeight() < 200.f )
+			{
+				sf::Vector2f repulsion = Helpers::normaliseCopy(vectorBetween);
+				repulsion /= (distance - collidor->getHeight());
+				repulsion *= m_maxVelocity;
+				repulsion -= m_velocity;
+				Helpers::limit(repulsion, m_forceAmount);
+				m_repulsionForce = repulsion * .f;
+			}
+			else
+			{
+				m_repulsionForce.x = 0.f;
+				m_repulsionForce.y = 0.f;
+			}
+		}*/
+		return GameObject::collision(collidor);
 	}
+
 protected:
 	const float LOWEST_DISTANCE;
 	FSM<T> m_fsm;

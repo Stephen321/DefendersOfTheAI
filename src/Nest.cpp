@@ -11,6 +11,7 @@ Nest::Nest(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const st
 	, m_player(player)
 	, m_missilesAlive(0)
 	, m_abductorsProduced(0)
+	, OFFSET_Y(worldSize.y * 0.3f)
 	, m_timeToProduceAbductor(TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET))
 {
 	m_fsm.init(this);
@@ -59,9 +60,9 @@ void Nest::getWanderTarget()
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 	}
-	else if (m_targetPos.y > LOWEST_DISTANCE - m_sprite.getGlobalBounds().height * 0.5f)
+	else if (m_targetPos.y > (LOWEST_DISTANCE- OFFSET_Y) - m_sprite.getGlobalBounds().height * 0.5f)
 	{
-		m_targetPos += 1.5f * (m_targetPos.y - LOWEST_DISTANCE + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, -1.f);
+		m_targetPos += 1.5f * (m_targetPos.y - (LOWEST_DISTANCE - OFFSET_Y ) + m_sprite.getGlobalBounds().height * 0.5f) * sf::Vector2f(0.f, -1.f);
 		m_velocity.x = 0.f;
 		m_velocity.y = 0.f;
 	}
@@ -81,7 +82,8 @@ void Nest::getWanderTarget()
 bool Nest::playerInRange() const
 {
 	bool inRange = false;
-	if (Helpers::getLength(m_player->getPosition() - m_position) <= PLAYER_EVADE_RANGE)
+
+	if (Helpers::getLength(Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_player->getPosition())) <= PLAYER_EVADE_RANGE)
 	{
 		inRange = true;
 	}
@@ -116,7 +118,7 @@ void Nest::setProduceTimer(float value)
 
 void Nest::evade()
 {
-	sf::Vector2f vectorBetween = m_player->getPosition() - m_position;
+	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, m_position, m_player->getPosition());
 	sf::Vector2f dir = Helpers::normaliseCopy(vectorBetween);
 	float distance = Helpers::getLength(vectorBetween);
 	float speed = Helpers::getLength(m_velocity);
@@ -131,7 +133,8 @@ void Nest::evade()
 	}
 
 	m_targetPos = m_player->getPosition() + (m_player->getVelocity() * prediction);
-	m_dir = Helpers::normaliseCopy(m_position - m_targetPos);
+	m_dir = Helpers::normaliseCopy(Helpers::getVectorBetweenWrap(m_worldSize, m_targetPos, m_position));
+
 }
 
 void Nest::produceAbductors(float dt)
@@ -140,7 +143,7 @@ void Nest::produceAbductors(float dt)
 	{
 		m_produceAbductorTimer += dt;
 		float offset = m_sprite.getGlobalBounds().height * 1.5f;
-		if (LOWEST_DISTANCE - m_position.y <= m_sprite.getGlobalBounds().height * 2.f) //is there isnt room to spawn an abductor below
+		if ((LOWEST_DISTANCE - OFFSET_Y ) - m_position.y <= m_sprite.getGlobalBounds().height * 2.f) //is there isnt room to spawn an abductor below
 		{
 			offset = -offset; //then spawn above
 		}
@@ -150,9 +153,23 @@ void Nest::produceAbductors(float dt)
 			sf::Vector2f startPos(m_position.x, m_position.y + offset);
 			m_gameAbductors.push_back(std::shared_ptr<Abductor>(new Abductor(startPos, m_worldSize, m_gameAbductors, m_player, m_gameProjectiles)));
 			m_gameAbductors.back()->setVelocity(sf::Vector2f(m_velocity.x, 0.f));
+			//update direction to move in the same x and a random y dir
+			m_gameAbductors.back()->setDirection(sf::Vector2f((m_velocity.x > 0.f) ? 1.f : -1.f, 1.f));
 			m_abductorsProduced++;
 			m_produceAbductorTimer = 0.f;
 			m_timeToProduceAbductor = TIME_TO_PRODUCE + Helpers::randomNumber(-PRODUCE_TIME_OFFSET, PRODUCE_TIME_OFFSET);
 		}
+	}
+}
+
+
+void Nest::checkWorldBounds()
+{
+	GameObject::checkWorldBounds();
+	float halfHeight = m_sprite.getGlobalBounds().height * 0.5f;
+	if (m_position.y > (LOWEST_DISTANCE - OFFSET_Y) - halfHeight)
+	{
+		m_position.y = (LOWEST_DISTANCE - OFFSET_Y) - halfHeight;
+		m_velocity.y = 0.f;
 	}
 }

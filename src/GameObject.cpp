@@ -30,7 +30,6 @@ void GameObject::update(float dt)
 		return;
 	}
 	move(dt);
-	checkWorldBounds();
 	m_sprite.setPosition(m_position);
 }
 
@@ -80,6 +79,7 @@ void GameObject::move(float dt)
 	Helpers::limit(m_velocity, m_maxVelocity);
 
 	m_position += m_velocity * dt + (0.5f * (acceleration * (dt * dt))); // s = ut + 0.5at^2
+	checkWorldBounds();
 }
 
 //TODO: is this function still necessary for abductors flocking?
@@ -145,4 +145,36 @@ sf::FloatRect GameObject::getRect() const
 	float width = m_sprite.getGlobalBounds().width;
 	float height = m_sprite.getGlobalBounds().height;
 	return sf::FloatRect(m_position.x - width * 0.5f, m_position.y - height * 0.5f, width, height);
+}
+
+void GameObject::setDirection(const sf::Vector2f & dir)
+{
+	m_dir = dir;
+	Helpers::normalise(m_dir);
+}
+
+float GameObject::getHeight() const
+{
+	return m_sprite.getGlobalBounds().height;
+}
+
+void GameObject::setActive(bool value)
+{
+	m_active = value;
+}
+
+bool GameObject::collision(const std::shared_ptr<GameObject>& collidor)
+{
+	bool collided = false;
+	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, collidor->getPosition(), m_position);
+	float distance = Helpers::getLength(vectorBetween);
+	if (distance < collidor->getHeight() + getHeight())
+	{ //collision 
+		collided = true;
+		if (collidor->getType() == Type::Meteor)
+		{
+			m_active = false;
+		}
+	}
+	return collided;
 }

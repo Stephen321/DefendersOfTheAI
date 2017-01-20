@@ -2,6 +2,7 @@
 #include "StateMap.h"
 #include "NestStates.h"
 #include "Abductor.h"
+#include "Astronaut.h"
 
 int GameScreen::run(sf::RenderWindow &window)
 {
@@ -39,13 +40,21 @@ int GameScreen::run(sf::RenderWindow &window)
 															 worldSize, gameObjectsMap[Constants::PROJECTILE_KEY]));
 	gameObjectsMap[Constants::MISC_KEY].push_back(player);
 	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(100.f, worldSize.y * 0.1f),
-												  worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
+		worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY], gameObjectsMap[Constants::ABDUCTOR_KEY])));
 	//gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Nest>(new Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.1f), worldSize, player, gameObjectsMap[Constants::PROJECTILE_KEY])));
 	//m_gameObjects.push_back(std::make_shared<Nest>(Nest(sf::Vector2f(worldSize.x - 100.f, worldSize.y * 0.5f), worldSize)));
-
-	gameObjectsMap[Constants::MISC_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize)));
+	gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128))); //todo: 128???
 	Background background(bounds, player);
 	Radar radar(background.getSurfacePath(), worldSize);
+
+	float testing = 0;
+	for (int i = 0; i < 50; i++)
+	{
+		if (testing > worldSize.x)
+			break;
+		gameObjectsMap[Constants::ASTRONAUT_KEY].push_back(std::shared_ptr<Astronaut>(new Astronaut(testing, worldSize, background.getSurfacePath())));
+		testing += 600.f;
+	}
 
 	//debug
 	bool pause = false;
@@ -138,6 +147,7 @@ int GameScreen::run(sf::RenderWindow &window)
 			for (GameObjectPtrVector::iterator itV = v.begin(); itV != v.end();)
 			{				
 				std::shared_ptr<GameObject>& gameObject = (*itV);
+				GameObject::Type type = gameObject->getType();
 				//update 
 				gameObject->update(dt); //TODO: another loop before .clear
 				std::pair<GameObject::Type, sf::Vector2f> entity;
@@ -145,53 +155,61 @@ int GameScreen::run(sf::RenderWindow &window)
 				entity.second = gameObject->getPosition();
 				radarEntities.push_back(entity);
 
-										//draw
-				bool intersects = false;
-
-				leftTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
-				rightTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
-				if (gameObject->getRect().intersects(getRectFromView(leftTexture.getView())))
+				//make abdbuctors abductor
+				if (type == GameObject::Type::Abductor)
+				{//loop through all astronauts
+					GameObjectPtrVector::iterator begin = gameObjectsMap[Constants::ASTRONAUT_KEY].begin();
+					GameObjectPtrVector::iterator end = gameObjectsMap[Constants::ASTRONAUT_KEY].end();
+					for (GameObjectPtrVector::iterator astroIt = begin; astroIt != end; ++astroIt)
+					{
+						std::shared_ptr<GameObject> astroGameObject = (*astroIt);
+						std::shared_ptr<Abductor> abductor = std::static_pointer_cast<Abductor>(gameObject);
+						if (abductor->checkIfVictim(astroGameObject)) //if it can be made a abductor
+						{
+							std::shared_ptr<Astronaut> astronaut = std::static_pointer_cast<Astronaut>(astroGameObject);
+							if (astronaut->getBeingAbducted() == false && astronaut->getBeingChased() == false) //if can be made victim
+							{
+								abductor->setAbducting(true);
+								abductor->setAbductingVictim(astronaut);
+								astronaut->setBeingChased(true);
+								astronaut->setAbductor(abductor);
+							}
+						}
+						
+					}
+				} //check for collision with meteor - AI (not astronaut)
+				if (type != GameObject::Type::Meteor && type != GameObject::Type::Astronaut
+					&& type != GameObject::Type::Player)
 				{
-					leftTexture.draw(*gameObject);
-				}
-				if (gameObject->getRect().intersects(getRectFromView(rightTexture.getView())))
-				{
-					rightTexture.draw(*gameObject);
-				}
-
-				leftTexture.setView(sf::View(sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height)));
-				rightTexture.setView(sf::View(sf::FloatRect(0.f, 0.f, bounds.width, bounds.height)));
-				if (gameObject->getRect().intersects(getRectFromView(leftTexture.getView())))
-				{
-					leftTexture.draw(*gameObject);
-				}
-				if (gameObject->getRect().intersects(getRectFromView(rightTexture.getView())))
-				{
-					rightTexture.draw(*gameObject);
+					GameObjectPtrVector::iterator begin = gameObjectsMap[Constants::OBSTACLES_KEY].begin();
+					GameObjectPtrVector::iterator end = gameObjectsMap[Constants::OBSTACLES_KEY].end();
+					for (GameObjectPtrVector::iterator obstacleIT = begin; obstacleIT != end; ++obstacleIT)
+					{
+						std::shared_ptr<GameObject> obstacle = (*obstacleIT);
+						gameObject->collision(obstacle);
+					}
 				}
 
+				//draw
+				drawGameObject(leftTexture, gameObject, sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height));
+				drawGameObject(rightTexture, gameObject, sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height));
 
-				
+				drawGameObject(leftTexture, gameObject, sf::FloatRect(worldSize.x - bounds.width, 0.f, bounds.width, bounds.height));
+				drawGameObject(rightTexture, gameObject, sf::FloatRect(0.f, 0.f, bounds.width, bounds.height));
+
 				if (gameObject->getRect().intersects(getRectFromView(window.getView())))//bounds)) test test test 
 				{
 					window.draw(*gameObject);
 				}
+				//TODO: removing this causes flicker??
 				if (player->getPosition().x < bounds.width)
 				{
-					preTeleportTexture.setView(sf::View(sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height)));
+					drawGameObject(preTeleportTexture, gameObject, sf::FloatRect(worldSize.x, 0.f, bounds.width, bounds.height));
 				}
 				else if (player->getPosition().x > worldSize.x - bounds.width)
 				{
-					preTeleportTexture.setView(sf::View(sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height)));
+					drawGameObject(preTeleportTexture, gameObject, sf::FloatRect(-bounds.width, 0.f, bounds.width, bounds.height));
 				}
-				else
-				{
-					preTeleportTexture.setView(sf::View());;
-				}
-				//if (gameObject->getRect().intersects(getRectFromView(preTeleportTexture.getView())))
-				//{
-					preTeleportTexture.draw(*gameObject);
-				//}
 
 
 				//remove if not active
@@ -209,9 +227,7 @@ int GameScreen::run(sf::RenderWindow &window)
 				}
 			}
 		}	
-
 		radar.update(player->getPosition(), bounds, radarEntities);
-
 		if (zoomed) {
 			view.zoom(zoom);
 			zoomed = false;
@@ -272,6 +288,7 @@ int GameScreen::run(sf::RenderWindow &window)
 
 		window.draw(radar);
 
+
 		window.display();
 	}
 
@@ -285,4 +302,14 @@ sf::FloatRect GameScreen::getRectFromView(const sf::View & view)
 						 view.getCenter().y- view.getSize().y * 0.5f,
 						 view.getSize().x,
 						 view.getSize().y);
+}
+
+void GameScreen::drawGameObject(sf::RenderTarget & target, std::shared_ptr<GameObject>& gameObject, const sf::FloatRect & viewBounds)
+{
+	target.setView(sf::View(viewBounds));
+	if (gameObject->getRect().intersects(getRectFromView(target.getView())))
+	{
+		target.draw(*gameObject);
+	}
+	target.setView(target.getDefaultView());
 }

@@ -2,6 +2,7 @@
 
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include <memory>
 
 #include <iostream> //debug purposes
 #include "Helpers.h"
@@ -32,7 +33,11 @@ public:
 	virtual void move(float dt);
 	virtual void checkWorldBounds();
 	float getWidth() const;
+	void setDirection(const sf::Vector2f& dir);
 	virtual sf::FloatRect getRect() const;
+	virtual float getHeight() const;
+	void setActive(bool value);
+	virtual bool collision(const std::shared_ptr<GameObject>& collidor);
 
 protected:
 	void setOrigin();

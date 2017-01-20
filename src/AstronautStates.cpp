@@ -1,26 +1,83 @@
 #include "AstronautStates.h"
 
-void AsWanderState::start(Astronaut* Astronaut)
+void AsWanderState::start(Astronaut* astronaut)
 {
+	astronaut->setMoving(true);
+	astronaut->updateAcceleration();
 }
 
-void AsWanderState::update(Astronaut* Astronaut, float dt)
+void AsWanderState::update(Astronaut* astronaut, float dt)
 {
+	astronaut->checkWorldBounds();
+	astronaut->setPosition(sf::Vector2f(astronaut->getPosition().x, astronaut->getYAtX(astronaut->getPosition().x)));
+	if (astronaut->getBeingChased())
+	{
+		astronaut->changeState(AsFleeState::getInstance());
+	}
 }
 
-void AsWanderState::end(Astronaut* Astronaut)
+void AsWanderState::end(Astronaut* astronaut)
 {
 }
 
 //-----------------------------------------------------------------------------
-void AsFleeState::start(Astronaut* Astronaut)
+void AsFleeState::start(Astronaut* astronaut)
+{
+	int fleeDir;
+	if (astronaut->getAbductor()->getPosition().x > astronaut->getPosition().x)
+	{
+		fleeDir = -1;
+	}
+	else
+	{
+		fleeDir = 1;
+	}
+	astronaut->setDirection(sf::Vector2f((float)fleeDir, 0.f));
+	astronaut->updateAcceleration();
+}
+
+void AsFleeState::update(Astronaut* astronaut, float dt)
+{
+	astronaut->checkWorldBounds();
+	astronaut->setPosition(sf::Vector2f(astronaut->getPosition().x, astronaut->getYAtX(astronaut->getPosition().x)));
+	int fleeDir;
+	if (astronaut->getAbductor()->getPosition().x > astronaut->getPosition().x)
+	{
+		fleeDir = -1;
+	}
+	else
+	{
+		fleeDir = 1;
+	}
+	astronaut->setDirection(sf::Vector2f((float)fleeDir, 0.f));
+	astronaut->updateAcceleration();
+	if (astronaut->getBeingAbducted())
+	{
+		astronaut->changeState(AsAbductState::getInstance());
+	}
+}
+
+void AsFleeState::end(Astronaut * astronaut)
 {
 }
 
-void AsFleeState::update(Astronaut* Astronaut, float dt)
-{ 
+//-----------------------------------------------------------------------------
+void AsAbductState::start(Astronaut* astronaut)
+{
+	astronaut->setBeingChased(false);
 }
 
-void AsFleeState::end(Astronaut * Astronaut)
+void AsAbductState::update(Astronaut* astronaut, float dt)
+{
+	astronaut->seekAbductionPos();
+	if (astronaut->getBeingAbducted() == false)
+	{
+		//TODO: change to fall state
+	}
+	astronaut->move(dt);
+	astronaut->checkWorldBounds();
+}
+
+void AsAbductState::end(Astronaut * astronaut)
 {
 }
