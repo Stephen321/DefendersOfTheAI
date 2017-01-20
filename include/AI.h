@@ -3,6 +3,8 @@
 #include "Constants.h"
 #include "GameObject.h"
 #include "FSM.h"
+#include "HealthBar.h"
+#include "Laser.h"
 
 template<typename T>
 class AI : public GameObject
@@ -17,7 +19,8 @@ public:
 		m_forceAmount = props.forceAmount;
 		m_dragCoefficent = props.dragCoefficent;
 		m_maxVelocity = props.maxVelocity;
-		m_dir.x = (rand() % 2 == 0) ? 1 : -1;
+		m_healthBar = HealthBar(props.maxHealth);
+		m_dir.x = (rand() % 2 == 0) ? 1.f : -1.f;
 		setOrigin();
 	}
 
@@ -27,6 +30,7 @@ public:
 		{
 			return;
 		}
+		m_healthBar.update(m_position);
 		m_fsm.update(dt);
 		GameObject::update(dt);
 	}
@@ -42,30 +46,39 @@ public:
 
 	virtual bool collision(const std::shared_ptr<GameObject>& collidor) override
 	{
-	/*	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, collidor->getPosition(), m_position);
-		float distance = Helpers::getLength(vectorBetween);
-
-		if (collidor->getType() == Type::Meteor)
+		bool collided = false;
+		if (GameObject::collision(collidor))
 		{
-			if (distance - collidor->getHeight() < 200.f )
+			collided = true;
+
+			float damage = 0.f;
+			if (collidor->getType() == Type::Laser)
 			{
-				sf::Vector2f repulsion = Helpers::normaliseCopy(vectorBetween);
-				repulsion /= (distance - collidor->getHeight());
-				repulsion *= m_maxVelocity;
-				repulsion -= m_velocity;
-				Helpers::limit(repulsion, m_forceAmount);
-				m_repulsionForce = repulsion * .f;
+				std::shared_ptr<Laser> laser = std::static_pointer_cast<Laser>(collidor);
+				if (laser->ownerType() == Type::Player)
+				{
+					damage = laser->getDamage();
+					collidor->setActive(false);
+				}
 			}
-			else
+
+			if (m_healthBar.changeHealth(-damage) == false)
 			{
-				m_repulsionForce.x = 0.f;
-				m_repulsionForce.y = 0.f;
+				m_active = false;
 			}
-		}*/
-		return GameObject::collision(collidor);
+		}
+		return collided;
+	}
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override
+	{
+		GameObject::draw(target, states);
+		target.draw(m_healthBar);
 	}
 
 protected:
 	const float LOWEST_DISTANCE;
+	HealthBar m_healthBar;
 	FSM<T> m_fsm;
+	float HEALTH_Y_OFFSET = 1.f;
 };

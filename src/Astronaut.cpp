@@ -7,13 +7,12 @@ Astronaut::Astronaut(float startX, const sf::Vector2f& worldSize, const std::vec
 	, m_beingAbducted(false)
 	, m_beingChased(false)
 {
-	m_dir = sf::Vector2f(-1, 0);// (rand() % 2 == 0) ? -1.f : 1.f, 0);
+	m_dir = sf::Vector2f((rand() % 2 == 0) ? -1.f : 1.f, 0);
 	m_moving = true;
 	m_position = sf::Vector2f(startX, getYAtX(startX));
-
+	m_healthBar.setYOffset(-1000.f);
 	m_fsm.init(this);
 	m_fsm.changeState(AsWanderState::getInstance());//TODO: put astronaut states in here
-
 }
 
 void Astronaut::checkWorldBounds()
@@ -37,6 +36,7 @@ void Astronaut::checkWorldBounds()
 void Astronaut::setBeingAbducted(bool value)
 {
 	m_beingAbducted = value;
+	changeState(AsWanderState::getInstance());
 }
 
 void Astronaut::setBeingChased(bool value)

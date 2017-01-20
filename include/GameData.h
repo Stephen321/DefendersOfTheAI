@@ -19,6 +19,7 @@ public:
 		float forceAmount;
 		float dragCoefficent;
 		float maxVelocity;
+		int maxHealth;
 	};
 	ObjectProperties& getObjectProperties(int id);
 private:

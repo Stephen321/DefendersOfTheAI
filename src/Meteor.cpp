@@ -137,7 +137,7 @@ sf::FloatRect Meteor::getRect() const
 	int minY = INT_MAX;
 	int maxX = 0;
 	int maxY = 0;
-	int diameter = m_radius * 2;
+	int diameter = m_radius * 2 - 30.f;
 
 	for (int i = 0; i < m_shapes.size() * 0.25f; i++)
 	{

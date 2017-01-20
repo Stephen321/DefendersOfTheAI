@@ -14,4 +14,5 @@ public:
 private: 
 	sf::FloatRect getRectFromView(const sf::View& view);
 	void drawGameObject(sf::RenderTarget& target, std::shared_ptr<GameObject>& gameObject, const sf::FloatRect& viewBounds);
+	void checkForCollisions(std::vector<std::shared_ptr<GameObject>>& v, std::shared_ptr<GameObject>& collider);
 };

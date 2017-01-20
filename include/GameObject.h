@@ -18,7 +18,8 @@ public:
 		Missile,
 		Meteor,
 		Abductor,
-		Astronaut
+		Astronaut,
+		Mutant
 	};
 	GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -38,6 +39,7 @@ public:
 	virtual float getHeight() const;
 	void setActive(bool value);
 	virtual bool collision(const std::shared_ptr<GameObject>& collidor);
+	bool intersects(const sf::FloatRect& r2);
 
 protected:
 	void setOrigin();
