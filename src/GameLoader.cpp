@@ -40,18 +40,15 @@ void GameLoader::loadData(const std::string& filePath) {
 		props.forceAmount = (++propsIT)->value.GetFloat();
 		props.dragCoefficent = (++propsIT)->value.GetFloat();
 		props.maxVelocity = (++propsIT)->value.GetFloat();
+
+		//health
+		props.maxHealth = (++propsIT)->value.GetInt();
 	}
 
-	//++it;
+	++it;
 	//misc sprites
-	//Value::ConstMemberIterator miscIT = it->value.MemberBegin();
-	//Value::ConstMemberIterator mistITEnd = it->value.MemberEnd();
-	//for (; miscIT != mistITEnd; ++miscIT) {
-	//	Value::ConstMemberIterator iconIT = miscIT->value.MemberBegin();
-	//	std::string iconName = iconIT->name.GetString();
-	//	if (iconName == "hyperJumpIcon")
-	//		GameData::getInstance().hyperJumpIconTexture.loadFromFile(filePath + spritesPath + iconIT->value.GetString());
-	//	else if (iconName == "hyperJumpIconBG")
-	//		GameData::getInstance().hyperJumpIconBGTexture.loadFromFile(filePath + spritesPath + iconIT->value.GetString());
-	//}
+	Value::ConstMemberIterator miscIT = it->value.MemberBegin();
+	ptr.hyperJumpIconTexture.loadFromFile(filePath + spritesPath + (miscIT++)->value.GetString());
+	ptr.smartBombIconTexture.loadFromFile(filePath + spritesPath + (miscIT++)->value.GetString());
+	ptr.hyperJumpIconBGTexture.loadFromFile(filePath + spritesPath + (miscIT)->value.GetString());
 }

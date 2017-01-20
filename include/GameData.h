@@ -19,11 +19,13 @@ public:
 		float forceAmount;
 		float dragCoefficent;
 		float maxVelocity;
+		int maxHealth;
 	};
 	ObjectProperties& getObjectProperties(int id);
 
 	//User Interface Sprites
 	sf::Texture hyperJumpIconTexture;
+	sf::Texture smartBombIconTexture;
 	sf::Texture hyperJumpIconBGTexture;
 private:
 	GameData();

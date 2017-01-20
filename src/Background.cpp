@@ -14,10 +14,10 @@ void Background::calculateSurfacePoints(const sf::Vector2f& screenSize)
 {
 	//variables to store the positional data of each shape
 	int xPos = 0;
-	int yPos = screenSize.y * 0.75f;
+	int yPos = (int)(screenSize.y * 0.75f);
 
-	const int worldWidth = screenSize.x * 9;
-	const int screenUnit = (screenSize.x / 128);
+	const int worldWidth = (int)screenSize.x * 9;
+	const int screenUnit = (int)(screenSize.x / 128);
 	int allShapesWidth = 0;	
 
 	while (allShapesWidth < worldWidth)

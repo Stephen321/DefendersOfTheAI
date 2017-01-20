@@ -19,6 +19,7 @@ public:
 		Meteor,
 		Abductor,
 		Astronaut,
+		Mutant,
 		HyperJumpPickup
 	};
 	GameObject(Type type, const sf::Vector2f& startPos, const sf::Vector2f& worldSize);
@@ -39,6 +40,7 @@ public:
 	virtual float getHeight() const;
 	void setActive(bool value);
 	virtual bool collision(const std::shared_ptr<GameObject>& collidor);
+	bool intersects(const sf::FloatRect& r2);
 
 protected:
 	void setOrigin();

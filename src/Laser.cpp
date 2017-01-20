@@ -1,8 +1,10 @@
 #include "Laser.h"
 
-Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& direction, float maxVelocityScale)
+Laser::Laser(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, const sf::Vector2f& direction, float damage, GameObject::Type ownerType, float maxVelocityScale)
 	: GameObject(Type::Laser, startPos, worldSize)
 	, m_liveTimer(0.f)
+	, m_damage(damage)
+	, m_ownerType(ownerType)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	m_sprite.setTexture(props.texture);
@@ -31,7 +33,7 @@ void Laser::update(float dt)
 		{
 			m_active = false;
 		}
-		m_sprite.setRotation(atan2(m_dir.y, m_dir.x) * (180.f / M_PI));
+		m_sprite.setRotation((float)atan2(m_dir.y, m_dir.x) * (180.f / M_PI));
 		GameObject::update(dt);
 	}
 }
@@ -47,4 +49,14 @@ void Laser::checkWorldBounds()
 	{
 		m_position.x = halfWidth;
 	}
+}
+
+float Laser::getDamage() const
+{
+	return m_damage;
+}
+
+GameObject::Type Laser::ownerType() const
+{
+	return m_ownerType;
 }

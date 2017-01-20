@@ -166,15 +166,28 @@ void GameObject::setActive(bool value)
 bool GameObject::collision(const std::shared_ptr<GameObject>& collidor)
 {
 	bool collided = false;
-	sf::Vector2f vectorBetween = Helpers::getVectorBetweenWrap(m_worldSize, collidor->getPosition(), m_position);
-	float distance = Helpers::getLength(vectorBetween);
-	if (distance < collidor->getHeight() + getHeight())
-	{ //collision 
+	if (intersects(collidor->getRect()))
+	{//collision 
 		collided = true;
 		if (collidor->getType() == Type::Meteor)
 		{
 			m_active = false;
 		}
+
 	}
 	return collided;
+}
+
+bool GameObject::intersects(const sf::FloatRect& r2)
+{
+	sf::FloatRect r1 = getRect();
+	if (r1.left < r2.left + r2.width && r1.left + r1.width > r2.left &&
+		r1.top < r2.top + r2.height && r1.top + r1.height > r2.top)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
