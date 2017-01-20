@@ -40,7 +40,7 @@ void ADropState::start(Abductor* abductor)
 }
 
 void ADropState::update(Abductor* abductor, float dt)
-{ //TODO: this has a fixed speed not set from anywhere (player x moves at max vel * 0.5 and y is sin way
+{ 
 	abductor->updateDropAcceleration();
 	abductor->move(dt);
 	if (abductor->reachedTarget())
@@ -61,7 +61,7 @@ void APatrolState::start(Abductor* abductor)
 }
 
 void APatrolState::update(Abductor* abductor, float dt)
-{ //TODO: this has a fixed speed not set from anywhere (player x moves at max vel * 0.5 and y is sin way
+{ 
 	int neighbourCount = abductor->getNeighbourCount();
 	if (neighbourCount > 0)
 	{
@@ -89,8 +89,6 @@ void AAbductingState::start(Abductor* abductor)
 
 void AAbductingState::update(Abductor* abductor, float dt)
 {
-	//TODO: arrive to target , accelerate up
-	//abductor->setAcceleration(sf::Vector2f(0, -1.f) * abductor->getForceAmount());
 	abductor->updateAbduction(dt);
 	abductor->move(dt);
 	abductor->checkAbductionBounds();

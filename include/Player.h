@@ -20,7 +20,7 @@ private:
 	void checkInput();
 
 	//lasers
-	void fire(); //TODO: put this into a super class such as Character which AI and the Player both inheirit from
+	void fire(); 
 	const float RELOAD_TIME = 0.1f;
 	float m_reloadTimer;
 	const float ANGLE_OFFSET = 180.f;

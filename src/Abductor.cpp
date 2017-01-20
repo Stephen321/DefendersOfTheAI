@@ -34,7 +34,6 @@ Abductor::Abductor(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, 
 	}
 
 
-	//testing
 	m_beamRect = sf::RectangleShape(sf::Vector2f(BEAM_SIZE, BEAM_SIZE));
 	m_beamRect.setOrigin(0.f, m_beamRect.getSize().y * 0.5f);
 	m_beamRect.setPosition(-m_position);
@@ -317,7 +316,6 @@ void Abductor::checkAbductionBounds()
 	{
 		m_position.y = m_abductionOffset.y - m_abductionVictim->getHeight();
 		m_velocity.y = 0.f;
-		//TODO: successful abduction
 	}
 	else if (m_position.y > m_abductionVictim->getPosition().y - m_abductionVictim->getHeight())
 	{
@@ -367,7 +365,6 @@ void Abductor::move(float dt)
 	Helpers::limit(m_velocity, m_maxVelocity);
 	m_position += m_velocity * dt + (0.5f * (m_acceleration * (dt * dt))); // s = ut + 0.5at^2
 
-	//TODO: can this be removed?
 	m_sprite.setPosition(m_position);
 }
 

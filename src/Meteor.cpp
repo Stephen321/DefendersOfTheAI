@@ -109,8 +109,8 @@ void Meteor::update(float dt)
 			}
 		}
 		else 
-		{//test
-			//m_active = false;
+		{
+			m_active = false;
 		}
 		checkWorldBounds();
 		m_position = m_shapes[0].getPosition();

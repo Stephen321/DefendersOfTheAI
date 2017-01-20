@@ -1,5 +1,4 @@
 #include "GameLoader.h"
-#include <iostream> //testing
 GameLoader::GameLoader(const std::string& filePath) 
 {
 	loadData(filePath);

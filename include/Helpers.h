@@ -4,9 +4,6 @@
 
 namespace Helpers
 {
-	//testing: inline or seperate definition and declaration so not created multiple times (Graphics.hpp also included multiple times?)
-
-
 	//clamps a value between min and max-1
 	inline int clamp(int value, int min, int max)
 	{
@@ -91,7 +88,6 @@ namespace Helpers
 		float leftrWrapDistanceToTarget = position.x + (worldSize.x - target.x);
 		float rightWrapDistanceToTarget = target.x + (worldSize.x - position.x);
 
-		//TODO: tidy this up
 		if (leftrWrapDistanceToTarget < distanceToTarget)
 		{//better to wrap aroud to reach target offscreen left
 			vectorBetween = sf::Vector2f(position.x - leftrWrapDistanceToTarget, target.y) - position;

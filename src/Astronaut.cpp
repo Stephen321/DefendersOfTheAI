@@ -12,7 +12,7 @@ Astronaut::Astronaut(float startX, const sf::Vector2f& worldSize, const std::vec
 	m_position = sf::Vector2f(startX, getYAtX(startX));
 	m_healthBar.setYOffset(-1000.f);
 	m_fsm.init(this);
-	m_fsm.changeState(AsWanderState::getInstance());//TODO: put astronaut states in here
+	m_fsm.changeState(AsWanderState::getInstance());
 }
 
 void Astronaut::checkWorldBounds()

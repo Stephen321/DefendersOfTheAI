@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream> //testing
 
 #include "SFML\Graphics.hpp"
 
