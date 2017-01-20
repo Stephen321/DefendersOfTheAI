@@ -229,7 +229,7 @@ int GameScreen::run(sf::RenderWindow &window)
 		}	
 		radar.update(player->getPosition(), bounds, radarEntities);
 
-		if (rand() % 11 == 0)
+		if (rand() % Constants::METEOR_CHANCE_PRIME == 0)
 			gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128)));
 
 		if (zoomed) {
