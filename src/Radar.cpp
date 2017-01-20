@@ -116,9 +116,6 @@ void Radar::createLines(const std::vector<sf::Vector2i>& terrainPath, const sf::
 		if (width > (worldSize.x / Constants::WORLD_SCREEN_SIZES)  * X_SCALE)
 			break;
 	}
-
-	for (int i = 0; i < m_terrainLinesShapes.size() - 1; i++)
-		std::cout << m_terrainLinesShapes[i].getPosition().x << std::endl;
 }
 
 void Radar::draw(sf::RenderTarget& target, sf::RenderStates states) const

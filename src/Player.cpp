@@ -4,6 +4,7 @@ Player::Player(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, Game
 	: GameObject(Type::Player, startPos, worldSize)
 	, m_reloadTimer(0.f)
 	, m_gameProjectiles(gameProjectiles)
+	, m_score(0)
 {
 	GameData::ObjectProperties& props = GameData::getInstance().getObjectProperties((int)m_type);
 	props.texture.setSmooth(true);
@@ -70,6 +71,16 @@ bool Player::collision(const std::shared_ptr<GameObject>& collidor)
 		}
 	}
 	return collided;
+}
+
+int Player::getScore()
+{
+	return m_score;
+}
+
+void Player::increaseScore(int value)
+{
+	m_score += value;
 }
 
 void Player::fire()

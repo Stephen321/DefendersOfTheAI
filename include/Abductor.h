@@ -37,6 +37,7 @@ public:
 
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	bool collision(const std::shared_ptr<GameObject>& collidor) override;
+	void stopAbducting();
 
 private:
 	sf::RectangleShape m_beamRect;

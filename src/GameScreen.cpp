@@ -15,6 +15,13 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::Clock frameClock;
 	int menu = 0;
 
+	sf::Font font;
+	font.loadFromFile("assets/fonts/GROBOLD.ttf");
+	sf::Text scoreText("test", font, 30.f);
+	scoreText.setFillColor(sf::Color::White);
+	scoreText.setPosition(10.f, 10.f);
+	scoreText.setStyle(sf::Text::Regular);
+
 	sf::View view = window.getView();
 	sf::FloatRect bounds(0.f, 0.f, view.getSize().x, view.getSize().y);
 
@@ -172,10 +179,17 @@ int GameScreen::run(sf::RenderWindow &window)
 							type != GameObject::Type::HyperJumpPickup &&
 							type != GameObject::Type::Player)
 						{
-							if (gameObject->getPosition().x + gameObject->getWidth() > bounds.left &&
-								gameObject->getPosition().x < bounds.left + bounds.width)
+							if (gameObject->intersects(bounds))
 							{
 								gameObject->setActive(false);
+								if (gameObject->getType() == GameObject::Type::Abductor)
+								{
+									std::shared_ptr<Abductor> abductor = std::static_pointer_cast<Abductor>(gameObject);
+									if (abductor->getAbducting())
+									{
+										abductor->stopAbducting();
+									}
+								}
 							}
 						}
 					}

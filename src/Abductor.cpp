@@ -359,6 +359,12 @@ bool Abductor::collision(const std::shared_ptr<GameObject>& collidor)
 	return collided;
 }
 
+void Abductor::stopAbducting()
+{
+	m_abductionVictim->setBeingAbducted(false);
+	m_abductionVictim->setBeingChased(false);
+}
+
 void Abductor::move(float dt)
 {
 	m_velocity += m_acceleration  * dt; //v = u + at
