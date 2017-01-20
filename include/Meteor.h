@@ -14,7 +14,6 @@ public:
 private:
 	void generateShape(sf::Vector2f worldSize, int);
 	void createConvexCircle(int, int, int, sf::Color);
-	void lerpFaceColor(float currentRotation, const std::pair<float, float> angleRange, sf::Color startColor, sf::Color endColor);
 
 	//number of sides in the shape generated to form the meteor
 	const int METEOR_FACES = 8;

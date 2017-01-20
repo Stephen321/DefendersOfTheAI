@@ -291,7 +291,7 @@ int GameScreen::run(sf::RenderWindow &window)
 		}	
 		radar.update(player->getPosition(), bounds, radarEntities);
 
-		if (rand() % Constants::METEOR_CHANCE == 0)
+		if (rand() % Constants::METEOR_CHANCE == Constants::METEOR_CHANCE - 1)
 			gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Meteor>(new Meteor(worldSize, Helpers::randomNumber(10, 5) * bounds.width / 128)));
 
 		if (rand() % Constants::HYPERJUMP_CHANCE == Constants::HYPERJUMP_CHANCE - 1)
