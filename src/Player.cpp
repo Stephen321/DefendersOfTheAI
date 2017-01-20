@@ -32,8 +32,9 @@ void Player::update(float dt)
 	{
 		m_smartBombTimer -= dt;
 	}
+	else
+		m_bombReady = true;
 	m_healthBar.update(m_position);
-	m_sprite.setRotation(atan2(0, m_dir.x) * (180.f / M_PI) + ANGLE_OFFSET);
 	GameObject::update(dt);
 }
 
@@ -62,7 +63,7 @@ bool Player::collision(const std::shared_ptr<GameObject>& collidor)
 			collidor->setActive(false);
 			std::shared_ptr<Missile> missile = std::static_pointer_cast<Missile>(collidor);
 			damage = missile->getDamage();
-		}
+		}		
 
 		if (m_healthBar.changeHealth(-damage) == false)
 		{
@@ -120,6 +121,11 @@ void Player::hyperJump()
 
 		m_canHyperJump = false;
 	}	
+}
+
+bool Player::canHyperJump() const
+{
+	return m_canHyperJump;
 }
 
 void Player::replenishHyperJump()

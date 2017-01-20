@@ -22,10 +22,12 @@ int GameScreen::run(sf::RenderWindow &window)
 	sf::Vector2f worldSize(bounds.width * Constants::WORLD_SCREEN_SIZES, bounds.height);
 
 	sf::Sprite hyperJumpIcon;
-	sf::Sprite hyperJumpIconBG;
+	sf::Sprite iconBG;
+	sf::Sprite bombIcon;
 
 	hyperJumpIcon.setTexture(GameData::getInstance().hyperJumpIconTexture);
-	hyperJumpIconBG.setTexture(GameData::getInstance().hyperJumpIconBGTexture);
+	iconBG.setTexture(GameData::getInstance().hyperJumpIconBGTexture);
+	bombIcon.setTexture(GameData::getInstance().smartBombIconTexture);
 
 
 	sf::RenderTexture leftTexture;
@@ -181,6 +183,24 @@ int GameScreen::run(sf::RenderWindow &window)
 					}
 				}
 			}
+		}
+
+		if (player->canHyperJump())
+		{
+			hyperJumpIcon.setColor(sf::Color(255, 255, 255, 255));
+		}
+		else
+		{
+			hyperJumpIcon.setColor(sf::Color(255, 255, 255, 50));
+		}
+
+		if (player->BombAvailable())
+		{
+			bombIcon.setColor(sf::Color(255, 255, 255, 255));
+		}
+		else
+		{
+			bombIcon.setColor(sf::Color(255, 255, 255, 50));
 		}
 
 		for (GameObjectMap::iterator it = gameObjectsMap.begin(); it != gameObjectsMap.end(); ++it)
@@ -339,6 +359,17 @@ int GameScreen::run(sf::RenderWindow &window)
 			s.setPosition(worldSize.x - bounds.width, 0.f);
 			window.draw(s);
 		}
+
+		iconBG.setPosition(sf::Vector2f(bounds.left + bounds.width * 0.05f, bounds.height * 0.05f));
+		hyperJumpIcon.setPosition(sf::Vector2f(bounds.left + bounds.width * 0.05f, bounds.height * 0.05f));
+
+		window.draw(iconBG);
+		window.draw(hyperJumpIcon);
+
+		iconBG.setPosition(sf::Vector2f(bounds.left + bounds.width * 0.05f, bounds.height * 0.1f));
+		bombIcon.setPosition(sf::Vector2f(bounds.left + bounds.width * 0.05f, bounds.height * 0.1f));
+		window.draw(iconBG);
+		window.draw(bombIcon);
 
 
 		window.draw(radar);

@@ -15,6 +15,7 @@ public:
 	void update(float dt) override;
 	bool BombAvailable() const;
 	void smartBomb();
+	bool canHyperJump() const;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 	bool collision(const std::shared_ptr<GameObject>& collidor);
 
