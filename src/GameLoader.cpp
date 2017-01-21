@@ -1,5 +1,4 @@
 #include "GameLoader.h"
-#include <iostream> //testing
 GameLoader::GameLoader(const std::string& filePath) 
 {
 	loadData(filePath);
@@ -44,4 +43,11 @@ void GameLoader::loadData(const std::string& filePath) {
 		//health
 		props.maxHealth = (++propsIT)->value.GetInt();
 	}
+
+	++it;
+	//misc sprites
+	Value::ConstMemberIterator miscIT = it->value.MemberBegin();
+	ptr.hyperJumpIconTexture.loadFromFile(filePath + spritesPath + (miscIT++)->value.GetString());
+	ptr.smartBombIconTexture.loadFromFile(filePath + spritesPath + (miscIT++)->value.GetString());
+	ptr.hyperJumpIconBGTexture.loadFromFile(filePath + spritesPath + (miscIT)->value.GetString());
 }

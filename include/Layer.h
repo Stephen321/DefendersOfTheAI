@@ -1,6 +1,5 @@
 #pragma once
 
-#include <iostream> //debug
 #include <memory>
 #include "Helpers.h"
 #include "GameObject.h"
@@ -20,9 +19,6 @@ private:
 	{
 		sf::Texture texture;
 		sf::Sprite sprite;
-		sf::RectangleShape debugShape;
-		sf::Font debugFont;
-		sf::Text debugText;
 	};
 	std::vector<Section> m_sections;
 	int m_left, m_middle, m_right;

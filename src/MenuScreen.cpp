@@ -29,7 +29,6 @@ int MenuScreen::run(sf::RenderWindow &window)
 
 			if (Event.type == sf::Event::KeyReleased && Event.key.code == sf::Keyboard::Space)
 			{
-				std::cout << "Going to screen: " << 1 << std::endl;
 				return (1);
 			}
 		}

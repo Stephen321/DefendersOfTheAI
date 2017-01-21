@@ -8,7 +8,6 @@ Debug
 Release
 ipch
 x64
-documentation
 *.VC.db
 *.VC.VC*.opendb
 .vs

@@ -1,7 +1,6 @@
 #include "Background.h"
 #include <iostream>
 
-//TODO: good to use shared_ptr here?
 Background::Background(const sf::FloatRect& bounds, const std::shared_ptr<GameObject>& player)
 {
 	m_layers.push_back(std::make_unique<Layer>(Layer("assets/sprites/enviroment/stars", bounds, 3, player, 0.8f)));

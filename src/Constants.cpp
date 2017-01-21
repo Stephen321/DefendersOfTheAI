@@ -9,4 +9,6 @@ namespace Constants
 	const std::string MISC_KEY = "misc";
 	const std::string ASTRONAUT_KEY = "astronaut";
 	const std::string OBSTACLES_KEY = "obstacles";
+	const int METEOR_CHANCE = 400;
+	const int HYPERJUMP_CHANCE = 997;
 }

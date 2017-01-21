@@ -2,9 +2,9 @@
 
 #include "GameObject.h"
 
-class Missile : public GameObject //TODO: use projectile superclass
+class Missile : public GameObject 
 {
-public: //TODO: use pursue steering to aim at player (make Pursue/Flee/Seek/Evade classes instead of repeating code)
+public: 
 	Missile(const sf::Vector2f& startPos, const sf::Vector2f& worldSize, sf::Vector2f& target, int& ownerMissileCount, float damage);
 	void update(float dt) override;
 	void checkWorldBounds() override;
