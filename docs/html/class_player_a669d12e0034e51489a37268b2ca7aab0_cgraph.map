@@ -1,0 +1,8 @@
+<map id="Player::collision" name="Player::collision">
+<area shape="rect" id="node2" href="$class_game_object.html#a56a330813f51b91b2ad8aacb42b6d8ea" title="GameObject::collision" alt="" coords="176,5,327,32"/>
+<area shape="rect" id="node5" href="$class_laser.html#a121266b7a10b80a71304e85421eebc3a" title="Laser::getDamage" alt="" coords="187,56,315,83"/>
+<area shape="rect" id="node6" href="$class_missile.html#ae07a94126a1475af4349006dc825dae9" title="Missile::getDamage" alt="" coords="183,107,320,133"/>
+<area shape="rect" id="node7" href="$class_health_bar.html#a4e19dbe3bf281bcb0849096ce124ae5a" title="HealthBar::changeHealth" alt="" coords="168,157,335,184"/>
+<area shape="rect" id="node3" href="$class_game_object.html#a7c189644b6b5810c117a4e2654fbc752" title="GameObject::intersects" alt="" coords="383,5,543,32"/>
+<area shape="rect" id="node4" href="$class_game_object.html#aecc23e1558ae04e10083deae74774bd2" title="GameObject::getRect" alt="" coords="591,5,739,32"/>
+</map>

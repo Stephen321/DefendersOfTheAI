@@ -1,0 +1,104 @@
+\hypertarget{class_missile}{}\section{Missile Class Reference}
+\label{class_missile}\index{Missile@{Missile}}
+
+
+{\ttfamily \#include $<$Missile.\+h$>$}
+
+
+
+Inheritance diagram for Missile\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{class_missile__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Missile\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=151pt]{class_missile__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_missile_a74052851a2f92d2045198c19171c1dbb}{Missile} (const sf\+::\+Vector2f \&start\+Pos, const sf\+::\+Vector2f \&world\+Size, sf\+::\+Vector2f \&target, int \&owner\+Missile\+Count, float damage)
+\item 
+void \hyperlink{class_missile_a5750280ac2f18df9cf3f5f87341be655}{update} (float dt) override
+\item 
+void \hyperlink{class_missile_a49c9929ea51ad8a2a8da96e0c39e6095}{check\+World\+Bounds} () override
+\item 
+float \hyperlink{class_missile_ae07a94126a1475af4349006dc825dae9}{get\+Damage} () const
+\end{DoxyCompactItemize}
+\subsection*{Additional Inherited Members}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_missile_a74052851a2f92d2045198c19171c1dbb}\label{class_missile_a74052851a2f92d2045198c19171c1dbb}} 
+\index{Missile@{Missile}!Missile@{Missile}}
+\index{Missile@{Missile}!Missile@{Missile}}
+\subsubsection{\texorpdfstring{Missile()}{Missile()}}
+{\footnotesize\ttfamily Missile\+::\+Missile (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{start\+Pos,  }\item[{const sf\+::\+Vector2f \&}]{world\+Size,  }\item[{sf\+::\+Vector2f \&}]{target,  }\item[{int \&}]{owner\+Missile\+Count,  }\item[{float}]{damage }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_missile_a74052851a2f92d2045198c19171c1dbb_cgraph}
+\end{center}
+\end{figure}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_missile_a49c9929ea51ad8a2a8da96e0c39e6095}\label{class_missile_a49c9929ea51ad8a2a8da96e0c39e6095}} 
+\index{Missile@{Missile}!check\+World\+Bounds@{check\+World\+Bounds}}
+\index{check\+World\+Bounds@{check\+World\+Bounds}!Missile@{Missile}}
+\subsubsection{\texorpdfstring{check\+World\+Bounds()}{checkWorldBounds()}}
+{\footnotesize\ttfamily void Missile\+::check\+World\+Bounds (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_a07bcaf0d87bd507f0a6e98abebd70e53}{Game\+Object}.
+
+\mbox{\Hypertarget{class_missile_ae07a94126a1475af4349006dc825dae9}\label{class_missile_ae07a94126a1475af4349006dc825dae9}} 
+\index{Missile@{Missile}!get\+Damage@{get\+Damage}}
+\index{get\+Damage@{get\+Damage}!Missile@{Missile}}
+\subsubsection{\texorpdfstring{get\+Damage()}{getDamage()}}
+{\footnotesize\ttfamily float Missile\+::get\+Damage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=305pt]{class_missile_ae07a94126a1475af4349006dc825dae9_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_missile_a5750280ac2f18df9cf3f5f87341be655}\label{class_missile_a5750280ac2f18df9cf3f5f87341be655}} 
+\index{Missile@{Missile}!update@{update}}
+\index{update@{update}!Missile@{Missile}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Missile\+::update (\begin{DoxyParamCaption}\item[{float}]{dt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Reimplemented from \hyperlink{class_game_object_a2fece397b6343682d639f8943f124d0e}{Game\+Object}.
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{class_missile_a5750280ac2f18df9cf3f5f87341be655_cgraph}
+\end{center}
+\end{figure}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_missile_8h}{Missile.\+h}\item 
+src/\hyperlink{_missile_8cpp}{Missile.\+cpp}\end{DoxyCompactItemize}

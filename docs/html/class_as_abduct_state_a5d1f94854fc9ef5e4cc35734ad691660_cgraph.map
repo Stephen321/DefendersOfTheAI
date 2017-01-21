@@ -1,0 +1,10 @@
+<map id="AsAbductState::update" name="AsAbductState::update">
+<area shape="rect" id="node2" href="$class_astronaut.html#aa9f03535d8f48b807838d28885904e59" title="Astronaut::seekAbductionPos" alt="" coords="213,56,407,83"/>
+<area shape="rect" id="node7" href="$class_astronaut.html#af372531d99d29adf03595c0a7922ce42" title="Astronaut::getBeingAbducted" alt="" coords="214,107,406,133"/>
+<area shape="rect" id="node8" href="$class_astronaut.html#a763eea389d50440a049cd16d92c7c694" title="Astronaut::move" alt="" coords="252,157,368,184"/>
+<area shape="rect" id="node9" href="$class_astronaut.html#a362cf11f645801a8067efaa1f9310e4c" title="Astronaut::checkWorldBounds" alt="" coords="211,208,409,235"/>
+<area shape="rect" id="node3" href="$namespace_helpers.html#a93defc4f62a0b29303b84ea17eeeb2fb" title="Helpers::getVectorBetweenWrap" alt="" coords="604,5,815,32"/>
+<area shape="rect" id="node4" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="863,81,993,108"/>
+<area shape="rect" id="node5" href="$namespace_helpers.html#a1c0a40432177c275488a904ea94eda66" title="Helpers::normaliseCopy" alt="" coords="629,107,789,133"/>
+<area shape="rect" id="node6" href="$namespace_helpers.html#a7b90b08e0cd27e52500271b582f8797b" title="Helpers::limit" alt="" coords="457,157,556,184"/>
+</map>

@@ -1,0 +1,95 @@
+\hypertarget{class_radar}{}\section{Radar Class Reference}
+\label{class_radar}\index{Radar@{Radar}}
+
+
+{\ttfamily \#include $<$Radar.\+h$>$}
+
+
+
+Inheritance diagram for Radar\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{class_radar__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Radar\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=136pt]{class_radar__coll__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_radar_ab66bd1efe169882f4604ea10fe351330}{Radar} (std\+::vector$<$ sf\+::\+Vector2i $>$ terrain\+Path, const sf\+::\+Vector2f \&world\+Size)
+\item 
+\hyperlink{class_radar_a1989b108bc8d5b5e331c97241e622aa4}{$\sim$\+Radar} ()
+\item 
+void \hyperlink{class_radar_a89658480ff0e15b096097f8b7965893b}{draw} (sf\+::\+Render\+Target \&target, sf\+::\+Render\+States states) const override
+\item 
+void \hyperlink{class_radar_adc8e7611cbff8077fe6d9a871da49bea}{update} (const sf\+::\+Vector2f \&player\+Pos, const sf\+::\+Float\+Rect \&camera\+Bounds, const std\+::vector$<$ std\+::pair$<$ \hyperlink{class_game_object_a4bf9e8f660e6a49f1b802c2aa9dd95af}{Game\+Object\+::\+Type}, sf\+::\+Vector2f $>$$>$ \&game\+Objects)
+\item 
+void \hyperlink{class_radar_a1503fd82214f512677a7304abf288344}{create\+Lines} (const std\+::vector$<$ sf\+::\+Vector2i $>$ \&terrain\+Path, const sf\+::\+Vector2f \&world\+Size)
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_radar_ab66bd1efe169882f4604ea10fe351330}\label{class_radar_ab66bd1efe169882f4604ea10fe351330}} 
+\index{Radar@{Radar}!Radar@{Radar}}
+\index{Radar@{Radar}!Radar@{Radar}}
+\subsubsection{\texorpdfstring{Radar()}{Radar()}}
+{\footnotesize\ttfamily Radar\+::\+Radar (\begin{DoxyParamCaption}\item[{std\+::vector$<$ sf\+::\+Vector2i $>$}]{terrain\+Path,  }\item[{const sf\+::\+Vector2f \&}]{world\+Size }\end{DoxyParamCaption})}
+
+Here is the call graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=288pt]{class_radar_ab66bd1efe169882f4604ea10fe351330_cgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_radar_a1989b108bc8d5b5e331c97241e622aa4}\label{class_radar_a1989b108bc8d5b5e331c97241e622aa4}} 
+\index{Radar@{Radar}!````~Radar@{$\sim$\+Radar}}
+\index{````~Radar@{$\sim$\+Radar}!Radar@{Radar}}
+\subsubsection{\texorpdfstring{$\sim$\+Radar()}{~Radar()}}
+{\footnotesize\ttfamily Radar\+::$\sim$\+Radar (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_radar_a1503fd82214f512677a7304abf288344}\label{class_radar_a1503fd82214f512677a7304abf288344}} 
+\index{Radar@{Radar}!create\+Lines@{create\+Lines}}
+\index{create\+Lines@{create\+Lines}!Radar@{Radar}}
+\subsubsection{\texorpdfstring{create\+Lines()}{createLines()}}
+{\footnotesize\ttfamily void Radar\+::create\+Lines (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ sf\+::\+Vector2i $>$ \&}]{terrain\+Path,  }\item[{const sf\+::\+Vector2f \&}]{world\+Size }\end{DoxyParamCaption})}
+
+Here is the caller graph for this function\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=288pt]{class_radar_a1503fd82214f512677a7304abf288344_icgraph}
+\end{center}
+\end{figure}
+\mbox{\Hypertarget{class_radar_a89658480ff0e15b096097f8b7965893b}\label{class_radar_a89658480ff0e15b096097f8b7965893b}} 
+\index{Radar@{Radar}!draw@{draw}}
+\index{draw@{draw}!Radar@{Radar}}
+\subsubsection{\texorpdfstring{draw()}{draw()}}
+{\footnotesize\ttfamily void Radar\+::draw (\begin{DoxyParamCaption}\item[{sf\+::\+Render\+Target \&}]{target,  }\item[{sf\+::\+Render\+States}]{states }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}}
+
+\mbox{\Hypertarget{class_radar_adc8e7611cbff8077fe6d9a871da49bea}\label{class_radar_adc8e7611cbff8077fe6d9a871da49bea}} 
+\index{Radar@{Radar}!update@{update}}
+\index{update@{update}!Radar@{Radar}}
+\subsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Radar\+::update (\begin{DoxyParamCaption}\item[{const sf\+::\+Vector2f \&}]{player\+Pos,  }\item[{const sf\+::\+Float\+Rect \&}]{camera\+Bounds,  }\item[{const std\+::vector$<$ std\+::pair$<$ \hyperlink{class_game_object_a4bf9e8f660e6a49f1b802c2aa9dd95af}{Game\+Object\+::\+Type}, sf\+::\+Vector2f $>$$>$ \&}]{game\+Objects }\end{DoxyParamCaption})}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_radar_8h}{Radar.\+h}\item 
+src/\hyperlink{_radar_8cpp}{Radar.\+cpp}\end{DoxyCompactItemize}

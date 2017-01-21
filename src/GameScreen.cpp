@@ -318,36 +318,11 @@ int GameScreen::run(sf::RenderWindow &window)
 		if (rand() % Constants::HYPERJUMP_CHANCE == Constants::HYPERJUMP_CHANCE - 1)
 			gameObjectsMap[Constants::OBSTACLES_KEY].push_back(std::shared_ptr<Pickup>(new Pickup(GameObject::Type::HyperJumpPickup, worldSize)));
 
-		if (zoomed) {
+		/*if (zoomed) {
 			view.zoom(zoom);
 			zoomed = false;
-		}
-		boundsRect.setPosition(bounds.left, bounds.top);
-		sf::Vertex line[] =
-		{
-			sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color::Red),
-			sf::Vertex(sf::Vector2f(350, 0.f), sf::Color::Red),
-			sf::Vertex(sf::Vector2f(0.f, 0.f), sf::Color::Green),
-			sf::Vertex(sf::Vector2f(0.f, 350), sf::Color::Green),
-			sf::Vertex(sf::Vector2f(0.f, (float)window.getSize().y), sf::Color::Red),
-			sf::Vertex(sf::Vector2f(350.f,  (float)window.getSize().y), sf::Color::Red),
-			sf::Vertex(sf::Vector2f(0.f,  (float)window.getSize().y), sf::Color::Green),
-			sf::Vertex(sf::Vector2f(0.f,  (float)window.getSize().y - 350.f), sf::Color::Green),
-			sf::Vertex(sf::Vector2f((float)worldSize.x, 0.f), sf::Color::Magenta),
-			sf::Vertex(sf::Vector2f((float)worldSize.x - 350.f, 0.f), sf::Color::Magenta),
-			sf::Vertex(sf::Vector2f((float)worldSize.x, 0.f), sf::Color::Yellow),
-			sf::Vertex(sf::Vector2f((float)worldSize.x, 350.f), sf::Color::Yellow),
-			sf::Vertex(sf::Vector2f((float)worldSize.x, (float)window.getSize().y), sf::Color::Magenta),
-			sf::Vertex(sf::Vector2f((float)worldSize.x - 350.f,  (float)window.getSize().y), sf::Color::Magenta),
-			sf::Vertex(sf::Vector2f((float)worldSize.x,  (float)window.getSize().y), sf::Color::Yellow),
-			sf::Vertex(sf::Vector2f((float)worldSize.x,  (float)window.getSize().y - 350.f), sf::Color::Yellow)
-		};
-		leftTexture.draw(line, 16, sf::Lines);
-		rightTexture.draw(line, 16, sf::Lines);
-		window.draw(line, 16, sf::Lines);
-		leftTexture.draw(boundsRect);
-		rightTexture.draw(boundsRect);
-		window.draw(boundsRect);
+		}*/
+		
 
 		if (player->getPosition().x <= bounds.width || player->getPosition().x >= worldSize.x - bounds.width)
 		{
@@ -386,8 +361,8 @@ int GameScreen::run(sf::RenderWindow &window)
 		window.draw(iconBG);
 		window.draw(bombIcon);
 
-		sf::Vector2f scorePos = Helpers::getVectorBetweenWrap(worldSize, player->getPosition(), player->getPosition() + sf::Vector2f(-bounds.width * 0.45f, 15.f));
-		scoreText.setPosition(player->getPosition().x + scorePos.x, 2.f);
+
+		scoreText.setPosition(sf::Vector2f(bounds.left + bounds.width * 0.05f, 1.f));
 		scoreText.setString("Score: " + std::to_string(player->getScore()));
 		window.draw(radar);
 

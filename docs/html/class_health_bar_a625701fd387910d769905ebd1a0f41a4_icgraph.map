@@ -1,0 +1,7 @@
+<map id="HealthBar::setYOffset" name="HealthBar::setYOffset">
+<area shape="rect" id="node2" href="$class_abductor.html#ac68525ef8d05680afbef24761e2baa8c" title="Abductor::Abductor" alt="" coords="205,5,340,32"/>
+<area shape="rect" id="node3" href="$class_astronaut.html#a36a970b94e407cb7894f6ae2d3547449" title="Astronaut::Astronaut" alt="" coords="201,56,344,83"/>
+<area shape="rect" id="node4" href="$class_mutant.html#ae11d8a5d375b8b469a1125c5f3db059d" title="Mutant::Mutant" alt="" coords="217,107,328,133"/>
+<area shape="rect" id="node5" href="$class_nest.html#a2ff01e11d59383d9121c836ea3eb966b" title="Nest::Nest" alt="" coords="231,157,315,184"/>
+<area shape="rect" id="node6" href="$class_player.html#a64fb9eae1f16453837b951b04078d8af" title="Player::Player" alt="" coords="221,208,325,235"/>
+</map>

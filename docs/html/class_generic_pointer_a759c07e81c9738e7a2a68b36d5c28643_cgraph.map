@@ -1,0 +1,5 @@
+<map id="GenericPointer::Erase" name="GenericPointer::Erase">
+<area shape="rect" id="node2" href="$class_generic_pointer.html#aaf4d7d852098878d24188d134182d42f" title="Append a name token without length, and return a new Pointer. " alt="" coords="204,5,393,47"/>
+<area shape="rect" id="node3" href="$class_generic_pointer.html#a71476d125a276b62a246990da1bd3468" title="Set a value in a subtree, with move semantics. " alt="" coords="231,71,367,98"/>
+<area shape="rect" id="node4" href="$class_generic_pointer.html#a3b40ad3e851640e295a4623b624af395" title="Swap a value with a value in a subtree. " alt="" coords="225,122,373,149"/>
+</map>

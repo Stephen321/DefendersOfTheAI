@@ -1,0 +1,7 @@
+<map id="SchemaValidatingReader::SchemaValidatingReader" name="SchemaValidatingReader::SchemaValidatingReader">
+<area shape="rect" id="node2" href="$class_generic_schema_validator.html#a8ebda4da3d8b1fc41e57f15dd62e8f19" title="Checks whether the current state is valid. " alt="" coords="239,5,406,47"/>
+<area shape="rect" id="node3" href="$class_generic_schema_validator.html#a5b8f2d5c466b2a362e2e4c3bcfbfc5a8" title="Gets the JSON pointer pointed to the invalid schema. " alt="" coords="235,71,410,112"/>
+<area shape="rect" id="node4" href="$class_generic_schema_validator.html#ab71ec18e5a013e5153a10b312a4f03bc" title="Gets the keyword of invalid schema. " alt="" coords="231,136,415,177"/>
+<area shape="rect" id="node5" href="$class_generic_schema_validator.html#ac10a88c4dc138bbdbe2afd041658a3b0" title="Gets the JSON pointer pointed to the invalid value. " alt="" coords="229,201,416,243"/>
+<area shape="rect" id="node6" href="$class_generic_schema_validator.html#a3eab83d483a50efb0c0390adf3291963" title="Destructor. " alt="" coords="464,201,647,243"/>
+</map>

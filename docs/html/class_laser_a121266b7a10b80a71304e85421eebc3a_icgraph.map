@@ -1,0 +1,4 @@
+<map id="Laser::getDamage" name="Laser::getDamage">
+<area shape="rect" id="node2" href="$class_a_i.html#a15f7ffd56bf48c7475f9b50d82b60528" title="AI\&lt; Nest \&gt;::collision" alt="" coords="181,5,321,32"/>
+<area shape="rect" id="node3" href="$class_player.html#a669d12e0034e51489a37268b2ca7aab0" title="Player::collision" alt="" coords="194,56,309,83"/>
+</map>

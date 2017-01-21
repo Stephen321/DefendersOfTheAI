@@ -1,0 +1,6 @@
+<map id="Abductor" name="Abductor">
+<area shape="rect" id="node2" href="$class_a_i.html" title="AI\&lt; Abductor \&gt;" alt="" coords="108,171,219,197"/>
+<area shape="rect" id="node3" href="$class_game_object.html" title="GameObject" alt="" coords="5,81,100,108"/>
+<area shape="rect" id="node6" href="$class_health_bar.html" title="HealthBar" alt="" coords="124,81,203,108"/>
+<area shape="rect" id="node5" href="$class_f_s_m.html" title="FSM\&lt; Abductor \&gt;" alt="" coords="227,81,353,108"/>
+</map>

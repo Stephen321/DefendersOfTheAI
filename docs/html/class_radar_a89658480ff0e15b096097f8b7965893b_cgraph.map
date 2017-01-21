@@ -1,0 +1,6 @@
+<map id="Radar::draw" name="Radar::draw">
+<area shape="rect" id="node2" href="$classsf_1_1_transformable.html#a86b461d6a941ad390c2ad8b6a4a20391" title="Move the object by a given offset. " alt="" coords="144,5,303,32"/>
+<area shape="rect" id="node3" href="$classsf_1_1_transformable.html#a73f9739bc6e74db2cea154bc8e94ec46" title="get the position of the object " alt="" coords="159,57,288,98"/>
+<area shape="rect" id="node4" href="$classsf_1_1_render_target.html#a12417a3bcc245c41d957b29583556f39" title="Draw a drawable object to the render target. " alt="" coords="147,123,299,149"/>
+<area shape="rect" id="node5" href="$classsf_1_1_transformable.html#a4dbfb1a7c80688b0b4c477d706550208" title="set the position of the object " alt="" coords="159,174,288,215"/>
+</map>

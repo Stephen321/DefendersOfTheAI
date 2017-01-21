@@ -1,0 +1,21 @@
+digraph "dependencies/rapidjson/include/rapidjson/error/error.h"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node5 [label="dependencies/rapidjson\l/include/rapidjson/error\l/error.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="dependencies/rapidjson\l/include/rapidjson/reader.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$reader_8h.html"];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="dependencies/rapidjson\l/include/rapidjson/document.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$document_8h.html"];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node8 [label="dependencies/rapidjson\l/include/rapidjson/pointer.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$pointer_8h_source.html"];
+  Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node9 [label="dependencies/rapidjson\l/include/rapidjson/schema.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$schema_8h_source.html"];
+  Node7 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node10 [label="include/GameLoader.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_game_loader_8h_source.html"];
+  Node10 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node11 [label="include/GameScreen.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_game_screen_8h_source.html"];
+  Node5 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node12 [label="dependencies/rapidjson\l/include/rapidjson/error/en.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$en_8h_source.html"];
+}

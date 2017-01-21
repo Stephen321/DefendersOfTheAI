@@ -1,0 +1,8 @@
+<map id="Abductor::cohesion" name="Abductor::cohesion">
+<area shape="rect" id="node2" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="784,65,915,92"/>
+<area shape="rect" id="node3" href="$namespace_helpers.html#a93defc4f62a0b29303b84ea17eeeb2fb" title="Helpers::getVectorBetweenWrap" alt="" coords="525,40,736,66"/>
+<area shape="rect" id="node4" href="$class_abductor.html#a2c5431c2d7afa37f9f083762eff5a995" title="Abductor::seek" alt="" coords="188,90,299,117"/>
+<area shape="rect" id="node5" href="$namespace_helpers.html#acf3ecf44a1d56b27ec102715bae903c1" title="Helpers::normalise" alt="" coords="347,90,477,117"/>
+<area shape="rect" id="node7" href="$namespace_helpers.html#a7b90b08e0cd27e52500271b582f8797b" title="Helpers::limit" alt="" coords="363,141,461,168"/>
+<area shape="rect" id="node6" href="$namespace_helpers.html#a1c0a40432177c275488a904ea94eda66" title="Helpers::normaliseCopy" alt="" coords="551,90,711,117"/>
+</map>

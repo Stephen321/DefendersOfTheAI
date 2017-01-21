@@ -1,0 +1,50 @@
+\hypertarget{classsf_1_1_glyph}{}\section{sf\+:\+:Glyph Class Reference}
+\label{classsf_1_1_glyph}\index{sf\+::\+Glyph@{sf\+::\+Glyph}}
+
+
+Structure describing a glyph.  
+
+
+
+
+{\ttfamily \#include $<$Glyph.\+hpp$>$}
+
+
+
+Collaboration diagram for sf\+:\+:Glyph\+:
+% FIG 0
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classsf_1_1_glyph_ab15cfc37eb7b40a94b3b3aedf934010b}\label{classsf_1_1_glyph_ab15cfc37eb7b40a94b3b3aedf934010b}} 
+\hyperlink{classsf_1_1_glyph_ab15cfc37eb7b40a94b3b3aedf934010b}{Glyph} ()
+\begin{DoxyCompactList}\small\item\em Default constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classsf_1_1_glyph_aeac19b97ec11409147191606b784deda}\label{classsf_1_1_glyph_aeac19b97ec11409147191606b784deda}} 
+float \hyperlink{classsf_1_1_glyph_aeac19b97ec11409147191606b784deda}{advance}
+\begin{DoxyCompactList}\small\item\em Offset to move horizontally to the next character. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classsf_1_1_glyph_a6f3c892093167914adc31e52e5923f4b}\label{classsf_1_1_glyph_a6f3c892093167914adc31e52e5923f4b}} 
+\hyperlink{classsf_1_1_rect}{Float\+Rect} \hyperlink{classsf_1_1_glyph_a6f3c892093167914adc31e52e5923f4b}{bounds}
+\begin{DoxyCompactList}\small\item\em Bounding rectangle of the glyph, in coordinates relative to the baseline. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classsf_1_1_glyph_a0d502d326449f8c49011ed91d2805f5b}\label{classsf_1_1_glyph_a0d502d326449f8c49011ed91d2805f5b}} 
+\hyperlink{classsf_1_1_rect}{Int\+Rect} \hyperlink{classsf_1_1_glyph_a0d502d326449f8c49011ed91d2805f5b}{texture\+Rect}
+\begin{DoxyCompactList}\small\item\em \hyperlink{classsf_1_1_texture}{Texture} coordinates of the glyph inside the font\textquotesingle{}s texture. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Structure describing a glyph. 
+
+A glyph is the visual representation of a character.
+
+The \hyperlink{classsf_1_1_glyph}{sf\+::\+Glyph} structure provides the information needed to handle the glyph\+: \begin{DoxyItemize}
+\item its coordinates in the font\textquotesingle{}s texture \item its bounding rectangle \item the offset to apply to get the starting position of the next glyph\end{DoxyItemize}
+\begin{DoxySeeAlso}{See also}
+\hyperlink{classsf_1_1_font}{sf\+::\+Font} 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+dependencies/sfml/include/\+S\+F\+M\+L/\+Graphics/Glyph.\+hpp\end{DoxyCompactItemize}

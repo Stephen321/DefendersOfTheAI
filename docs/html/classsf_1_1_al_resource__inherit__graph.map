@@ -1,0 +1,9 @@
+<map id="sf::AlResource" name="sf::AlResource">
+<area shape="rect" id="node2" href="$classsf_1_1_sound_buffer.html" title="Storage for audio samples defining a sound. " alt="" coords="5,80,116,107"/>
+<area shape="rect" id="node3" href="$classsf_1_1_sound_recorder.html" title="Abstract base class for capturing sound data. " alt="" coords="140,80,269,107"/>
+<area shape="rect" id="node5" href="$classsf_1_1_sound_source.html" title="Base class defining a sound&#39;s properties. " alt="" coords="293,80,412,107"/>
+<area shape="rect" id="node4" href="$classsf_1_1_sound_buffer_recorder.html" title="Specialized SoundRecorder which stores the captured audio data into a sound buffer. " alt="" coords="123,155,286,181"/>
+<area shape="rect" id="node6" href="$classsf_1_1_sound.html" title="Regular sound that can be played in the audio environment. " alt="" coords="311,155,389,181"/>
+<area shape="rect" id="node7" href="$classsf_1_1_sound_stream.html" title="Abstract base class for streamed audio sources. " alt="" coords="413,155,532,181"/>
+<area shape="rect" id="node8" href="$classsf_1_1_music.html" title="Streamed music played from an audio file. " alt="" coords="435,229,510,256"/>
+</map>

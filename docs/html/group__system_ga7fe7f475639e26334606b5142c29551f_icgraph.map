@@ -1,0 +1,4 @@
+<map id="sf::err" name="sf::err">
+<area shape="rect" id="node2" href="$struct_parse_result.html#adfe0ef5b994e82f8aa9ebf0b30c924b1" title="Whether the result is an error. " alt="" coords="108,5,247,32"/>
+<area shape="rect" id="node3" href="$struct_parse_result.html#a4cec9590497f982dec42e9f0763d5d73" title="Conversion to bool, returns true, iff !IsError(). " alt="" coords="295,5,471,32"/>
+</map>

@@ -1,0 +1,9 @@
+digraph "sf::Keyboard::isKeyPressed"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="sf::Keyboard::isKeyPressed",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Player::draw",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_player.html#a0ca934f76860c378cd991a8a32f27edd",tooltip="Draw the object to a render target. "];
+}

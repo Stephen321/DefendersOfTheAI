@@ -1,0 +1,10 @@
+digraph "GameData::ObjectProperties"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="GameData::ObjectProperties",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" texture" ,fontname="Helvetica"];
+  Node2 [label="sf::Texture",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsf_1_1_texture.html",tooltip="Image living on the graphics card that can be used for drawing. "];
+  Node3 -> Node2 [dir="back",color="firebrick4",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="sf::GlResource",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsf_1_1_gl_resource.html",tooltip="Base class for classes that require an OpenGL context. "];
+}

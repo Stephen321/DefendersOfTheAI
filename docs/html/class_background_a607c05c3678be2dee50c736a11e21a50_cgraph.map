@@ -1,0 +1,4 @@
+<map id="Background::draw" name="Background::draw">
+<area shape="rect" id="node2" href="$classsf_1_1_render_target.html#a12417a3bcc245c41d957b29583556f39" title="Draw a drawable object to the render target. " alt="" coords="180,5,332,32"/>
+<area shape="rect" id="node3" href="$classsf_1_1_rect.html#ad90321b1135cad31589f2db2f9b772db" title="Check the intersection between two rectangles. " alt="" coords="190,56,322,83"/>
+</map>

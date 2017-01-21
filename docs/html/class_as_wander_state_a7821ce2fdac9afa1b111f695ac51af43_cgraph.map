@@ -1,0 +1,4 @@
+<map id="AsWanderState::start" name="AsWanderState::start">
+<area shape="rect" id="node2" href="$class_a_i.html#ac705298af197a4e87594ee095bfceb60" title="AI::setMoving" alt="" coords="250,5,350,32"/>
+<area shape="rect" id="node3" href="$class_astronaut.html#a1f4a85a0c38a73e1370528039535712b" title="Astronaut::updateAcceleration" alt="" coords="201,56,399,83"/>
+</map>

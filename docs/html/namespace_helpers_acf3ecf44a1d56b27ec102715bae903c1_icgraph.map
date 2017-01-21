@@ -1,0 +1,25 @@
+<map id="Helpers::normalise" name="Helpers::normalise">
+<area shape="rect" id="node2" href="$class_abductor.html#aac2bef46d63d3aa630a34ee1cb23a7f6" title="Abductor::separation" alt="" coords="408,17,551,44"/>
+<area shape="rect" id="node12" href="$class_abductor.html#ac8ef27110672980a395fa9ba68299337" title="Abductor::alignment" alt="" coords="410,68,549,95"/>
+<area shape="rect" id="node13" href="$class_abductor.html#a2c5431c2d7afa37f9f083762eff5a995" title="Abductor::seek" alt="" coords="215,119,325,145"/>
+<area shape="rect" id="node15" href="$class_game_object.html#a82170ca0b119ea4096a939fd6f7c937e" title="GameObject::setDirection" alt="" coords="184,169,356,196"/>
+<area shape="rect" id="node18" href="$class_meteor.html#a70f6f6e90203c47b3529d660c178bfbb" title="Meteor::Meteor" alt="" coords="215,220,325,247"/>
+<area shape="rect" id="node19" href="$class_mutant.html#a0ea8c6678568932e57054f13c00d12d9" title="Mutant::separation" alt="" coords="205,271,335,297"/>
+<area shape="rect" id="node23" href="$class_mutant.html#a03a015517d346506a2d994e3867b6228" title="Mutant::swarm" alt="" coords="216,321,324,348"/>
+<area shape="rect" id="node24" href="$class_player.html#a4b862816fdb015fa1c399d28d3620088" title="Player::canHyperJump" alt="" coords="193,372,347,399"/>
+<area shape="rect" id="node3" href="$class_abductor.html#a24cc63afd005eef7d1ed694933a2c2a0" title="Abductor::updatePatrolAcceleration" alt="" coords="603,5,829,32"/>
+<area shape="rect" id="node5" href="$class_a_flock_state.html#ac452fa27fac302918460575e5badae91" title="AFlockState::update" alt="" coords="645,81,787,108"/>
+<area shape="rect" id="node4" href="$class_a_patrol_state.html#adc21543780010bc78a157827a7e253b8" title="APatrolState::update" alt="" coords="1120,31,1263,57"/>
+<area shape="rect" id="node6" href="$class_a_flock_state.html#a838c2fa41a3ff8c863f4bcfe80637c4d" title="AFlockState::getInstance" alt="" coords="890,31,1059,57"/>
+<area shape="rect" id="node7" href="$class_a_drop_state.html#a836c382a58447787d3c1518cccea8ebc" title="ADropState::getInstance" alt="" coords="893,132,1057,159"/>
+<area shape="rect" id="node9" href="$class_a_patrol_state.html#a9f5886d57fedbbf0baef217e9dcb674f" title="APatrolState::getInstance" alt="" coords="889,183,1060,209"/>
+<area shape="rect" id="node11" href="$class_a_abducting_state.html#a0843d5645fe863959f454a9497cc32ab" title="AAbductingState::getInstance" alt="" coords="877,81,1072,108"/>
+<area shape="rect" id="node8" href="$class_abductor.html#ac68525ef8d05680afbef24761e2baa8c" title="Abductor::Abductor" alt="" coords="1124,132,1259,159"/>
+<area shape="rect" id="node10" href="$class_a_drop_state.html#a50ee2cafa31714ee14223e6cce007f08" title="ADropState::update" alt="" coords="1123,183,1259,209"/>
+<area shape="rect" id="node14" href="$class_abductor.html#ad1660967efd5c4abcdee49989a966722" title="Abductor::cohesion" alt="" coords="412,119,547,145"/>
+<area shape="rect" id="node16" href="$class_as_flee_state.html#a73dfdf7af46e5bce0b212030413cd00c" title="AsFleeState::start" alt="" coords="415,169,543,196"/>
+<area shape="rect" id="node17" href="$class_as_flee_state.html#a2a6af75f427daa36c6e480f531e783ee" title="AsFleeState::update" alt="" coords="409,220,550,247"/>
+<area shape="rect" id="node20" href="$class_m_swarm_state.html#a7e4abd7da613e0a3d013e149c37f8e40" title="MSwarmState::update" alt="" coords="404,296,555,323"/>
+<area shape="rect" id="node21" href="$class_m_swarm_state.html#a34e48cde060647067f9990ee914b6dfd" title="MSwarmState::getInstance" alt="" coords="627,296,805,323"/>
+<area shape="rect" id="node22" href="$class_mutant.html#ae11d8a5d375b8b469a1125c5f3db059d" title="Mutant::Mutant" alt="" coords="919,296,1030,323"/>
+</map>

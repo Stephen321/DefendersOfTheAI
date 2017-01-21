@@ -1,0 +1,11 @@
+<map id="GameScreen::run" name="GameScreen::run">
+<area shape="rect" id="node2" href="$class_game_data.html#a5930d5371cde0a43f4fa05b6b7152bb8" title="GameData::getInstance" alt="" coords="203,5,362,32"/>
+<area shape="rect" id="node3" href="$namespace_helpers.html#af4d3e03c8af50c930d3164b155f02e98" title="Helpers::randomNumber" alt="" coords="201,56,364,83"/>
+<area shape="rect" id="node4" href="$class_background.html#ac22dfc9ac10fd08906b6d68c323d625d" title="Background::getSurfacePath" alt="" coords="189,107,377,133"/>
+<area shape="rect" id="node5" href="$namespace_helpers.html#ad1aef5710c67da43b9bbed2107c1e11b" title="Helpers::randomNumberF" alt="" coords="197,157,368,184"/>
+<area shape="rect" id="node6" href="$class_background.html#ae9ead480fcfa060468305134b11e1f40" title="Background::update" alt="" coords="213,208,352,235"/>
+<area shape="rect" id="node7" href="$class_abductor.html#ac30f2067a89f27befe9651cae8b5bca6" title="Abductor::stopAbducting" alt="" coords="200,259,365,285"/>
+<area shape="rect" id="node8" href="$class_astronaut.html#aab8db8ea9ed7d4bf0c594a911f276ce5" title="Astronaut::setBeingChased" alt="" coords="192,309,373,336"/>
+<area shape="rect" id="node9" href="$namespace_helpers.html#a93defc4f62a0b29303b84ea17eeeb2fb" title="Helpers::getVectorBetweenWrap" alt="" coords="177,360,388,387"/>
+<area shape="rect" id="node10" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="436,360,567,387"/>
+</map>

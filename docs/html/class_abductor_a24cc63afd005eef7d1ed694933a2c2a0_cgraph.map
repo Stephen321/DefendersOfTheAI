@@ -1,0 +1,9 @@
+<map id="Abductor::updatePatrolAcceleration" name="Abductor::updatePatrolAcceleration">
+<area shape="rect" id="node2" href="$class_abductor.html#a8bc04ea46a52e8a58feceee69a8965d0" title="Abductor::getForceAmount" alt="" coords="280,6,459,32"/>
+<area shape="rect" id="node3" href="$class_abductor.html#aac2bef46d63d3aa630a34ee1cb23a7f6" title="Abductor::separation" alt="" coords="298,56,441,83"/>
+<area shape="rect" id="node4" href="$namespace_helpers.html#aad7d5773a24a3413ca8eca68aa6a872b" title="Helpers::getLength" alt="" coords="944,56,1075,83"/>
+<area shape="rect" id="node5" href="$namespace_helpers.html#a93defc4f62a0b29303b84ea17eeeb2fb" title="Helpers::getVectorBetweenWrap" alt="" coords="685,31,896,58"/>
+<area shape="rect" id="node6" href="$namespace_helpers.html#acf3ecf44a1d56b27ec102715bae903c1" title="Helpers::normalise" alt="" coords="507,82,637,108"/>
+<area shape="rect" id="node8" href="$namespace_helpers.html#a7b90b08e0cd27e52500271b582f8797b" title="Helpers::limit" alt="" coords="523,132,621,159"/>
+<area shape="rect" id="node7" href="$namespace_helpers.html#a1c0a40432177c275488a904ea94eda66" title="Helpers::normaliseCopy" alt="" coords="711,82,871,108"/>
+</map>

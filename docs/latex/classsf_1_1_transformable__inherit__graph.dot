@@ -1,0 +1,18 @@
+digraph "sf::Transformable"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node0 [label="sf::Transformable",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node1 [label="sf::Shape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsf_1_1_shape.html",tooltip="Base class for textured shapes with outline. "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node2 [label="sf::CircleShape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsf_1_1_circle_shape.html",tooltip="Specialized shape representing a circle. "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="sf::ConvexShape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsf_1_1_convex_shape.html",tooltip="Specialized shape representing a convex polygon. "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="sf::RectangleShape",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsf_1_1_rectangle_shape.html",tooltip="Specialized shape representing a rectangle. "];
+  Node0 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node5 [label="sf::Sprite",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsf_1_1_sprite.html",tooltip="Drawable representation of a texture, with its own transformations, color, etc. "];
+  Node0 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node6 [label="sf::Text",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsf_1_1_text.html",tooltip="Graphical text that can be drawn to a render target. "];
+}

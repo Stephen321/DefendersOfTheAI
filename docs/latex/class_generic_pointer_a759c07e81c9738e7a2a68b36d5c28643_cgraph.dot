@@ -1,0 +1,14 @@
+digraph "GenericPointer::Erase"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node16 [label="GenericPointer::Erase",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node16 -> Node17 [color="midnightblue",fontsize="10",style="solid"];
+  Node17 [label="GenericPointer::RAPIDJSON\l_DISABLEIF_RETURN",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_generic_pointer.html#aaf4d7d852098878d24188d134182d42f",tooltip="Append a name token without length, and return a new Pointer. "];
+  Node16 -> Node18 [color="midnightblue",fontsize="10",style="solid"];
+  Node18 [label="GenericPointer::Set",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_generic_pointer.html#a71476d125a276b62a246990da1bd3468",tooltip="Set a value in a subtree, with move semantics. "];
+  Node16 -> Node19 [color="midnightblue",fontsize="10",style="solid"];
+  Node19 [label="GenericPointer::Swap",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_generic_pointer.html#a3b40ad3e851640e295a4623b624af395",tooltip="Swap a value with a value in a subtree. "];
+  Node16 -> Node16 [color="midnightblue",fontsize="10",style="solid"];
+}

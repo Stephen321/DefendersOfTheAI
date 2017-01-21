@@ -1,0 +1,5 @@
+<map id="GenericPointer::Append" name="GenericPointer::Append">
+<area shape="rect" id="node2" href="$class_generic_pointer.html#aa8f86c0f330807f337351a95ae254b78" title="Append a token and return a new Pointer. " alt="" coords="237,5,397,32"/>
+<area shape="rect" id="node3" href="$class_generic_pointer.html#aaf4d7d852098878d24188d134182d42f" title="Append a name token without length, and return a new Pointer. " alt="" coords="222,57,411,98"/>
+<area shape="rect" id="node4" href="$class_generic_document.html#aa4609d6b19f86aec1a6b96edf2c27686" title="Get the allocator of this document. " alt="" coords="213,123,420,149"/>
+</map>
